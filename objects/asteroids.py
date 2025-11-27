@@ -64,3 +64,12 @@ class Asteroid(pygame.Rect):
         """
         self.x = self.x + self.dx * self.speed
         self.y = self.y + self.dy * self.speed
+
+    def __str__(self):
+        """
+        String representation of the asteroid's current state, including position and velocity.
+
+        Returns:
+            str: A string describing the asteroid's attributes with radius, position, direction, color, and speed.
+        """
+        return f"Asteroid(radius={self.radius}, x={self.x}, y={self.y}, dx={self.dx}, dy={self.dy}, color={self.color}, speed={self.speed})"

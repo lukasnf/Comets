@@ -66,3 +66,12 @@ class Spaceship(pygame.Rect):
             surface (pygame.Surface): The surface to draw the spaceship on.
         """
         pygame.draw.rect(surface, pygame.Color(self.color), self, 1)
+
+    def __str__(self):
+        """
+        String representation of the spaceship's current state, including position and velocity.
+
+        Returns:
+            str: A string describing the spaceship's attributes with width, height, position, direction, color, and speed.
+        """
+        return f"Spaceship(width={self.width}, height={self.height}, x={self.x}, y={self.y}, dx={self.dx}, dy={self.dy}, color={self.color}, speed={self.speed})"
