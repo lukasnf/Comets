@@ -31,12 +31,12 @@ if __name__ == "__main__":
 
     # Initialize spaceship
     ship = spaceship.Spaceship(
-        width=10, height=10, x=500, y=500, dx=0, dy=-1, speed=1, color="yellow"
+        width=10, height=10, x=500, y=500, dx=0, dy=-1, speed=10, color="yellow"
     )
 
     # Initialize asteroid
     asteroid = asteroids.Asteroid(
-        radius=30, x=200, y=200, dx=1, dy=0, speed=2, color="red"
+        radius=30, x=200, y=200, dx=1, dy=0, speed=2, color="blue"
     )
 
     # Game loop
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         # Spaceship control
         if move_up:
             ship.move()
-
+            
         # Move asteroid
         asteroid.move()
 
