@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     # Initialize asteroid
     asteroid = asteroids.Asteroid(
-        radius=30, x=200, y=200, dx=1, dy=0, speed=2, color="blue"
+        radius=30, x=200, y=200, dx=1, dy=0, speed=2, color="green"
     )
 
     # Game loop
