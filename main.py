@@ -19,6 +19,9 @@ if __name__ == "__main__":
     # create the main screen
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
+    #Testkommentar
+
+
     # initialize the clock for FPS calculation
     clock = pygame.time.Clock()
 
