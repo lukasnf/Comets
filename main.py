@@ -19,7 +19,8 @@ if __name__ == "__main__":
     # create the main screen
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
-    #Testkommentar
+    #Mainscreen mit Start, muss beginnen wenn Spieler Start drückt
+    #Game: Highscore, 20 pkt für groß, 50 pkt für mittel, 100 pkt für klein. Oben links angezeigt, darunter Leben
 
 
     # initialize the clock for FPS calculation
