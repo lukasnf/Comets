@@ -9,12 +9,12 @@ class Spaceship():
 
     """
 
-    def __init__(self, coordinates, color, speed, width=0):
+    def __init__(self, coordinates, direction, color, speed, width=0):
         self.coordinates = coordinates
+        self.direction = direction
         self.color = color
         self.speed = speed
         self.width = width
-        self.height = coordinates[0][0]
 
     def move(self):
         """
@@ -36,4 +36,4 @@ class Spaceship():
         Returns:
             str: A string describing the spaceship's attributes with width, height, position, direction, color, and speed.
         """
-        return f"Spaceship(width={self.width}, height={self.height}, x={self.x}, y={self.y}, dx={self.dx}, dy={self.dy}, color={self.color}, speed={self.speed})"
+        return f"Spaceship: coordinates: {self.coordinates}, color: {self.color}, speed: {self.speed}, width: {self.width}"
