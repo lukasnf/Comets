@@ -10,8 +10,8 @@ class Spaceship():
     """
 
     def __init__(self, coordinates, direction, color, speed, width=0):
-        self.coordinates = coordinates
-        self.direction = direction
+        self.coordinates = [pygame.math.Vector2(vec) for vec in coordinates]
+        self.direction = pygame.math.Vector2(direction)
         self.color = color
         self.speed = speed
         self.width = width
