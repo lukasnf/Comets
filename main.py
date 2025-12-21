@@ -1,4 +1,5 @@
 import pygame
+import time
 
 # Import the game objects
 import objects.spaceship as spaceship
@@ -35,7 +36,7 @@ if __name__ == "__main__":
 
     # Initialize spaceship
     ship = spaceship.Spaceship(
-        coordinates=[(450,470), (470,470), (460,430)],direction= (1,1), color= "blue", speed= 1, width= 3
+        coordinates=[(450,470), (470,470), (460,430)],direction= (0,-1), color= "blue", speed= 10, width= 3
     )
 
     # Initialize asteroid
@@ -67,7 +68,8 @@ if __name__ == "__main__":
         # Spaceship control
         if move_up:
             ship.move()
-            
+        
+
         # Move asteroid
         asteroid.move()
 
@@ -76,6 +78,7 @@ if __name__ == "__main__":
             asteroid = asteroids.Asteroid(
                 radius=30, x=0, y=200, dx=1, dy=0, speed=2, color="red"
             )
+        
 
         # Normal game behavior
         pygame.time.wait(1)  # slow things down by waiting 1 millisecond
