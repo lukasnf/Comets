@@ -1,5 +1,4 @@
 import pygame
-import time
 
 # Import the game objects
 import objects.spaceship as spaceship
@@ -36,7 +35,7 @@ if __name__ == "__main__":
 
     # Initialize spaceship
     ship = spaceship.Spaceship(
-        coordinates=[(450,470), (470,470), (460,430)],direction= (0,-1), color= "blue", speed= 10, width= 3
+        coordinates= [(440,470),(455,465),(470,470),(455,430)],direction= (0,-1), color= "white", speed= 10, width= 1
     )
 
     # Initialize asteroid
@@ -58,6 +57,7 @@ if __name__ == "__main__":
                 if event.key == pygame.K_UP:
                     move_up = False
 
+
         # Clear the screen by filling it with black color
         surface.fill(pygame.Color("black"))
 
@@ -68,6 +68,7 @@ if __name__ == "__main__":
         # Spaceship control
         if move_up:
             ship.move()
+            ship.rotate()
         
 
         # Move asteroid

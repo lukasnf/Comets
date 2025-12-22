@@ -26,6 +26,16 @@ class Spaceship():
     def draw(self, surface):
 
         pygame.draw.polygon(surface, self.color, self.coordinates, self.width)
+    
+    def center(self):
+        center = pygame.math.Vector2(0,0)
+        for vec in self.coordinates:
+            center += vec
+        return center / len(self.coordinates)
+    
+    def rotate(self):
+         
+        
 
 
 
