@@ -1,4 +1,69 @@
 import pygame
+import random
+
+class Asteroids:
+    """
+    A collection of Astroids, which are shown on the window.
+    """
+
+    def __init__(self, max_number, min_number, window_height, window_width, max_speed):
+        self.max_number = max_number
+        self.min_number = min_number
+        self.window_height = window_height
+        self.window_width = window_width
+        self.max_speed = max_speed
+        self.collection = [self.generate_astroid() for _ in range(max_number)]
+
+    def generate_astroid(self):
+        """
+        This generates a asteroid outside the window, which then flies into the frame
+        
+        Parameter:
+            None
+        
+        Retrun:
+            a Asteroids
+        """
+        radius = random.randint(10, 50)
+        if random.randint(0, 1):
+            # x is first choice
+            x = random.randint(-radius, self.window_width + radius)
+            is_on_the_top = random.randint(0, 1)
+            y = -radius if is_on_the_top  else self.window_height + radius
+            dx = random.randint(-self.max_speed, self.max_speed)
+            dy = (1 if is_on_the_top else -1) * random.randint(0, self.max_speed)
+        else:
+            # y is first choice
+            y = random.randint(-radius, self.window_height + radius)
+            is_on_the_left = random.randint(0, 1)
+            x = -radius if is_on_the_left else self.window_width + radius
+            dy = random.randint(-self.max_speed, self.max_speed)
+            dx = (1 if is_on_the_left else -1) * random.randint(0, self.max_speed)
+        return Asteroid(radius, x, y, dx, dy)
+    
+    def delete_useless_asteroids(self):
+        """
+        proofs whether a asteroid is outside the window and do not come back.
+        deletes and generates new, if necessary.
+        """
+        new_collection = []
+        for aster in self.collection:
+            if self.is_not_in_window(aster):
+                new_collection.append(self.generate_astroid())
+            else:
+                new_collection.append(aster)
+        self.collection = new_collection
+
+    def is_not_in_window(self, aster):
+        """
+        proofs whether a asteroid is outside the window and do not come back.
+        """
+        return ((aster.x < -aster.radius and aster.dx < 0) or 
+                (aster.x > self.window_width + aster.radius and aster.dx > 0) or
+                (aster.y < -aster.radius and aster.dy < 0) or 
+                (aster.y > self.window_height + aster.radius and aster.dy > 0))
+            
+
 
 
 class Asteroid(pygame.Rect):
