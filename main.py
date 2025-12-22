@@ -38,10 +38,9 @@ if __name__ == "__main__":
         coordinates= [(440,470),(455,465),(470,470),(455,430)],direction= (0,-1), color= "white", speed= 10, width= 1
     )
 
-    # Initialize asteroid
-    asteroid = asteroids.Asteroid(
-        radius=30, x=200, y=200, dx=1, dy=0, speed=2, color="green"
-    )
+    # Initialize asteroids
+    flying_asteroids = asteroids.Asteroids(4, 2, DISPLAY_HEIGHT, DISPLAY_WIDTH, 10)
+
 
     # Game loop
     while running == True:
@@ -61,24 +60,18 @@ if __name__ == "__main__":
         # Clear the screen by filling it with black color
         surface.fill(pygame.Color("black"))
 
-        # Draw game objects
+        # Draw and move game objects
         ship.draw(surface)
-        asteroid.draw(surface)
+        flying_asteroids.delete_useless_asteroids()
+        for aster in flying_asteroids.collection:
+            aster.move()
+            aster.draw(surface)
+
 
         # Spaceship control
         if move_up:
             ship.move()
             ship.rotate()
-        
-
-        # Move asteroid
-        asteroid.move()
-
-        # Simple boundary check to reset asteroid position
-        if asteroid.x > DISPLAY_WIDTH:
-            asteroid = asteroids.Asteroid(
-                radius=30, x=0, y=200, dx=1, dy=0, speed=2, color="red"
-            )
         
 
         # Normal game behavior

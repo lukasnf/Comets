@@ -34,7 +34,7 @@ class Spaceship():
         return center / len(self.coordinates)
     
     def rotate(self):
-         
+         pass
         
 
 
