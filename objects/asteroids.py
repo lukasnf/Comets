@@ -1,6 +1,9 @@
 import pygame
 import random
 
+
+ASTEROID_SIZES = [20, 35, 50]
+
 class Asteroids:
     """
     A collection of Astroids, which are shown on the window.
@@ -24,7 +27,8 @@ class Asteroids:
         Retrun:
             a Asteroids
         """
-        radius = random.randint(10, 50)
+        level = random.randint(0,2)
+        radius = ASTEROID_SIZES[level]
         if random.randint(0, 1):
             # x is first choice
             x = random.randint(-radius, self.window_width + radius)
@@ -39,31 +43,26 @@ class Asteroids:
             x = -radius if is_on_the_left else self.window_width + radius
             dy = random.randint(-self.max_speed, self.max_speed)
             dx = (1 if is_on_the_left else -1) * random.randint(0, self.max_speed)
-        return Asteroid(radius, x, y, dx, dy)
+        return Asteroid(level, x, y, dx, dy)
     
-    def delete_useless_asteroids(self):
+    def cyclic_boundary_condition(self):
         """
         proofs whether a asteroid is outside the window and do not come back.
-        deletes and generates new, if necessary.
         """
-        new_collection = []
         for aster in self.collection:
-            if self.is_not_in_window(aster):
-                new_collection.append(self.generate_astroid())
-            else:
-                new_collection.append(aster)
-        self.collection = new_collection
-
-    def is_not_in_window(self, aster):
-        """
-        proofs whether a asteroid is outside the window and do not come back.
-        """
-        return ((aster.x < -aster.radius and aster.dx < 0) or 
-                (aster.x > self.window_width + aster.radius and aster.dx > 0) or
-                (aster.y < -aster.radius and aster.dy < 0) or 
-                (aster.y > self.window_height + aster.radius and aster.dy > 0))
+            if (aster.x < -aster.radius and aster.dx < 0):
+                aster.x = self.window_width + aster.radius
+            elif (aster.x > self.window_width + aster.radius and aster.dx > 0):
+                aster.x = -aster.radius
             
-
+            if (aster.y < -aster.radius and aster.dy < 0):
+                aster.y = self.window_height + aster.radius
+            elif (aster.y > self.window_height + aster.radius and aster.dy > 0):
+                aster.y = -aster.radius
+    
+    def elastic_impact(self):
+        pass
+        
 
 
 class Asteroid(pygame.Rect):
@@ -82,12 +81,13 @@ class Asteroid(pygame.Rect):
         speed (int): The speed of the asteroid.
     """
 
-    def __init__(self, radius, x, y, dx=0, dy=0, color="red", speed=1):
+    def __init__(self, level, x, y, dx=0, dy=0, color="red", speed=1):
         """
         Initialize the asteroid with its radius, position, direction, color, and speed.
 
         Parameters:
-            radius (int): The radius of the asteroid.
+            #radius (int): The radius of the asteroid.
+            level (int): If the astrid is hit by something the lose a level.
             x (int): The left position of the asteroid.
             y (int): The top position of the asteroid.
             dx (int): The x component of the asteroid's direction vector. Default is 0.
@@ -96,8 +96,9 @@ class Asteroid(pygame.Rect):
             speed (int): The speed of the asteroid. Default is 1.
         """
 
-        self.radius = radius
-        self.mass = radius
+        self.level = level
+        self.radius = ASTEROID_SIZES[level]
+        self.mass = self.radius
         self.x = x  # left position
         self.y = y  # top position
         self.color = color
