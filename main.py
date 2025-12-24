@@ -63,6 +63,7 @@ if __name__ == "__main__":
         # Draw and move game objects
         ship.draw(surface)
         flying_asteroids.cyclic_boundary_condition()
+        flying_asteroids.collision_detection()
         for aster in flying_asteroids.collection:
             aster.move()
             aster.draw(surface)
