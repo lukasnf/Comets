@@ -21,7 +21,7 @@ class Spaceship():
         Move the spaceship based on its direction and speed. It is moved in the direction of (dx, dy) scaled by speed.
         """
         for i in range(len(self.coordinates)):
-            self.coordinates[i] += self.direction * self.speed
+            self.coordinates[i] += self.direction * self.speed 
 
     def draw(self, surface):
 

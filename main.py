@@ -70,6 +70,7 @@ if __name__ == "__main__":
 
         # Spaceship control
         if move_up:
+            ship.speed += 0.5
             ship.move()
             ship.rotate()
         
