@@ -1,5 +1,5 @@
 import pygame
-import math
+import numpy as np
 
 
 class Spaceship():
@@ -28,13 +28,18 @@ class Spaceship():
         pygame.draw.polygon(surface, self.color, self.coordinates, self.width)
     
     def center(self):
-        center = pygame.math.Vector2(0,0)
-        for vec in self.coordinates:
-            center += vec
+        if len(self.coordinates) == 0:
+            return None
+        else:
+            center = pygame.math.Vector2(0,0)
+            for vec in self.coordinates:
+                center += vec
         return center / len(self.coordinates)
     
     def rotate(self):
-         pass
+        origin_vec = [self.coordinates[i] - self.center for i in range(len(self.coordinates))]
+        rotMatrix = np.array
+         
         
 
 

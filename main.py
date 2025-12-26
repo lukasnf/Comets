@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     # Initialize spaceship
     ship = spaceship.Spaceship(
-        coordinates= [(440,470),(455,465),(470,470),(455,430)],direction= (0,-1), color= "white", speed= 10, width= 1
+        coordinates= [(440,470),(455,465),(470,470),(455,430)],direction= (0,-1), color= "pink", speed= 10, width= 1
     )
 
     # Initialize asteroids
