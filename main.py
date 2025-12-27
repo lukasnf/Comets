@@ -10,8 +10,8 @@ if __name__ == "__main__":
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
-    DISPLAY_WIDTH = 700
-    DISPLAY_HEIGHT = 700
+    DISPLAY_WIDTH = 1000
+    DISPLAY_HEIGHT = 1000
 
     # frame per second
     FPS = 50
@@ -78,7 +78,7 @@ if __name__ == "__main__":
         # Draw and move game objects
         ship.draw(surface)
         ship.center()
-        flying_asteroids.delete_useless_asteroids()
+        #flying_asteroids.delete_useless_asteroids()
         flying_asteroids.cyclic_boundary_condition()
         flying_asteroids.collision_detection()
         for aster in flying_asteroids.collection:
