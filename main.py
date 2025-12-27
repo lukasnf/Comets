@@ -11,11 +11,12 @@ if __name__ == "__main__":
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
     DISPLAY_WIDTH = 1000
-    DISPLAY_HEIGHT = 1000
+    DISPLAY_HEIGHT = 900
 
     # frame per second
     FPS = 50
-
+    THETA = 7
+    
     # create the main screen
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
@@ -30,12 +31,14 @@ if __name__ == "__main__":
     print(f"entering game loop")
     running = True
     move_up = False
+    rotate_left = False
+    rotate_right =  False
 
     # Create game objects before entering the loop
 
     # Initialize spaceship
     ship = spaceship.Spaceship(
-        coordinates= [(440,470),(455,465),(470,470),(455,430)],direction= (0,-1), color= "pink", speed= 10, width= 1
+        coordinates= [(440,770),(455,765),(470,770),(455,730)],direction= (0,-1), color= "hotpink", speed= 0, width= 0
     )
 
     # Initialize asteroids
@@ -55,6 +58,18 @@ if __name__ == "__main__":
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
                     move_up = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    rotate_left = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    rotate_left = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    rotate_right = True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    rotate_right = False
 
 
         # Clear the screen by filling it with black color
@@ -62,6 +77,7 @@ if __name__ == "__main__":
 
         # Draw and move game objects
         ship.draw(surface)
+        ship.center()
         flying_asteroids.delete_useless_asteroids()
         for aster in flying_asteroids.collection:
             aster.move()
@@ -70,11 +86,18 @@ if __name__ == "__main__":
 
         # Spaceship control
         if move_up:
-            ship.speed += 0.5
-            ship.move()
-            ship.rotate()
-        
+            if ship.speed < 10:
+                ship.speed += 0.8
+        else:
+            ship.deaccelerate()
+        if rotate_right:
+            ship.rotate(THETA)
+        elif rotate_left:
+            ship.rotate(-THETA)
 
+        ship.move()
+        ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
+        
         # Normal game behavior
         pygame.time.wait(1)  # slow things down by waiting 1 millisecond
         pygame.display.update()

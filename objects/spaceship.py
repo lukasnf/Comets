@@ -8,6 +8,7 @@ class Spaceship():
     The spaceship is represented as a rectangle for simplicity and defined by its width, height, and position
 
     """
+    friction = .96
 
     def __init__(self, coordinates, direction, color, speed, width=0):
         self.coordinates = [pygame.math.Vector2(vec) for vec in coordinates]
@@ -21,7 +22,14 @@ class Spaceship():
         Move the spaceship based on its direction and speed. It is moved in the direction of (dx, dy) scaled by speed.
         """
         for i in range(len(self.coordinates)):
-            self.coordinates[i] += self.direction * self.speed 
+            self.coordinates[i] += self.direction * self.speed
+            
+    
+    def deaccelerate(self):
+        self.speed *= Spaceship.friction
+        if self.speed < .3:
+            self.speed = 0
+        
 
     def draw(self, surface):
 
@@ -31,16 +39,29 @@ class Spaceship():
         if len(self.coordinates) == 0:
             return None
         else:
-            center = pygame.math.Vector2(0,0)
+            mid = pygame.math.Vector2(0,0)
             for vec in self.coordinates:
-                center += vec
-        return center / len(self.coordinates)
+                mid += vec
+            self.midpoint = mid / len(self.coordinates)
+        return self.midpoint
     
-    def rotate(self):
-        origin_vec = [self.coordinates[i] - self.center for i in range(len(self.coordinates))]
-        rotMatrix = np.array
-         
+    def rotate(self,angle= -1):
+        origin_vec = [self.coordinates[i] - self.midpoint for i in range(len(self.coordinates))]
+        for o_vec in origin_vec:
+            o_vec.rotate_ip(angle)
+        for i in range(len(self.coordinates)):
+            self.coordinates[i] = origin_vec[i] + self.midpoint
+        self.direction.rotate_ip(angle)
         
+    def check_window(self, width, height):
+        
+        for i in range(len(self.coordinates)):
+            if self.coordinates[i].x >= width:
+                self.coordinates[i].x = 0
+            if self.coordinates[i].y >= height:
+                self.coordinates[i].y = 0
+            
+
 
 
 
