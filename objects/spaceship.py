@@ -54,12 +54,17 @@ class Spaceship():
         self.direction.rotate_ip(angle)
         
     def check_window(self, width, height):
-        
+
         for i in range(len(self.coordinates)):
             if self.coordinates[i].x >= width:
                 self.coordinates[i].x = 0
+            elif self.coordinates[i].x <= 0:
+                self.coordinates[i].x = width
+
             if self.coordinates[i].y >= height:
                 self.coordinates[i].y = 0
+            elif self.coordinates[i].y <= 0:
+                self.coordinates[i].y = height
             
 
 
