@@ -1,5 +1,9 @@
 import pygame
 import random
+import math
+from objects import flying_object
+
+ASTEROID_SIZES = [20, 35, 50]
 
 class Asteroids:
     """
@@ -24,7 +28,8 @@ class Asteroids:
         Retrun:
             a Asteroids
         """
-        radius = random.randint(10, 50)
+        level = random.randint(0,2)
+        radius = ASTEROID_SIZES[level]
         if random.randint(0, 1):
             # x is first choice
             x = random.randint(-radius, self.window_width + radius)
@@ -39,34 +44,55 @@ class Asteroids:
             x = -radius if is_on_the_left else self.window_width + radius
             dy = random.randint(-self.max_speed, self.max_speed)
             dx = (1 if is_on_the_left else -1) * random.randint(0, self.max_speed)
-        return Asteroid(radius, x, y, dx, dy)
+        return Asteroid(level, x, y, dx, dy)
     
-    def delete_useless_asteroids(self):
+    def cyclic_boundary_condition(self):
         """
         proofs whether a asteroid is outside the window and do not come back.
-        deletes and generates new, if necessary.
         """
-        new_collection = []
         for aster in self.collection:
-            if self.is_not_in_window(aster):
-                new_collection.append(self.generate_astroid())
-            else:
-                new_collection.append(aster)
-        self.collection = new_collection
-
-    def is_not_in_window(self, aster):
-        """
-        proofs whether a asteroid is outside the window and do not come back.
-        """
-        return ((aster.x < -aster.radius and aster.dx < 0) or 
-                (aster.x > self.window_width + aster.radius and aster.dx > 0) or
-                (aster.y < -aster.radius and aster.dy < 0) or 
-                (aster.y > self.window_height + aster.radius and aster.dy > 0))
+            if (aster.pos[0] < -aster.radius and aster.direction[0] < 0):
+                aster.pos[0] = self.window_width + aster.radius
+            elif (aster.pos[0] > self.window_width + aster.radius and aster.direction[0] > 0):
+                aster.pos[0] = -aster.radius
             
+            if (aster.pos[1] < -aster.radius and aster.direction[1] < 0):
+                aster.pos[1] = self.window_height + aster.radius
+            elif (aster.pos[1] > self.window_height + aster.radius and aster.direction[1] > 0):
+                aster.pos[1] = -aster.radius
+    
+    def collision_detection(self):
+        """
+        proofs collsion in of the asteroids.
+        """
+        for asteriod1 in self.collection:
+            for asteriod2 in self.collection:
+                if asteriod1 == asteriod2:
+                    continue
+                if float((asteriod1.pos - asteriod2.pos).length()) < asteriod1.radius + asteriod2.radius:
+                    self.elastic_impact(asteriod1, asteriod2)
+
+    def elastic_impact(self, asteriod1, asteriod2):
+        perpendicular = asteriod1.pos - asteriod2.pos
+        angle = math.radians(pygame.math.Vector2([1, 0]).angle_to(perpendicular)) # convert degree to radiant
+        v1t = pygame.math.Vector2([
+            (asteriod1.pos[0] * math.sin(angle) - asteriod1.pos[1] * math.cos(angle)) * math.sin(angle),
+            (-asteriod1.pos[0] * math.sin(angle) + asteriod1.pos[1] * math.cos(angle)) * math.cos(angle)
+        ])
+        print(angle)
+        
+    def calculate_new_velocity(self, angle, asteriod1, asteriod2):
+        """
+        calulcates the velocity for asteriod1.
+        """
+        v1t = pygame.math.Vector2([
+            (asteriod1.velocity[0] * math.sin(angle) - asteriod1.velocity[1] * math.cos(angle)) * math.sin(angle),
+            (-asteriod1.velocity[0] * math.sin(angle) + asteriod1.velocity[1] * math.cos(angle)) * math.cos(angle)
+        ])
+        v1n = ((asteriod1.mass - asteriod1.mass2)(asteriod1.vel))
 
 
-
-class Asteroid(pygame.Rect):
+class Asteroid(flying_object.Flying_Object, pygame.Rect):
     """
     class to create the asteroids inheriting from pygame.Rect
     The asteroid is represented as a circle for simplicity and defined by its radius and position.
@@ -82,12 +108,13 @@ class Asteroid(pygame.Rect):
         speed (int): The speed of the asteroid.
     """
 
-    def __init__(self, radius, x, y, dx=0, dy=0, color="red", speed=1):
+    def __init__(self, level, x, y, dx=0, dy=0, color="red", speed=1):
         """
         Initialize the asteroid with its radius, position, direction, color, and speed.
 
         Parameters:
-            radius (int): The radius of the asteroid.
+            #radius (int): The radius of the asteroid.
+            level (int): If the astrid is hit by something the lose a level.
             x (int): The left position of the asteroid.
             y (int): The top position of the asteroid.
             dx (int): The x component of the asteroid's direction vector. Default is 0.
@@ -96,18 +123,22 @@ class Asteroid(pygame.Rect):
             speed (int): The speed of the asteroid. Default is 1.
         """
 
-        self.radius = radius
-        self.mass = radius
+        self.level = level
+        self.radius = ASTEROID_SIZES[level]
+        self.mass = self.radius
         self.x = x  # left position
         self.y = y  # top position
+        #self.pos = np.array([x, y])
         self.color = color
-        self.speed = speed
         self.dx = dx
         self.dy = dy
 
-        super().__init__(
+        flying_object.Flying_Object.__init__(
+            self, pygame.math.Vector2([x, y]), pygame.math.Vector2([dx, dy]), speed)
+        pygame.Rect.__init__(self,
             self.x, self.y, 2 * self.radius, 2 * self.radius
         )  # pygame.Rect wants the coordinates in (left, top, width, height)
+        
 
     def draw(self, surface):
         """
@@ -118,17 +149,11 @@ class Asteroid(pygame.Rect):
             surface (pygame.Surface): The surface to draw the asteroid on.
         """
 
-        center = (self.x + self.radius, self.y + self.radius)
+        center = (self.pos[0] + self.radius, self.pos[1] + self.radius)
         pygame.draw.circle(
             surface, pygame.Color(self.color), center, self.radius, 3
         )  # last number if the box width
 
-    def move(self):
-        """
-        Move the asteroid based on its direction and speed. It is moved in the direction of (dx, dy) scaled by speed.
-        """
-        self.x = self.x + self.dx * self.speed
-        self.y = self.y + self.dy * self.speed
 
     def __str__(self):
         """
@@ -137,4 +162,4 @@ class Asteroid(pygame.Rect):
         Returns:
             str: A string describing the asteroid's attributes with radius, position, direction, color, and speed.
         """
-        return f"Asteroid(radius={self.radius}, x={self.x}, y={self.y}, dx={self.dx}, dy={self.dy}, color={self.color}, speed={self.speed})"
+        return f"Asteroid(radius={self.radius}, x={float(self.pos[0])}, y={float(self.pos[1])}, dx={float(self.velocity[0])}, dy={float(self.velocity[1])}, color={self.color}, speed={self.speed})"
