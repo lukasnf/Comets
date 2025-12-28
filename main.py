@@ -16,6 +16,8 @@ if __name__ == "__main__":
     # frame per second
     FPS = 50
     THETA = 7
+    THRUST = 0.4
+    MAX_SPEED = 10
     
     # create the main screen
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
@@ -32,14 +34,12 @@ if __name__ == "__main__":
     running = True
     move_up = False
     rotate_left = False
-    rotate_right =  False
+    rotate_right = False
 
     # Create game objects before entering the loop
-
+    
     # Initialize spaceship
-    ship = spaceship.Spaceship(
-        coordinates= [(440,770),(455,765),(470,770),(455,730)],direction= (0,-1), color= "hotpink", speed= 0, width= 0
-    )
+    ship = spaceship.Spaceship(coordinates= [(440,770),(455,765),(470,770),(455,730)], color= "hotpink", width= 0)
 
     # Initialize asteroids
     flying_asteroids = asteroids.Asteroids(4, 2, DISPLAY_HEIGHT, DISPLAY_WIDTH, 10)
@@ -93,8 +93,10 @@ if __name__ == "__main__":
             ship.rotate(-THETA)
             
         if move_up:
-            if ship.speed < 10:
-                ship.speed += 0.8
+            ship.velocity += ship.direction * THRUST 
+            if ship.velocity.length() > MAX_SPEED:
+                ship.velocity = ship.velocity.normalize() * MAX_SPEED
+                
         else:
             ship.deaccelerate()
 

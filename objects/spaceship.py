@@ -8,13 +8,14 @@ class Spaceship():
     The spaceship is represented as a rectangle for simplicity and defined by its width, height, and position
 
     """
-    friction = .98
+    friction = .97
 
-    def __init__(self, coordinates, direction, color, speed, width=0):
+    def __init__(self, coordinates, color, width=0):
         self.coordinates = [pygame.math.Vector2(vec) for vec in coordinates]
-        self.direction = pygame.math.Vector2(direction)
+        self.center()
+        self.direction = (self.coordinates[-1] - self.midpoint).normalize()
         self.color = color
-        self.speed = speed
+        self.velocity = pygame.math.Vector2(0,0)
         self.width = width
 
     def move(self):
@@ -22,13 +23,13 @@ class Spaceship():
         Move the spaceship based on its direction and speed. It is moved in the direction of (dx, dy) scaled by speed.
         """
         for i in range(len(self.coordinates)):
-            self.coordinates[i] += self.direction * self.speed
+            self.coordinates[i] += self.velocity
             
     
     def deaccelerate(self):
-        self.speed *= Spaceship.friction
-        if self.speed < .3:
-            self.speed = 0
+        self.velocity *= Spaceship.friction
+        if self.velocity.length() < .3:
+            self.velocity = pygame.math.Vector2(0,0)
         
 
     def draw(self, surface):
@@ -51,6 +52,7 @@ class Spaceship():
             o_vec.rotate_ip(angle)
         for i in range(len(self.coordinates)):
             self.coordinates[i] = origin_vec[i] + self.midpoint
+        self.direction.rotate_ip(angle)
         
         
     def check_window(self, width, height):
