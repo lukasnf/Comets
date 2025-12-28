@@ -87,15 +87,16 @@ if __name__ == "__main__":
 
 
         # Spaceship control
+        if rotate_right:
+            ship.rotate(THETA)
+        elif rotate_left:
+            ship.rotate(-THETA)
+            
         if move_up:
             if ship.speed < 10:
                 ship.speed += 0.8
         else:
             ship.deaccelerate()
-        if rotate_right:
-            ship.rotate(THETA)
-        elif rotate_left:
-            ship.rotate(-THETA)
 
         ship.move()
         ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)

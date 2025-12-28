@@ -8,7 +8,7 @@ class Spaceship():
     The spaceship is represented as a rectangle for simplicity and defined by its width, height, and position
 
     """
-    friction = .96
+    friction = .98
 
     def __init__(self, coordinates, direction, color, speed, width=0):
         self.coordinates = [pygame.math.Vector2(vec) for vec in coordinates]
@@ -51,7 +51,7 @@ class Spaceship():
             o_vec.rotate_ip(angle)
         for i in range(len(self.coordinates)):
             self.coordinates[i] = origin_vec[i] + self.midpoint
-        self.direction.rotate_ip(angle)
+        
         
     def check_window(self, width, height):
 
