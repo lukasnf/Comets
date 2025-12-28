@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
 
     # Game loop
-    while running == True:
+    while running:
 
         # Event handling
         for event in pygame.event.get():
@@ -55,19 +55,16 @@ if __name__ == "__main__":
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP or event.key == pygame.K_w:
                     move_up = True
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                    rotate_left = True
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                    rotate_right = True
+
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP or event.key == pygame.K_w:
                     move_up = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                    rotate_left = True
-            elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     rotate_left = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                    rotate_right = True
-            elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     rotate_right = False
 
