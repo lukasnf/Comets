@@ -1,0 +1,54 @@
+import pygame
+import random
+from objects import flying_object
+
+class Ufo_Handler:
+
+    def __init__(self, window_width, window_height, period_s):
+        self.window_width = window_width
+        self.window_height = window_height
+        self.ufo_running = False
+        self.time = pygame.time.get_ticks()
+        self.period = period_s * 1000 # in ms
+        self.ufo = None
+        self.generate_ufo()
+
+    def check_period(self):
+        if self.ufo == None and pygame.time.get_ticks() - self.time > self.period:
+            self.generate_ufo()
+            self.time = pygame.time.get_ticks()
+
+    def move_ufo(self):
+        if self.ufo != None:
+            if (self.ufo.pos[0] <= -Ufo.width and self.ufo.direction[0] < 0) or (self.ufo.pos[0] >= self.window_width and self.ufo.direction[0] > 0):
+                self.ufo = None
+            else:
+                self.ufo.move()
+
+    def draw_ufo(self, surface):
+        if self.ufo != None:
+            self.ufo.draw(surface)
+
+    def generate_ufo(self):
+        if random.randint(0, 1):
+            x = -Ufo.width
+            dx = 5
+        else: 
+            x = self.window_width
+            dx = -5
+        self.ufo = Ufo(x, random.randint(0, self.window_height - Ufo.height), dx, 0)
+
+class Ufo(flying_object.Flying_Object):
+    width = 70 
+    height = 30
+    def __init__(self, x, y, dx, dy, speed=1):
+        self.color_metal = "grey"
+        self.color_glass = "aqua"
+        flying_object.Flying_Object.__init__(self, pygame.math.Vector2([x, y]), pygame.math.Vector2([dx, dy]), speed)
+        
+    def draw(self, surface):
+        rect_metal_shield = pygame.Rect(self.pos[0], self.pos[1] + int(Ufo.height / 3), Ufo.width, int(2 * Ufo.height / 3))
+        rect_glass_dome = pygame.Rect(self.pos[0] + int(Ufo.width / 3), self.pos[1], int(Ufo.width / 3), int(2 * Ufo.height / 3))
+        pygame.draw.ellipse(surface, pygame.Color(self.color_glass), rect_glass_dome)
+        pygame.draw.ellipse(surface, pygame.Color(self.color_metal), rect_metal_shield)
+

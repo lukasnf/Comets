@@ -1,7 +1,6 @@
 import pygame
 import random
 import math
-import time
 from objects import flying_object
 
 ASTEROID_SIZES = [20, 35, 50]
