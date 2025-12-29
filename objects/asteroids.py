@@ -105,6 +105,35 @@ class Asteroids:
         asteriod1.pos -= ((asteriod2.pos - asteriod1.pos) / dist) * overlap1
         asteriod2.pos += ((asteriod2.pos - asteriod1.pos) / dist) * overlap2
 
+    def hit_detection(self, bullets):
+        for bullet in bullets:
+            for asteriod in self.collection:
+                if (bullet.pos - asteriod.pos).length() < asteriod.radius:
+                    bullet.hit = True
+                    self.collection.remove(asteriod)
+                    if asteriod.level > 0:
+                        self.spilt_asteriods(asteriod, bullet)
+                    return        
+                    
+    def spilt_asteriods(self, asteriod, bullet):
+        scattering_angle = random.randint(15, 50) # degrees
+        bullet_direction_impact = bullet.direction / 5
+        new_pos1 = asteriod.pos + (bullet.direction.rotate(90) / bullet.direction.length()) * ASTEROID_SIZES[asteriod.level - 1]
+        new_pos2 = asteriod.pos + (bullet.direction.rotate(270) / bullet.direction.length()) * ASTEROID_SIZES[asteriod.level - 1]
+        if asteriod.direction.angle_to(asteriod.direction) <= 180:
+            new_direction1 = bullet_direction_impact + asteriod.direction.rotate(scattering_angle)
+            new_direction2 = bullet_direction_impact + asteriod.direction.rotate(360 - scattering_angle)
+        else:
+            new_direction2 = bullet_direction_impact + asteriod.direction.rotate(scattering_angle)
+            new_direction1 = bullet_direction_impact + asteriod.direction.rotate(360 - scattering_angle)
+        self.collection.append(Asteroid(asteriod.level - 1, new_pos1[0], new_pos1[1], new_direction1[0], new_direction1[1]))
+        self.collection.append(Asteroid(asteriod.level - 1, new_pos2[0], new_pos2[1], new_direction2[0], new_direction2[1]))
+        
+
+    
+
+    
+
 class Asteroid(flying_object.Flying_Object, pygame.Rect):
     """
     class to create the asteroids inheriting from pygame.Rect
@@ -126,7 +155,6 @@ class Asteroid(flying_object.Flying_Object, pygame.Rect):
         Initialize the asteroid with its radius, position, direction, color, and speed.
 
         Parameters:
-            #radius (int): The radius of the asteroid.
             level (int): If the astrid is hit by something the lose a level.
             x (int): The left position of the asteroid.
             y (int): The top position of the asteroid.
