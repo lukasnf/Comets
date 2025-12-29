@@ -16,7 +16,6 @@ class Ufo_Handler:
     def check_period(self):
         if self.ufo == None and pygame.time.get_ticks() - self.time > self.period:
             self.generate_ufo()
-            print("hi")
             self.time = pygame.time.get_ticks()
 
     def move_ufo(self):
