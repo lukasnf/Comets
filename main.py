@@ -49,7 +49,7 @@ if __name__ == "__main__":
     ship = spaceship.Spaceship(coordinates= [(440,770),(455,765),(470,770),(455,730)], color= "hotpink", width= 0)
 
     # Initialize asteroids
-    flying_asteroids = asteroids.Asteroids(4, 2, DISPLAY_HEIGHT, DISPLAY_WIDTH, 10)
+    flying_asteroids = asteroids.Asteroids(4, 2, DISPLAY_HEIGHT, DISPLAY_WIDTH, 5)
 
     # Initialize ufo Handler
     ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
@@ -88,9 +88,11 @@ if __name__ == "__main__":
         # Draw and move game objects
         ship.draw(surface)
         ship.center()
-        #flying_asteroids.delete_useless_asteroids()
+
+
         flying_asteroids.cyclic_boundary_condition()
         flying_asteroids.collision_detection()
+        flying_asteroids.hit_detection(bullets)
         for aster in flying_asteroids.collection:
             aster.move()
             aster.draw(surface)
@@ -112,10 +114,12 @@ if __name__ == "__main__":
         if shoot:
             init_shot = time.time()
             if abs(init_shot - current_shot) >= SHOT_COOLDOWN:
-                projectiles = projectile.Projectile(start_pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= "blue")
+                projectiles = projectile.Projectile(ship.coordinates[-1], ship.direction, speed= B_SPEED ,radius= 2, color= "blue")
                 bullets.append(projectiles)
                 current_shot = time.time()
 
+        # remove those bullets that has hit something
+        bullets = list(filter(lambda x: not x.hit, bullets))
         for bullet in bullets:
             bullet.move()
             bullet.draw(surface)
