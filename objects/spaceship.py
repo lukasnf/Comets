@@ -8,7 +8,7 @@ class Spaceship:
     The spaceship is represented as a rectangle for simplicity and defined by its width, height, and position
 
     """
-    friction = .98
+    friction = .96
 
     def __init__(self, coordinates, color, width=0):
         self.coordinates = [pygame.math.Vector2(vec) for vec in coordinates]

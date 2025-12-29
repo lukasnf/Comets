@@ -4,6 +4,8 @@ import pygame
 import objects.spaceship as spaceship
 import objects.asteroids as asteroids
 import objects.ufo as ufo
+import objects.projectile as projectile
+import time
 
 
 if __name__ == "__main__":
@@ -19,6 +21,9 @@ if __name__ == "__main__":
     THETA = 7
     THRUST = 0.4
     MAX_SPEED = 10
+    B_SPEED = MAX_SPEED + 5
+    SHOT_COOLDOWN = 0.4 # in s
+    current_shot = 0
     
     # create the main screen
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
@@ -48,11 +53,11 @@ if __name__ == "__main__":
 
     # Initialize ufo Handler
     ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
-
-
+    
+    # Projectile list
+    bullets = []
     # Game loop
     while running:
-
         # Event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -104,6 +109,17 @@ if __name__ == "__main__":
         else:
             ship.deaccelerate()
         
+        if shoot:
+            init_shot = time.time()
+            if abs(init_shot - current_shot)  >= SHOT_COOLDOWN:
+                projectiles = projectile.Projectile(start_pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= "blue")
+                bullets.append(projectiles)
+                current_shot = time.time()
+
+        for bullet in bullets:
+            bullet.move()
+            bullet.draw(surface)
+
         ship.move()
         ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
 
