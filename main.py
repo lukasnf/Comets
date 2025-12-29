@@ -10,12 +10,15 @@ if __name__ == "__main__":
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
-    DISPLAY_WIDTH = 700
-    DISPLAY_HEIGHT = 700
+    DISPLAY_WIDTH = 1000
+    DISPLAY_HEIGHT = 1000
 
     # frame per second
     FPS = 50
-
+    THETA = 7
+    THRUST = 0.4
+    MAX_SPEED = 10
+    
     # create the main screen
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
@@ -30,31 +33,40 @@ if __name__ == "__main__":
     print(f"entering game loop")
     running = True
     move_up = False
+    rotate_left = False
+    rotate_right = False
 
     # Create game objects before entering the loop
-
+    
     # Initialize spaceship
-    ship = spaceship.Spaceship(
-        coordinates= [(440,470),(455,465),(470,470),(455,430)],direction= (0,-1), color= "white", speed= 10, width= 1
-    )
+    ship = spaceship.Spaceship(coordinates= [(440,770),(455,765),(470,770),(455,730)], color= "hotpink", width= 0)
 
     # Initialize asteroids
     flying_asteroids = asteroids.Asteroids(4, 2, DISPLAY_HEIGHT, DISPLAY_WIDTH, 10)
 
 
     # Game loop
-    while running == True:
+    while running:
 
         # Event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False  # Exit the game when the window is closed
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP or event.key == pygame.K_w:
                     move_up = True
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                    rotate_left = True
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                    rotate_right = True
+
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP or event.key == pygame.K_w:
                     move_up = False
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                    rotate_left = False
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                    rotate_right = False
 
 
         # Clear the screen by filling it with black color
@@ -62,6 +74,8 @@ if __name__ == "__main__":
 
         # Draw and move game objects
         ship.draw(surface)
+        ship.center()
+        #flying_asteroids.delete_useless_asteroids()
         flying_asteroids.cyclic_boundary_condition()
         flying_asteroids.collision_detection()
         for aster in flying_asteroids.collection:
@@ -70,9 +84,21 @@ if __name__ == "__main__":
 
 
         # Spaceship control
+        if rotate_right:
+            ship.rotate(THETA)
+        elif rotate_left:
+            ship.rotate(-THETA)
+            
         if move_up:
-            ship.move()
-            ship.rotate()
+            ship.velocity += ship.direction * THRUST 
+            if ship.velocity.length() > MAX_SPEED:
+                ship.velocity = ship.velocity.normalize() * MAX_SPEED
+                
+        else:
+            ship.deaccelerate()
+
+        ship.move()
+        ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
         
         # Normal game behavior
         pygame.time.wait(1)  # slow things down by waiting 1 millisecond
