@@ -3,6 +3,7 @@ import pygame
 # Import the game objects
 import objects.spaceship as spaceship
 import objects.asteroids as asteroids
+import objects.ufo as ufo
 
 
 if __name__ == "__main__":
@@ -43,6 +44,9 @@ if __name__ == "__main__":
 
     # Initialize asteroids
     flying_asteroids = asteroids.Asteroids(4, 2, DISPLAY_HEIGHT, DISPLAY_WIDTH, 10)
+
+    # Initialize ufo Handler
+    ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
 
 
     # Game loop
@@ -99,6 +103,10 @@ if __name__ == "__main__":
 
         ship.move()
         ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
+
+        ufo_handler.check_period()
+        ufo_handler.move_ufo()
+        ufo_handler.draw_ufo(surface)
         
         # Normal game behavior
         pygame.time.wait(1)  # slow things down by waiting 1 millisecond
