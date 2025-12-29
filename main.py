@@ -35,6 +35,7 @@ if __name__ == "__main__":
     move_up = False
     rotate_left = False
     rotate_right = False
+    shoot = False
 
     # Create game objects before entering the loop
     
@@ -59,6 +60,8 @@ if __name__ == "__main__":
                     rotate_left = True
                 if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     rotate_right = True
+                if event.key == pygame.K_SPACE:
+                    shoot = True
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP or event.key == pygame.K_w:
@@ -67,7 +70,8 @@ if __name__ == "__main__":
                     rotate_left = False
                 if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     rotate_right = False
-
+                if event.key == pygame.K_SPACE:
+                    shoot = False
 
         # Clear the screen by filling it with black color
         surface.fill(pygame.Color("black"))
@@ -93,10 +97,9 @@ if __name__ == "__main__":
             ship.velocity += ship.direction * THRUST 
             if ship.velocity.length() > MAX_SPEED:
                 ship.velocity = ship.velocity.normalize() * MAX_SPEED
-                
         else:
             ship.deaccelerate()
-
+        
         ship.move()
         ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
         

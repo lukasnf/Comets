@@ -2,13 +2,13 @@ import pygame
 import numpy as np
 
 
-class Spaceship():
+class Spaceship:
     """
     class to create the spaceship inheriting from pygame.Rect
     The spaceship is represented as a rectangle for simplicity and defined by its width, height, and position
 
     """
-    friction = .97
+    friction = .98
 
     def __init__(self, coordinates, color, width=0):
         self.coordinates = [pygame.math.Vector2(vec) for vec in coordinates]
@@ -33,7 +33,6 @@ class Spaceship():
         
 
     def draw(self, surface):
-
         pygame.draw.polygon(surface, self.color, self.coordinates, self.width)
     
     def center(self):
@@ -53,7 +52,6 @@ class Spaceship():
         for i in range(len(self.coordinates)):
             self.coordinates[i] = origin_vec[i] + self.midpoint
         self.direction.rotate_ip(angle)
-        
         
     def check_window(self, width, height):
 
