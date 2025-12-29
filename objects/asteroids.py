@@ -1,6 +1,7 @@
 import pygame
 import random
 import math
+import time
 from objects import flying_object
 
 ASTEROID_SIZES = [20, 35, 50]
@@ -28,7 +29,7 @@ class Asteroids:
         Retrun:
             a Asteroids
         """
-        level = random.randint(0,2)
+        level = random.randint(0, 2)
         radius = ASTEROID_SIZES[level]
         if random.randint(0, 1):
             # x is first choice
@@ -51,15 +52,15 @@ class Asteroids:
         proofs whether a asteroid is outside the window and do not come back.
         """
         for aster in self.collection:
-            if (aster.pos[0] < -aster.radius and aster.direction[0] < 0):
-                aster.pos[0] = self.window_width + aster.radius
-            elif (aster.pos[0] > self.window_width + aster.radius and aster.direction[0] > 0):
-                aster.pos[0] = -aster.radius
+            if (aster.pos[0] < -ASTEROID_SIZES[2] and aster.direction[0] < 0):
+                aster.pos[0] = self.window_width + ASTEROID_SIZES[2]
+            elif (aster.pos[0] > self.window_width + ASTEROID_SIZES[2] and aster.direction[0] > 0):
+                aster.pos[0] = -ASTEROID_SIZES[2]
             
-            if (aster.pos[1] < -aster.radius and aster.direction[1] < 0):
-                aster.pos[1] = self.window_height + aster.radius
-            elif (aster.pos[1] > self.window_height + aster.radius and aster.direction[1] > 0):
-                aster.pos[1] = -aster.radius
+            if (aster.pos[1] < -ASTEROID_SIZES[2] and aster.direction[1] < 0):
+                aster.pos[1] = self.window_height + ASTEROID_SIZES[2]
+            elif (aster.pos[1] > self.window_height + ASTEROID_SIZES[2] and aster.direction[1] > 0):
+                aster.pos[1] = -ASTEROID_SIZES[2]
     
     def collision_detection(self):
         """
@@ -69,28 +70,41 @@ class Asteroids:
             for asteriod2 in self.collection:
                 if asteriod1 == asteriod2:
                     continue
-                if float((asteriod1.pos - asteriod2.pos).length()) < asteriod1.radius + asteriod2.radius:
+                if (asteriod1.pos - asteriod2.pos).length() <= asteriod1.radius + asteriod2.radius:
                     self.elastic_impact(asteriod1, asteriod2)
+                    self.seperate_asteriods(asteriod1, asteriod2)
 
     def elastic_impact(self, asteriod1, asteriod2):
-        perpendicular = asteriod1.pos - asteriod2.pos
-        angle = math.radians(pygame.math.Vector2([1, 0]).angle_to(perpendicular)) # convert degree to radiant
-        v1t = pygame.math.Vector2([
-            (asteriod1.pos[0] * math.sin(angle) - asteriod1.pos[1] * math.cos(angle)) * math.sin(angle),
-            (-asteriod1.pos[0] * math.sin(angle) + asteriod1.pos[1] * math.cos(angle)) * math.cos(angle)
-        ])
-        print(angle)
-        
+        connecting_line = asteriod1.pos - asteriod2.pos
+        angle = math.radians(pygame.math.Vector2([1, 0]).angle_to(connecting_line)) # convert degree to radiant
+        asteriod1.direction = self.calculate_new_velocity(angle, asteriod1, asteriod2)
+        asteriod2.direction = self.calculate_new_velocity(angle, asteriod2, asteriod1)
+
     def calculate_new_velocity(self, angle, asteriod1, asteriod2):
         """
-        calulcates the velocity for asteriod1.
+        Calulcates the velocity for asteriod1. 
         """
+        rotate_vector = pygame.math.Vector2([math.cos(angle), math.sin(angle)])
         v1t = pygame.math.Vector2([
-            (asteriod1.velocity[0] * math.sin(angle) - asteriod1.velocity[1] * math.cos(angle)) * math.sin(angle),
-            (-asteriod1.velocity[0] * math.sin(angle) + asteriod1.velocity[1] * math.cos(angle)) * math.cos(angle)
+            (asteriod1.direction[0] * math.sin(angle) - asteriod1.direction[1] * math.cos(angle)) * math.sin(angle),
+            (-asteriod1.direction[0] * math.sin(angle) + asteriod1.direction[1] * math.cos(angle)) * math.cos(angle)
         ])
-        v1n = ((asteriod1.mass - asteriod1.mass2)(asteriod1.vel))
+        v1n = (((asteriod1.mass - asteriod2.mass) * (asteriod1.direction * rotate_vector) + 2 * asteriod2.mass * (asteriod2.direction * rotate_vector)) 
+               / (asteriod1.mass + asteriod2.mass)) * rotate_vector
+        return v1t + v1n
 
+    def seperate_asteriods(self, asteriod1, asteriod2):
+        """
+        If two asteroids overlap, they have to be separated before the new velocities can be calculated.
+
+        Parameters:
+            asteriod1, asteriod2 (Asteriod)
+        """
+        dist = (asteriod1.pos - asteriod2.pos).length()
+        overlap1 = asteriod1.radius - (asteriod1.radius**2 - asteriod2.radius**2 + dist**2) / (2 * dist)
+        overlap2 = asteriod2.radius - (asteriod2.radius**2 - asteriod1.radius**2 + dist**2) / (2 * dist)
+        asteriod1.pos -= ((asteriod2.pos - asteriod1.pos) / dist) * overlap1
+        asteriod2.pos += ((asteriod2.pos - asteriod1.pos) / dist) * overlap2
 
 class Asteroid(flying_object.Flying_Object, pygame.Rect):
     """
@@ -126,17 +140,12 @@ class Asteroid(flying_object.Flying_Object, pygame.Rect):
         self.level = level
         self.radius = ASTEROID_SIZES[level]
         self.mass = self.radius
-        self.x = x  # left position
-        self.y = y  # top position
-        #self.pos = np.array([x, y])
         self.color = color
-        self.dx = dx
-        self.dy = dy
 
         flying_object.Flying_Object.__init__(
             self, pygame.math.Vector2([x, y]), pygame.math.Vector2([dx, dy]), speed)
         pygame.Rect.__init__(self,
-            self.x, self.y, 2 * self.radius, 2 * self.radius
+            self.pos[0], self.pos[1], 2 * self.radius, 2 * self.radius
         )  # pygame.Rect wants the coordinates in (left, top, width, height)
         
 
@@ -149,9 +158,8 @@ class Asteroid(flying_object.Flying_Object, pygame.Rect):
             surface (pygame.Surface): The surface to draw the asteroid on.
         """
 
-        center = (self.pos[0] + self.radius, self.pos[1] + self.radius)
         pygame.draw.circle(
-            surface, pygame.Color(self.color), center, self.radius, 3
+            surface, pygame.Color(self.color), self.pos, self.radius, 3
         )  # last number if the box width
 
 
@@ -162,4 +170,4 @@ class Asteroid(flying_object.Flying_Object, pygame.Rect):
         Returns:
             str: A string describing the asteroid's attributes with radius, position, direction, color, and speed.
         """
-        return f"Asteroid(radius={self.radius}, x={float(self.pos[0])}, y={float(self.pos[1])}, dx={float(self.velocity[0])}, dy={float(self.velocity[1])}, color={self.color}, speed={self.speed})"
+        return f"Asteroid(radius={self.radius}, x={self.pos[0]}, y={self.pos[1]}, dx={self.direction[0]}, dy={self.direction[1]}, color={self.color}, speed={self.speed})"

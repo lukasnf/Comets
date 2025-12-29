@@ -74,7 +74,6 @@ if __name__ == "__main__":
             ship.move()
             ship.rotate()
         
-
         # Normal game behavior
         pygame.time.wait(1)  # slow things down by waiting 1 millisecond
         pygame.display.update()
