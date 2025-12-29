@@ -111,7 +111,7 @@ if __name__ == "__main__":
         
         if shoot:
             init_shot = time.time()
-            if abs(init_shot - current_shot)  >= SHOT_COOLDOWN:
+            if abs(init_shot - current_shot) >= SHOT_COOLDOWN:
                 projectiles = projectile.Projectile(start_pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= "blue")
                 bullets.append(projectiles)
                 current_shot = time.time()
