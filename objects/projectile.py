@@ -11,6 +11,13 @@ class Projectile(flying_object.Flying_Object):
     
     def draw(self, surface):
         pygame.draw.circle(surface, self.color, self.pos, self.radius)
+    
+    def check_window(self, width, height):
+        if (self.pos.x > width or self.pos.x < 0 
+            or self.pos.y > height or self.pos.y < 0):
+            return True
+        return False
+
 
 
         

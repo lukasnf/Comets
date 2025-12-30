@@ -115,16 +115,16 @@ if __name__ == "__main__":
         if shoot:
             init_shot = time.time()
             if abs(init_shot - current_shot) >= SHOT_COOLDOWN:
-                projectiles = projectile.Projectile(ship.coordinates[-1], ship.direction, speed= B_SPEED ,radius= 2, color= "blue")
+                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= "blue")
                 bullets.append(projectiles)
                 current_shot = time.time()
 
-        # remove those bullets that has hit something
-        bullets = list(filter(lambda x: not x.hit, bullets))
+        # remove those bullets that has hit something or left the game window
+        bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
         for bullet in bullets:
             bullet.move()
             bullet.draw(surface)
-
+    
         ship.move()
         ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
 
