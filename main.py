@@ -22,7 +22,7 @@ if __name__ == "__main__":
     THRUST = 0.4
     MAX_SPEED = 10
     B_SPEED = MAX_SPEED + 5
-    SHOT_COOLDOWN = 0.4 # in s
+    SHOT_COOLDOWN = 0.3 # in s
     current_shot = 0
     
     # create the main screen
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     move_up = False
     rotate_left = False
     rotate_right = False
-    shoot = False
+    shoot = False 
 
     # Create game objects before entering the loop
     
@@ -115,12 +115,13 @@ if __name__ == "__main__":
         if shoot:
             init_shot = time.time()
             if abs(init_shot - current_shot) >= SHOT_COOLDOWN:
-                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= "blue")
+                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= (80, 185, 255))
                 bullets.append(projectiles)
                 current_shot = time.time()
 
         # remove those bullets that has hit something or left the game window
         bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
+        
         for bullet in bullets:
             bullet.move()
             bullet.draw(surface)

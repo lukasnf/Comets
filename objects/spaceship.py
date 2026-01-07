@@ -1,6 +1,4 @@
 import pygame
-import numpy as np
-
 
 class Spaceship:
     """
@@ -54,20 +52,31 @@ class Spaceship:
         self.direction.rotate_ip(angle)
         
     def check_window(self, width, height):
+        shift = pygame.math.Vector2(0,0)
+        width_out = False
+        height_out = False
 
-        for i in range(len(self.coordinates)):
-            if self.coordinates[i].x >= width:
-                self.coordinates[i].x = 0
-            elif self.coordinates[i].x <= 0:
-                self.coordinates[i].x = width
+        if self.midpoint.x > width:
+            shift.x = -width
+            width_out = True
+        elif self.midpoint.x < 0:
+            shift.x = width
+            width_out = True
 
-            if self.coordinates[i].y >= height:
-                self.coordinates[i].y = 0
-            elif self.coordinates[i].y <= 0:
-                self.coordinates[i].y = height
-            
+        if self.midpoint.y > height:
+            shift.y = -height
+            height_out = True
+        elif self.midpoint.y < 0:
+            shift.y = height
+            height_out = True
+        
+        if height_out or width_out:
+            for i in range(len(self.coordinates)):
+                self.coordinates[i] += shift
+            self.midpoint += shift
 
-
+    
+   
 
 
     def __str__(self):
