@@ -16,7 +16,6 @@ class Spaceship:
 
     def move(self):
         """
-        Move the spaceship based on its direction and speed. It is moved in the direction of (dx, dy) scaled by speed.
         """
         for i in range(len(self.coordinates)):
             self.coordinates[i] += self.velocity
@@ -69,9 +68,9 @@ class Spaceship:
             height_out = True
         
         if height_out or width_out:
+            self.midpoint += shift
             for i in range(len(self.coordinates)):
                 self.coordinates[i] += shift
-            self.midpoint += shift
 
     
    
