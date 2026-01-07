@@ -10,6 +10,7 @@ import time
 
 if __name__ == "__main__":
     pygame.init()
+    pygame.mixer.init()
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
@@ -27,6 +28,9 @@ if __name__ == "__main__":
     
     # create the main screen
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
+
+    # get the shooting sound from soundeffects folder
+    shooting_sound = pygame.mixer.Sound('soundeffects/shoot.wav')
 
     #Mainscreen mit Start, muss beginnen wenn Spieler Start drückt
     #Game: Highscore, 20 pkt für groß, 50 pkt für mittel, 100 pkt für klein. Oben links angezeigt, darunter Leben
@@ -115,6 +119,7 @@ if __name__ == "__main__":
         if shoot:
             init_shot = time.time()
             if abs(init_shot - current_shot) >= SHOT_COOLDOWN:
+                shooting_sound.play()
                 projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= (80, 185, 255))
                 bullets.append(projectiles)
                 current_shot = time.time()
