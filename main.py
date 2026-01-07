@@ -110,7 +110,7 @@ if __name__ == "__main__":
             if ship.velocity.length() > MAX_SPEED:
                 ship.velocity = ship.velocity.normalize() * MAX_SPEED
         else:
-            ship.deaccelerate()
+            ship.decelerate()
         
         if shoot:
             init_shot = time.time()

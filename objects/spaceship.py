@@ -2,8 +2,6 @@ import pygame
 
 class Spaceship:
     """
-    class to create the spaceship inheriting from pygame.Rect
-    The spaceship is represented as a rectangle for simplicity and defined by its width, height, and position
 
     """
     friction = .96
@@ -24,7 +22,7 @@ class Spaceship:
             self.coordinates[i] += self.velocity
             
     
-    def deaccelerate(self):
+    def decelerate(self):
         self.velocity *= Spaceship.friction
         if self.velocity.length() < .3:
             self.velocity = pygame.math.Vector2(0,0)
