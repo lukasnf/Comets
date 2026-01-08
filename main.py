@@ -19,11 +19,17 @@ if __name__ == "__main__":
 
     # frame per second
     FPS = 50
+    # angle rotationspeed
     THETA = 7
+    # scales how fast the spaceship accelerates
     THRUST = 0.4
+    # initiate maximum speed
     MAX_SPEED = 10
+    # Bullet speed
     B_SPEED = MAX_SPEED + 5
+    # Cooldown between the shots
     SHOT_COOLDOWN = 0.3 # in s
+
     current_shot = 0
     
     # create the main screen
@@ -120,7 +126,7 @@ if __name__ == "__main__":
             init_shot = time.time()
             if abs(init_shot - current_shot) >= SHOT_COOLDOWN:
                 shooting_sound.play()
-                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= (80, 185, 255))
+                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= "cyan")
                 bullets.append(projectiles)
                 current_shot = time.time()
 

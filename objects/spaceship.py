@@ -4,7 +4,7 @@ class Spaceship:
     """
 
     """
-    friction = .96
+    friction = .97
 
     def __init__(self, coordinates, color, width=0):
         self.coordinates = [pygame.math.Vector2(vec) for vec in coordinates]
