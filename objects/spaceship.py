@@ -1,4 +1,6 @@
 import pygame
+from objects.asteroids import Asteroid
+
 
 class Spaceship:
     """
@@ -72,6 +74,15 @@ class Spaceship:
             for i in range(len(self.coordinates)):
                 self.coordinates[i] += shift
 
+    def check_collision(self, asteroid_list):
+        self.center()
+        for aster in asteroid_list:
+            distance = (self.midpoint - aster.pos).length()
+
+            if distance < self.direction.length() + aster.radius:
+                print("Hit") 
+
+        
     
    
 

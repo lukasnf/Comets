@@ -5,6 +5,7 @@ import objects.spaceship as spaceship
 import objects.asteroids as asteroids
 import objects.ufo as ufo
 import objects.projectile as projectile
+import objects.items as item
 import time
 
 
@@ -20,15 +21,15 @@ if __name__ == "__main__":
     # frame per second
     FPS = 50
     # angle rotationspeed
-    THETA = 7
+    THETA = 6
     # scales how fast the spaceship accelerates
-    THRUST = 0.4
+    THRUST = 0.3
     # initiate maximum speed
     MAX_SPEED = 10
     # Bullet speed
     B_SPEED = MAX_SPEED + 5
     # Cooldown between the shots
-    SHOT_COOLDOWN = 0.3 # in s
+    SHOT_COOLDOWN = 0.2 # in s
 
     current_shot = 0
     
@@ -96,10 +97,10 @@ if __name__ == "__main__":
         # Clear the screen by filling it with black color
         surface.fill(pygame.Color("black"))
 
+
         # Draw and move game objects
         ship.draw(surface)
         ship.center()
-
 
         flying_asteroids.cyclic_boundary_condition()
         flying_asteroids.collision_detection()
@@ -136,7 +137,7 @@ if __name__ == "__main__":
         for bullet in bullets:
             bullet.move()
             bullet.draw(surface)
-    
+            
         ship.move()
         ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
 
