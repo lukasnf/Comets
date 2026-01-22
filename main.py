@@ -131,7 +131,7 @@ if __name__ == "__main__":
                 bullets.append(projectiles)
                 current_shot = time.time()
 
-        # remove those bullets that has hit something or left the game window
+        # remove those bullets that have hit something or left the game window
         bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
         
         for bullet in bullets:

@@ -2,12 +2,12 @@
 
 class Flying_Object:
     """
-    This is a generall object in space.
+    This is a general object in space.
 
     Attributes:
         pos (pygame.math.Vector2): The position of the object in space.
-        direction (pygame.math.Vector2): The dircetion of motion in space.
-        speed (int): The speed  of the object.
+        direction (pygame.math.Vector2): The direction of motion in space.
+        speed (int): The speed of the object.
     """
 
 
