@@ -109,6 +109,8 @@ class Asteroids:
         for bullet in bullets:
             for asteriod in self.collection:
                 if (bullet.pos - asteriod.pos).length() < asteriod.radius:
+                    #Falls ein asteriod getroffen
+                    print("hit")
                     bullet.hit = True
                     self.collection.remove(asteriod)
                     if asteriod.level > 0:
