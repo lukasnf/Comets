@@ -17,7 +17,3 @@ class Projectile(flying_object.Flying_Object):
             or self.pos.y > height or self.pos.y < 0):
             return True
         return False
-
-
-
-        

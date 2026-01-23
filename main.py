@@ -1,3 +1,4 @@
+import random
 import pygame
 
 # Import the game objects
@@ -8,7 +9,6 @@ import objects.projectile as projectile
 import objects.items as item
 import time
 
-
 if __name__ == "__main__":
     pygame.init()
     pygame.mixer.init()
@@ -17,10 +17,10 @@ if __name__ == "__main__":
     # x=0, y=0 is top left corner, positive y is down, positive x is right
     DISPLAY_WIDTH = 1000
     DISPLAY_HEIGHT = 1000
-
+    
     # frame per second
     FPS = 50
-    # angle rotationspeed
+    # angle rotation speed
     THETA = 6
     # scales how fast the spaceship accelerates
     THRUST = 0.3
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     # get the shooting sound from soundeffects folder
     shooting_sound = pygame.mixer.Sound('soundeffects/shoot.wav')
 
-    #Mainscreen mit Start, muss beginnen wenn Spieler Start drückt
+    #Mainscreen mit Start, muss beginnen, wenn Spieler Start drückt
     #Game: Highscore, 20 pkt für groß, 50 pkt für mittel, 100 pkt für klein. Oben links angezeigt, darunter Leben
 
 
@@ -64,6 +64,15 @@ if __name__ == "__main__":
 
     # Initialize ufo Handler
     ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
+
+    #Initialize Items:
+    heart_item = item.Item("heart pixel art 254x254.png")
+    heart_draw = False
+    pos = pygame.math.Vector2(0,0)
+    HEART_SPAWN = pygame.USEREVENT
+    HEART_DESPAWN = pygame.USEREVENT + 1
+    pygame.time.set_timer(HEART_SPAWN,random.randint(10000, 15000))
+
     
     # Projectile list
     bullets = []
@@ -94,9 +103,24 @@ if __name__ == "__main__":
                 if event.key == pygame.K_SPACE:
                     shoot = False
 
+            # Control item spawn rate
+            if event.type == HEART_SPAWN:
+                heart_draw = True
+                pos = pygame.math.Vector2(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT))
+                pygame.time.set_timer(HEART_SPAWN, 0)
+                pygame.time.set_timer(HEART_DESPAWN, 3000)
+
+            if event.type == HEART_DESPAWN:
+                heart_draw = False
+                pygame.time.set_timer(HEART_DESPAWN, 0)
+                pygame.time.set_timer(HEART_SPAWN,random.randint(10000, 15000))
+
+
         # Clear the screen by filling it with black color
         surface.fill(pygame.Color("black"))
 
+        if heart_draw:
+            heart_item.draw(surface, pos)
 
         # Draw and move game objects
         ship.draw(surface)
@@ -146,7 +170,6 @@ if __name__ == "__main__":
         ufo_handler.draw_ufo(surface)
         
         # Normal game behavior
-        pygame.time.wait(1)  # slow things down by waiting 1 millisecond
         pygame.display.update()
         clock.tick(FPS)
 
