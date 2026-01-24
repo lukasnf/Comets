@@ -40,7 +40,10 @@ if __name__ == "__main__":
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
     # get the shooting sound from soundeffects folder
-    shooting_sound = pygame.mixer.Sound('soundeffects/shoot.wav')
+    shooting_sound = pygame.mixer.Sound("soundeffects/shoot.wav")
+
+    # damage sound from soundeffects folder
+    dmg_sound = pygame.mixer.Sound("soundeffects/")
 
     #Mainscreen mit Start, muss beginnen, wenn Spieler Start drückt
     #Game: Highscore, 20 pkt für groß, 50 pkt für mittel, 100 pkt für klein. Oben links angezeigt, darunter Leben
@@ -109,22 +112,24 @@ if __name__ == "__main__":
         health_bar.draw(surface)
         # Draw and move game objects
 
-        # Spaceship Control
+        #* Spaceship Control
+            # Damage control
         if ship.check_collision(flying_asteroids.collection):
             init_dmg = time.time()
             if abs(current_dmg - init_dmg) >= DMG_COOLDOWN:
+                
                 health_bar.hp -= 25
                 current_dmg = time.time()
         else:
             ship.draw(surface)
 
-        # Spaceship rotation logic
+            # Spaceship rotation logic
         if rotate_right:
             ship.rotate(THETA)
         elif rotate_left:
             ship.rotate(-THETA)
             
-        # Spaceship acceleration logic    
+            # Spaceship acceleration    
         if move_up:
             ship.velocity += ship.direction * THRUST 
             if ship.velocity.length() > MAX_SPEED:
@@ -132,7 +137,7 @@ if __name__ == "__main__":
         else:
             ship.decelerate()
         
-        # Shooting control, with shoot cooldown
+            # Shooting control, with shoot cooldown
         if shoot:
             init_shot = time.time()
             if abs(current_shot - init_shot) >= SHOT_COOLDOWN:
@@ -144,6 +149,7 @@ if __name__ == "__main__":
         ship.move()
         ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
 
+        #* Asteroids Control
         flying_asteroids.cyclic_boundary_condition()
         flying_asteroids.collision_detection()
         flying_asteroids.hit_detection(bullets)
@@ -151,13 +157,14 @@ if __name__ == "__main__":
             aster.move()
             aster.draw(surface)
 
-        # remove those bullets that have hit something or left the game window
+            # remove those bullets that have hit something or left the game window
         bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
         
         for bullet in bullets:
             bullet.move()
             bullet.draw(surface)
 
+        #* Ufo control
         ufo_handler.check_period()
         ufo_handler.move_ufo()
         ufo_handler.draw_ufo(surface)
