@@ -1,6 +1,4 @@
-import random
 import pygame
-
 # Import the game objects
 import objects.spaceship as spaceship
 import objects.asteroids as asteroids
@@ -43,7 +41,7 @@ if __name__ == "__main__":
     shooting_sound = pygame.mixer.Sound("soundeffects/shoot.wav")
 
     # damage sound from soundeffects folder
-    dmg_sound = pygame.mixer.Sound("soundeffects/")
+    dmg_sound = pygame.mixer.Sound("soundeffects/Asteroids-damage-sound.wav")
 
     #Mainscreen mit Start, muss beginnen, wenn Spieler Start drückt
     #Game: Highscore, 20 pkt für groß, 50 pkt für mittel, 100 pkt für klein. Oben links angezeigt, darunter Leben
@@ -117,7 +115,7 @@ if __name__ == "__main__":
         if ship.check_collision(flying_asteroids.collection):
             init_dmg = time.time()
             if abs(current_dmg - init_dmg) >= DMG_COOLDOWN:
-                
+                dmg_sound.play()
                 health_bar.hp -= 25
                 current_dmg = time.time()
         else:

@@ -78,6 +78,7 @@ class Spaceship:
                 self.coordinates[i] += shift
 
     def check_collision(self, asteroid_list):
+        self.center()
         if any((pos - aster.pos).length() < aster.radius for pos in self.coordinates + [self.midpoint] for aster in asteroid_list):
             return True 
 
