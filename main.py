@@ -41,7 +41,7 @@ if __name__ == "__main__":
     shooting_sound = pygame.mixer.Sound("soundeffects/shoot.wav")
 
     # damage sound from soundeffects folder
-    dmg_sound = pygame.mixer.Sound("soundeffects/Asteroids-damage-sound.wav")
+    dmg_sound = pygame.mixer.Sound("soundeffects/damage_sound.mp3")
 
     #Mainscreen mit Start, muss beginnen, wenn Spieler Start drückt
     #Game: Highscore, 20 pkt für groß, 50 pkt für mittel, 100 pkt für klein. Oben links angezeigt, darunter Leben
