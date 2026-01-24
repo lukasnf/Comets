@@ -12,3 +12,9 @@ Usage Terms:
 "You can use the art commercially. You can modify or edit the art as you like.
 Copyright/Attribution Notice: 
 no need to credit "
+
+3. shoot.wav
+License: Pixabay Content License 
+Link to License: https://pixabay.com/service/license-summary/
+Usage Terms:
+Free to use, modify, and share without attribution. You are not allowed to sell the image as a standalone file or use it for trademarks or logos.
