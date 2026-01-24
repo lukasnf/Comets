@@ -1,5 +1,4 @@
 import pygame
-from objects.asteroids import Asteroid
 
 
 class Spaceship:
@@ -21,8 +20,8 @@ class Spaceship:
         """
         for i in range(len(self.coordinates)):
             self.coordinates[i] += self.velocity
-            
-    
+        self.center()    
+
     def decelerate(self):
         self.velocity *= Spaceship.friction
         if self.velocity.length() < .3:
@@ -33,6 +32,10 @@ class Spaceship:
         pygame.draw.polygon(surface, self.color, self.coordinates, self.width)
     
     def center(self):
+        """
+        calculates the center of the spaceship for other calculations
+        
+        """
         if len(self.coordinates) == 0:
             return None
         else:
@@ -75,23 +78,29 @@ class Spaceship:
                 self.coordinates[i] += shift
 
     def check_collision(self, asteroid_list):
-        self.center()
-        for aster in asteroid_list:
-            distance = (self.midpoint - aster.pos).length()
-
-            if distance < self.direction.length() + aster.radius:
-                print("Hit") 
-
-        
-    
-   
-
+        if any((pos - aster.pos).length() < aster.radius for pos in self.coordinates + [self.midpoint] for aster in asteroid_list):
+            return True 
 
     def __str__(self):
         """
         String representation of the spaceship's current state, including position and velocity.
 
         Returns:
-            str: A string describing the spaceship's attributes with width, height, position, direction, color, and speed.
+            str: A string describing the spaceship's attributes with width, coordinates, and color.
         """
-        return f"Spaceship: coordinates: {self.coordinates}, color: {self.color}, speed: {self.speed}, width: {self.width}"
+        return f"Spaceship: coordinates: {self.coordinates}, color: {self.color}, width: {self.width}"
+    
+
+class Healthbar:
+
+    def __init__(self, height, max_hp):
+        self.hp = max_hp
+        self.max_hp = max_hp
+        self.height = height
+        self.pos = pygame.math.Vector2(30, 30)
+
+    def draw(self, surface):
+        ratio = self.hp / self.max_hp
+        pygame.draw.rect(surface, "red", (self.pos.x, self.pos.y, self.max_hp, self.height))
+        pygame.draw.rect(surface, "green", (self.pos.x, self.pos.y, self.max_hp * ratio, self.height))
+        

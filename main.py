@@ -23,15 +23,18 @@ if __name__ == "__main__":
     # angle rotation speed
     THETA = 6
     # scales how fast the spaceship accelerates
-    THRUST = 0.3
+    THRUST = .3
     # initiate maximum speed
     MAX_SPEED = 10
     # Bullet speed
     B_SPEED = MAX_SPEED + 5
     # Cooldown between the shots
-    SHOT_COOLDOWN = 0.2 # in s
+    SHOT_COOLDOWN = .2 # in s
+    # Cooldown which allows to take damage
+    DMG_COOLDOWN = 1 # in s
 
     current_shot = 0
+    current_dmg = 0
     
     # create the main screen
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
@@ -53,7 +56,7 @@ if __name__ == "__main__":
     rotate_left = False
     rotate_right = False
     shoot = False 
-
+    
     # Create game objects before entering the loop
     
     # Initialize spaceship
@@ -66,14 +69,11 @@ if __name__ == "__main__":
     ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
 
     #Initialize Items:
-    heart_item = item.Item("heart pixel art 254x254.png")
-    heart_draw = False
-    pos = pygame.math.Vector2(0,0)
-    HEART_SPAWN = pygame.USEREVENT
-    HEART_DESPAWN = pygame.USEREVENT + 1
-    pygame.time.set_timer(HEART_SPAWN,random.randint(10000, 15000))
+    heart_item = item.Item(png= "heart pixel art 254x254.png")
 
-    
+    # Initialize Healthbar 
+    health_bar = spaceship.Healthbar(height= 20, max_hp= 200) 
+
     # Projectile list
     bullets = []
 
@@ -103,28 +103,46 @@ if __name__ == "__main__":
                 if event.key == pygame.K_SPACE:
                     shoot = False
 
-            # Control item spawn rate
-            if event.type == HEART_SPAWN:
-                heart_draw = True
-                pos = pygame.math.Vector2(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT))
-                pygame.time.set_timer(HEART_SPAWN, 0)
-                pygame.time.set_timer(HEART_DESPAWN, 3000)
-
-            if event.type == HEART_DESPAWN:
-                heart_draw = False
-                pygame.time.set_timer(HEART_DESPAWN, 0)
-                pygame.time.set_timer(HEART_SPAWN,random.randint(10000, 15000))
-
-
         # Clear the screen by filling it with black color
         surface.fill(pygame.Color("black"))
 
-        if heart_draw:
-            heart_item.draw(surface, pos)
-
+        health_bar.draw(surface)
         # Draw and move game objects
-        ship.draw(surface)
-        ship.center()
+
+        # Spaceship Control
+        if ship.check_collision(flying_asteroids.collection):
+            init_dmg = time.time()
+            if abs(current_dmg - init_dmg) >= DMG_COOLDOWN:
+                health_bar.hp -= 25
+                current_dmg = time.time()
+        else:
+            ship.draw(surface)
+
+        # Spaceship rotation logic
+        if rotate_right:
+            ship.rotate(THETA)
+        elif rotate_left:
+            ship.rotate(-THETA)
+            
+        # Spaceship acceleration logic    
+        if move_up:
+            ship.velocity += ship.direction * THRUST 
+            if ship.velocity.length() > MAX_SPEED:
+                ship.velocity = ship.velocity.normalize() * MAX_SPEED
+        else:
+            ship.decelerate()
+        
+        # Shooting control, with shoot cooldown
+        if shoot:
+            init_shot = time.time()
+            if abs(current_shot - init_shot) >= SHOT_COOLDOWN:
+                shooting_sound.play()
+                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= "cyan")
+                bullets.append(projectiles)
+                current_shot = time.time()
+
+        ship.move()
+        ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
 
         flying_asteroids.cyclic_boundary_condition()
         flying_asteroids.collision_detection()
@@ -133,37 +151,12 @@ if __name__ == "__main__":
             aster.move()
             aster.draw(surface)
 
-
-        # Spaceship control
-        if rotate_right:
-            ship.rotate(THETA)
-        elif rotate_left:
-            ship.rotate(-THETA)
-            
-        if move_up:
-            ship.velocity += ship.direction * THRUST 
-            if ship.velocity.length() > MAX_SPEED:
-                ship.velocity = ship.velocity.normalize() * MAX_SPEED
-        else:
-            ship.decelerate()
-        
-        if shoot:
-            init_shot = time.time()
-            if abs(init_shot - current_shot) >= SHOT_COOLDOWN:
-                shooting_sound.play()
-                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= "cyan")
-                bullets.append(projectiles)
-                current_shot = time.time()
-
         # remove those bullets that have hit something or left the game window
         bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
         
         for bullet in bullets:
             bullet.move()
             bullet.draw(surface)
-            
-        ship.move()
-        ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
 
         ufo_handler.check_period()
         ufo_handler.move_ufo()
