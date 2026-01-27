@@ -7,8 +7,8 @@ class Spaceship:
     """
     friction = .97
 
-    def __init__(self, coordinates, color, width=0):
-        self.coordinates = [pygame.math.Vector2(vec) for vec in coordinates]
+    def __init__(self, color, width=0):
+        self.coordinates = [(440,770),(455,765),(470,770),(455,730)]
         self.center()
         self.direction = (self.coordinates[-1] - self.midpoint).normalize()
         self.color = color
@@ -20,7 +20,6 @@ class Spaceship:
         """
         for i in range(len(self.coordinates)):
             self.coordinates[i] += self.velocity
-        self.center()    
 
     def decelerate(self):
         self.velocity *= Spaceship.friction
@@ -81,6 +80,9 @@ class Spaceship:
         self.center()
         if any((pos - aster.pos).length() < aster.radius for pos in self.coordinates + [self.midpoint] for aster in asteroid_list):
             return True 
+
+    def draw_thrust(self, surface):
+        pass
 
     def __str__(self):
         """

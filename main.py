@@ -30,6 +30,8 @@ if __name__ == "__main__":
     SHOT_COOLDOWN = .2 # in s
     # Cooldown which allows to take damage
     DMG_COOLDOWN = 1 # in s
+    # Maximum spaceship hp
+    MAX_HP = 200
 
     current_shot = 0
     current_dmg = 0
@@ -61,10 +63,11 @@ if __name__ == "__main__":
     # Create game objects before entering the loop
     
     # Initialize spaceship
-    ship = spaceship.Spaceship(coordinates= [(440,770),(455,765),(470,770),(455,730)], color= "hotpink", width= 0)
+    ship = spaceship.Spaceship(color= "hotpink", width= 0)
 
     # Initialize asteroids
-    flying_asteroids = asteroids.Asteroids(4, 2, DISPLAY_HEIGHT, DISPLAY_WIDTH, 5)
+    flying_asteroids = asteroids.Asteroids(max_number= 4,min_number= 2, window_height= DISPLAY_HEIGHT, 
+                                           window_width=DISPLAY_WIDTH, max_speed=5)
 
     # Initialize ufo Handler
     ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
@@ -73,7 +76,7 @@ if __name__ == "__main__":
     heart_item = item.Item(png= "heart pixel art 254x254.png")
 
     # Initialize Healthbar 
-    health_bar = spaceship.Healthbar(height= 20, max_hp= 200) 
+    health_bar = spaceship.Healthbar(height= 20, max_hp= MAX_HP) 
 
     # Projectile list
     bullets = []
@@ -114,7 +117,7 @@ if __name__ == "__main__":
             # Damage control
         if ship.check_collision(flying_asteroids.collection):
             init_dmg = time.time()
-            if abs(current_dmg - init_dmg) >= DMG_COOLDOWN:
+            if abs(current_dmg - init_dmg) >= DMG_COOLDOWN :
                 dmg_sound.play()
                 health_bar.hp -= 25
                 current_dmg = time.time()
@@ -140,7 +143,8 @@ if __name__ == "__main__":
             init_shot = time.time()
             if abs(current_shot - init_shot) >= SHOT_COOLDOWN:
                 shooting_sound.play()
-                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, speed= B_SPEED ,radius= 2, color= "cyan")
+                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, 
+                                                    speed= B_SPEED ,radius= 2, color= "cyan")
                 bullets.append(projectiles)
                 current_shot = time.time()
 
