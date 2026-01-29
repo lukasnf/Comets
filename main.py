@@ -59,6 +59,7 @@ if __name__ == "__main__":
     rotate_left = False
     rotate_right = False
     shoot = False 
+    item_spawn = False
     
     # Create game objects before entering the loop
     
@@ -159,11 +160,15 @@ if __name__ == "__main__":
             aster.move()
             aster.draw(surface)
 
-        
+        #* Bullet & Item control
+        #*!!
         if any(bullet.hit for bullet in bullets):
+            item_spawn = True
+        if item_spawn:
             heart_item.draw(surface, bullet.pos)
+        #*!!
 
-        # remove those bullets that have hit something or left the game window
+            # remove those bullets that have hit something or left the game window
         bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
         
         for bullet in bullets:
