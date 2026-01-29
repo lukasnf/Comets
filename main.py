@@ -7,6 +7,7 @@ import objects.projectile as projectile
 import objects.items as item
 import objects.sounds as sound
 import time
+import random
 
 if __name__ == "__main__":
     pygame.init()
@@ -30,7 +31,7 @@ if __name__ == "__main__":
     # Cooldown between the shots
     SHOT_COOLDOWN = .2 # in s
     # Cooldown which allows to take damage
-    DMG_COOLDOWN = 1 # in s
+    DMG_COOLDOWN = .5 # in s
     # Maximum spaceship hp
     MAX_HP = 200
 
@@ -70,14 +71,14 @@ if __name__ == "__main__":
     # Initialize ufo Handler
     ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
 
-    #Initialize Items:
-    heart_item = item.Item(png= "heart pixel art 254x254.png")
-
     # Initialize Healthbar 
     health_bar = spaceship.Healthbar(height= 20, max_hp= MAX_HP) 
 
     # Projectile list
     bullets = []
+
+    # List of active items
+    ac_items = []
 
     # Game loop
     while running:
@@ -158,12 +159,6 @@ if __name__ == "__main__":
             aster.draw(surface)
 
         #* Bullet & Item control
-        #*!!
-        if any(bullet.hit for bullet in bullets):
-            item_spawn = True
-        if item_spawn:
-            heart_item.draw(surface, bullet.pos)
-
         #* Ufo control
         ufo_handler.check_period()
         if ufo_handler.ufo != None:      
@@ -172,14 +167,19 @@ if __name__ == "__main__":
                 bullets.append(ufo_handler.generate_projectile(ship))
             ufo_handler.move_ufo()
 
-        #*!!
-
-            # remove those bullets that have hit something or left the game window
-        bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
-        
         for bullet in bullets:
             bullet.move()
             bullet.draw(surface)
+            if bullet.hit:
+                if random.randint(0,5) == 5:
+                    heart_item = item.Item(png= "heart pixel art 254x254.png", pos= bullet.pos)
+                    ac_items.append(heart_item)
+        
+        for active_item in ac_items:
+            active_item.draw(surface)
+
+            # remove those bullets that have hit something or left the game window
+        bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
 
         
         

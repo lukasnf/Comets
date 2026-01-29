@@ -9,17 +9,17 @@ IMAGES_DIR = BASE / "images"
 
 class Item:
 
-    def __init__(self,png):
+    def __init__(self,png,pos):
+        self.pos = pos
         path = IMAGES_DIR / png
-        image = pygame.image.load(path).convert_alpha()
         if not path.exists():
             raise FileNotFoundError(f"File not found: {path}")
+        
+        image = pygame.image.load(path).convert_alpha()
         self.image = pygame.transform.scale(image,(30,30))
 
-    def draw(self, surface, aster_pos):
-        rand_int = random.randint(0,5)
-        if rand_int == 5:
-            item_rect = self.image.get_rect(center= aster_pos)
+    def draw(self, surface):
+            item_rect = self.image.get_rect(center= self.pos)
             surface.blit(self.image, item_rect)
 
     
