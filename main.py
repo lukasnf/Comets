@@ -159,7 +159,11 @@ if __name__ == "__main__":
             aster.move()
             aster.draw(surface)
 
-            # remove those bullets that have hit something or left the game window
+        
+        if any(bullet.hit for bullet in bullets):
+            heart_item.draw(surface, bullet.pos)
+
+        # remove those bullets that have hit something or left the game window
         bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
         
         for bullet in bullets:

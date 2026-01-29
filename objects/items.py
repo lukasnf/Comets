@@ -12,6 +12,7 @@ class Item:
     def draw(self, surface, aster_pos):
         item_rect = self.image.get_rect(center= aster_pos)
         surface.blit(self.image, item_rect)
+
     
     def move(self, aster_pos):
         pass
