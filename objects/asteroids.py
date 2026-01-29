@@ -107,6 +107,8 @@ class Asteroids:
 
     def hit_detection(self, bullets):
         for bullet in bullets:
+            if bullet.source != "ship":
+                continue
             for asteriod in self.collection:
                 if (bullet.pos - asteriod.pos).length() < asteriod.radius:
                     #Falls ein asteriod getroffen

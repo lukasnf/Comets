@@ -3,10 +3,11 @@ from objects import flying_object
 
 class Projectile(flying_object.Flying_Object):
 
-    def __init__(self, pos, direction, speed, radius= 2, color= "cyan"):
+    def __init__(self, pos, direction, speed, source, radius= 2, color= "cyan"):
         self.radius = radius
         self.color = color
         self.hit = False # True if the bullet has hit something
+        self.source = source
         super().__init__(pos.copy(), direction.copy(), speed)
     
     def draw(self, surface):

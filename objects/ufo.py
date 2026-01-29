@@ -39,7 +39,7 @@ class Ufo_Handler:
         self.ufo = Ufo(x, random.randint(0, self.window_height - Ufo.height), dx, 0) 
 
     def generate_projectile(self, aim):
-        return projectile.Projectile(self.ufo.pos, pygame.math.Vector2.normalize(aim.center() - self.ufo.pos), self.ufo.speed * 2)
+        return projectile.Projectile(self.ufo.pos, pygame.math.Vector2.normalize(aim.center() - self.ufo.pos), self.ufo.speed * 2, "ufo", color="green")
 
 class Ufo(flying_object.Flying_Object):
     width = 70 

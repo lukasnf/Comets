@@ -144,8 +144,8 @@ if __name__ == "__main__":
             init_shot = time.time()
             if abs(current_shot - init_shot) >= SHOT_COOLDOWN:
                 shooting_sound.play()
-                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, 
-                                                    speed= B_SPEED ,radius= 2, color= "cyan")
+                projectiles = projectile.Projectile(ship.coordinates[-1], ship.direction, 
+                                                    B_SPEED, "ship" ,radius= 2, color= "cyan")
                 bullets.append(projectiles)
                 current_shot = time.time()
 
