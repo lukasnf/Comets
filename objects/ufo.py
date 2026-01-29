@@ -13,6 +13,7 @@ class Ufo_Handler:
         self.time = pygame.time.get_ticks()
         self.period = period_s * 1000 # in ms
         self.ufo = None
+        self.max_speed = 4
         self.generate_ufo()
 
     def check_period(self):
@@ -31,12 +32,20 @@ class Ufo_Handler:
 
     def generate_ufo(self):
         if random.randint(0, 1):
-            x = -Ufo.width
-            dx = 5
-        else: 
-            x = self.window_width
-            dx = -5
-        self.ufo = Ufo(x, random.randint(0, self.window_height - Ufo.height), dx, 0) 
+            # x is first choice
+            x = random.randint(int(-Ufo.width/2), int(self.window_width + Ufo.width/2))
+            is_on_the_top = random.randint(0, 1)
+            y = -Ufo.height/2 if is_on_the_top  else self.window_height + Ufo.height/2
+            dx = random.randint(-self.max_speed, self.max_speed)
+            dy = (1 if is_on_the_top else -1) * random.randint(0, self.max_speed)
+        else:
+            # y is first choice
+            y = random.randint(int(-Ufo.height/2), int(self.window_height + Ufo.height/2))
+            is_on_the_left = random.randint(0, 1)
+            x = -Ufo.width/2 if is_on_the_left else self.window_width + Ufo.width/2
+            dy = random.randint(-self.max_speed, self.max_speed)
+            dx = (1 if is_on_the_left else -1) * random.randint(0, self.max_speed)
+        self.ufo = Ufo(x, y, dx, dy) 
 
     def generate_projectile(self, aim):
         return projectile.Projectile(self.ufo.pos, pygame.math.Vector2.normalize(aim.center() - self.ufo.pos), self.ufo.speed * 2, "ufo", color="green")
