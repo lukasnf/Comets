@@ -5,6 +5,7 @@ import objects.asteroids as asteroids
 import objects.ufo as ufo
 import objects.projectile as projectile
 import objects.items as item
+import objects.sounds as sound
 import time
 
 if __name__ == "__main__":
@@ -38,12 +39,8 @@ if __name__ == "__main__":
     
     # create the main screen
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
-
-    # get the shooting sound from soundeffects folder
-    shooting_sound = pygame.mixer.Sound("soundeffects/shoot.wav")
-
-    # damage sound from soundeffects folder
-    dmg_sound = pygame.mixer.Sound("soundeffects/damage_sound.mp3")
+    # initiate sounds
+    sounds = sound.Sounds()
 
     #Mainscreen mit Start, muss beginnen, wenn Spieler Start drückt
     #Game: Highscore, 20 pkt für groß, 50 pkt für mittel, 100 pkt für klein. Oben links angezeigt, darunter Leben
@@ -119,7 +116,7 @@ if __name__ == "__main__":
         if ship.check_collision(flying_asteroids.collection, bullets):
             init_dmg = time.time()
             if abs(current_dmg - init_dmg) >= DMG_COOLDOWN :
-                dmg_sound.play()
+                sounds.dmg_sound.play()
                 health_bar.hp -= 25
                 current_dmg = time.time()
         else:
@@ -146,7 +143,7 @@ if __name__ == "__main__":
         if shoot:
             init_shot = time.time()
             if abs(current_shot - init_shot) >= SHOT_COOLDOWN:
-                shooting_sound.play()
+                sounds.shooting_sound.play()
                 projectiles = projectile.Projectile(ship.coordinates[-1], ship.direction, 
                                                     B_SPEED, "ship" ,radius= 2, color= "cyan")
                 bullets.append(projectiles)
