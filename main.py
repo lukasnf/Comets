@@ -139,6 +139,9 @@ if __name__ == "__main__":
         else:
             ship.decelerate()
         
+        ship.move()
+        ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
+        
             # Shooting control, with shoot cooldown
         if shoot:
             init_shot = time.time()
@@ -148,9 +151,6 @@ if __name__ == "__main__":
                                                     speed= B_SPEED ,radius= 2, color= "cyan")
                 bullets.append(projectiles)
                 current_shot = time.time()
-
-        ship.move()
-        ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
 
         #* Asteroids Control
         flying_asteroids.cyclic_boundary_condition()
