@@ -76,9 +76,10 @@ class Spaceship:
             for i in range(len(self.coordinates)):
                 self.coordinates[i] += shift
 
-    def check_collision(self, asteroid_list):
+    def check_collision(self, asteroid_list, bullets):
         self.center()
-        if any((pos - aster.pos).length() < aster.radius for pos in self.coordinates + [self.midpoint] for aster in asteroid_list):
+        if (any((pos - aster.pos).length() < aster.radius for pos in self.coordinates + [self.midpoint] for aster in asteroid_list) or
+             any((pos - bullet.pos).length() < 5 for pos in self.coordinates + [self.midpoint] for bullet in bullets)):
             return True 
 
     def draw_thrust(self, surface):
