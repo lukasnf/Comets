@@ -13,8 +13,8 @@ if __name__ == "__main__":
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
-    DISPLAY_WIDTH = 1000
-    DISPLAY_HEIGHT = 1000
+    DISPLAY_WIDTH = 750
+    DISPLAY_HEIGHT = 750
     
     # frame per second
     FPS = 50
@@ -116,7 +116,7 @@ if __name__ == "__main__":
 
         #* Spaceship Control
             # Damage control
-        if ship.check_collision(flying_asteroids.collection):
+        if ship.check_collision(flying_asteroids.collection, bullets):
             init_dmg = time.time()
             if abs(current_dmg - init_dmg) >= DMG_COOLDOWN :
                 dmg_sound.play()
@@ -147,8 +147,8 @@ if __name__ == "__main__":
             init_shot = time.time()
             if abs(current_shot - init_shot) >= SHOT_COOLDOWN:
                 shooting_sound.play()
-                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, 
-                                                    speed= B_SPEED ,radius= 2, color= "cyan")
+                projectiles = projectile.Projectile(ship.coordinates[-1], ship.direction, 
+                                                    B_SPEED, "ship" ,radius= 2, color= "cyan")
                 bullets.append(projectiles)
                 current_shot = time.time()
 
@@ -166,6 +166,15 @@ if __name__ == "__main__":
             item_spawn = True
         if item_spawn:
             heart_item.draw(surface, bullet.pos)
+
+        #* Ufo control
+        ufo_handler.check_period()
+        if ufo_handler.ufo != None:      
+            ufo_handler.draw_ufo(surface)
+            if ufo_handler.ufo.shoot():
+                bullets.append(ufo_handler.generate_projectile(ship))
+            ufo_handler.move_ufo()
+
         #*!!
 
             # remove those bullets that have hit something or left the game window
@@ -175,10 +184,7 @@ if __name__ == "__main__":
             bullet.move()
             bullet.draw(surface)
 
-        #* Ufo control
-        ufo_handler.check_period()
-        ufo_handler.move_ufo()
-        ufo_handler.draw_ufo(surface)
+        
         
         # Normal game behavior
         pygame.display.update()
