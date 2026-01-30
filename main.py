@@ -15,8 +15,8 @@ if __name__ == "__main__":
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
-    DISPLAY_WIDTH = 750
-    DISPLAY_HEIGHT = 750
+    DISPLAY_WIDTH = 1000
+    DISPLAY_HEIGHT = 1000
     
     # frame per second
     FPS = 50
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
     # initiate sounds
     sounds = sound.Sounds()
-
+    
     #Mainscreen mit Start, muss beginnen, wenn Spieler Start drückt
     #Game: Highscore, 20 pkt für groß, 50 pkt für mittel, 100 pkt für klein. Oben links angezeigt, darunter Leben
 
@@ -171,12 +171,18 @@ if __name__ == "__main__":
             bullet.move()
             bullet.draw(surface)
             if bullet.hit:
-                if random.randint(0,5) == 5:
-                    heart_item = item.Item(png= "heart pixel art 254x254.png", pos= bullet.pos)
+                if random.randint(0,5) == 5 and len(ac_items) != 1:
+                    heart_item = item.Heart_Item(bullet.pos, bullet.direction, speed= 2)
+                    spawn_time = pygame.time.get_ticks()
                     ac_items.append(heart_item)
         
+            # only keep the items for ITEM_SPAWN_TIME
+        ac_items = [active_item for active_item in ac_items if pygame.time.get_ticks() - spawn_time < active_item.spawn_time and 
+                    not active_item.hit]
+
         for active_item in ac_items:
             active_item.draw(surface)
+            active_item.move()
 
             # remove those bullets that have hit something or left the game window
         bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
