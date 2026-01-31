@@ -5,7 +5,9 @@ import objects.asteroids as asteroids
 import objects.ufo as ufo
 import objects.projectile as projectile
 import objects.items as item
+import objects.sounds as sound
 import time
+import random
 
 if __name__ == "__main__":
     pygame.init()
@@ -29,7 +31,7 @@ if __name__ == "__main__":
     # Cooldown between the shots
     SHOT_COOLDOWN = .2 # in s
     # Cooldown which allows to take damage
-    DMG_COOLDOWN = 1 # in s
+    DMG_COOLDOWN = .5 # in s
     # Maximum spaceship hp
     MAX_HP = 200
 
@@ -38,13 +40,9 @@ if __name__ == "__main__":
     
     # create the main screen
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
-
-    # get the shooting sound from soundeffects folder
-    shooting_sound = pygame.mixer.Sound("soundeffects/shoot.wav")
-
-    # damage sound from soundeffects folder
-    dmg_sound = pygame.mixer.Sound("soundeffects/damage_sound.mp3")
-
+    # initiate sounds
+    sounds = sound.Sounds()
+    
     #Mainscreen mit Start, muss beginnen, wenn Spieler Start drückt
     #Game: Highscore, 20 pkt für groß, 50 pkt für mittel, 100 pkt für klein. Oben links angezeigt, darunter Leben
 
@@ -73,14 +71,14 @@ if __name__ == "__main__":
     # Initialize ufo Handler
     ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
 
-    #Initialize Items:
-    heart_item = item.Item(png= "heart pixel art 254x254.png")
-
     # Initialize Healthbar 
     health_bar = spaceship.Healthbar(height= 20, max_hp= MAX_HP) 
 
     # Projectile list
     bullets = []
+
+    # List of active items
+    ac_items = []
 
     # Game loop
     while running:
@@ -116,10 +114,10 @@ if __name__ == "__main__":
 
         #* Spaceship Control
             # Damage control
-        if ship.check_collision(flying_asteroids.collection):
+        if ship.check_collision(flying_asteroids.collection, bullets):
             init_dmg = time.time()
             if abs(current_dmg - init_dmg) >= DMG_COOLDOWN :
-                dmg_sound.play()
+                sounds.dmg_sound.play()
                 health_bar.hp -= 25
                 current_dmg = time.time()
         else:
@@ -139,18 +137,18 @@ if __name__ == "__main__":
         else:
             ship.decelerate()
         
+        ship.move()
+        ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
+        
             # Shooting control, with shoot cooldown
         if shoot:
             init_shot = time.time()
             if abs(current_shot - init_shot) >= SHOT_COOLDOWN:
-                shooting_sound.play()
-                projectiles = projectile.Projectile(pos= ship.coordinates[-1], direction= ship.direction, 
-                                                    speed= B_SPEED ,radius= 2, color= "cyan")
+                sounds.shooting_sound.play()
+                projectiles = projectile.Projectile(ship.coordinates[-1], ship.direction, 
+                                                    B_SPEED, "ship" ,radius= 2, color= "cyan")
                 bullets.append(projectiles)
                 current_shot = time.time()
-
-        ship.move()
-        ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
 
         #* Asteroids Control
         flying_asteroids.cyclic_boundary_condition()
@@ -161,24 +159,35 @@ if __name__ == "__main__":
             aster.draw(surface)
 
         #* Bullet & Item control
-        #*!!
-        if any(bullet.hit for bullet in bullets):
-            item_spawn = True
-        if item_spawn:
-            heart_item.draw(surface, bullet.pos)
-        #*!!
+        #* Ufo control
+        ufo_handler.check_period()
+        if ufo_handler.ufo != None:      
+            ufo_handler.draw_ufo(surface)
+            if ufo_handler.ufo.shoot():
+                bullets.append(ufo_handler.generate_projectile(ship))
+            ufo_handler.move_ufo()
 
-            # remove those bullets that have hit something or left the game window
-        bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
-        
         for bullet in bullets:
             bullet.move()
             bullet.draw(surface)
+            if bullet.hit:
+                if random.randint(0,5) == 5 and len(ac_items) != 1:
+                    heart_item = item.Heart_Item(bullet.pos, bullet.direction, speed= 2)
+                    spawn_time = pygame.time.get_ticks()
+                    ac_items.append(heart_item)
+        
+            # only keep the items for ITEM_SPAWN_TIME
+        ac_items = [active_item for active_item in ac_items if pygame.time.get_ticks() - spawn_time < active_item.spawn_time and 
+                    not active_item.hit]
 
-        #* Ufo control
-        ufo_handler.check_period()
-        ufo_handler.move_ufo()
-        ufo_handler.draw_ufo(surface)
+        for active_item in ac_items:
+            active_item.draw(surface)
+            active_item.move()
+
+            # remove those bullets that have hit something or left the game window
+        bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
+
+        
         
         # Normal game behavior
         pygame.display.update()
