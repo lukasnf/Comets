@@ -22,7 +22,7 @@ class text():
         self.text_y = text_y
 
     def render(self):
-        self.surface = self.font.render(self.text_font, True, self.color)
+        self.surface = self.text_font.render(self.text_font, True, self.text_color)
         self.rect = self.surface.get_rect(topleft=(self.text_x, self.text_y))
 
     def set(self, new_text):
@@ -32,3 +32,21 @@ class text():
     def draw(self, screen):
         #Method to write text on the screen
         screen.blit(self.surface, self.rect)
+        
+    def update_text(self):
+        #Method to update text if change is needed. This is going to be used for the score and for user input
+        self.surface = self.text_font.render(self.text_text, True, self.text_color) 
+
+    def input_text(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_BACKSPACE:
+                self.text == self.text[:-1]     #deletes last character if backspace is pressed
+            
+            elif event.key == pygame.K_RETURN:
+                print("Eingabe abgeschlossen", self.text) #finishes user input if enter is pressed
+
+            else: 
+                self.text += event.unicode
+
+            self.update_text()              #updates the text, change will be seen on the text
+
