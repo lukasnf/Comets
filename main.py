@@ -41,6 +41,12 @@ if __name__ == "__main__":
     
     # create the main screen
     surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
+    
+    #setting up titlescreen
+    title_screen = True
+    title = text("ASTEROIDS", 80, "arial", "white", 170, 225)
+    press_key = text("Press ENTER to start game", 40, "Arial", "white", 150, 450)
+
     # initiate sounds
     sounds = sound.Sounds()
     
@@ -79,10 +85,7 @@ if __name__ == "__main__":
     # List of active items
     ac_items = []
 
-    #setting up titlescreen
-    title_screen = True
-    title = text("ASTEROIDS", 80, "arial", "white", 200, 150)
-    press_key = text("Press ENTER to start game", 40, "Arial", "white", 180, 30)
+
 
     # Game loop
     while running:
