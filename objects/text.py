@@ -2,51 +2,53 @@ import pygame
 
 
 class text():
-    """
-    Class representing text on the screen. Text can't interact directly with the screen.
+        """
+        Class representing text on the screen. Text can't interact directly with the screen.
 
-    Class atributes:
-        text_size: size of the text
-        text_font: font of the text
-        text_color: color of the text
-        text_x: x coordinate of the text
-        text_y: y coordinate of the text
-    """
+        Class atributes:
+            text_size: size of the text
+            text_font: font of the text
+            text_color: color of the text
+            text_x: x coordinate of the text
+            text_y: y coordinate of the text
+        """
 
-    def __init__(self, text_text, text_size, text_font, text_color, text_x, text_y):
-        self.text_text = text_text
-        self.text_size = text_size
-        self.text_font = pygame.font.SysFont(text_font, text_size)
-        self.text_color = text_color
-        self.text_x = text_x
-        self.text_y = text_y
+        def __init__(self, text_text, text_size, text_font, text_color, text_x, text_y):
+            self.text_text = text_text
+            self.text_size = text_size
+            self.text_font = pygame.font.SysFont(text_font, text_size)
+            self.text_color = text_color
+            self.text_x = text_x
+            self.text_y = text_y
 
-    def render(self):
-        self.surface = self.text_font.render(self.text_font, True, self.text_color)
-        self.rect = self.surface.get_rect(topleft=(self.text_x, self.text_y))
+            self.render()
 
-    def set(self, new_text):
-        self.text = new_text
-        self.render()
+        def render(self):
+            self.surface = self.text_font.render(self.text_text, True, self.text_color)
+            self.rect = self.surface.get_rect(topleft=(self.text_x, self.text_y))
 
-    def draw(self, screen):
-        #Method to write text on the screen
-        screen.blit(self.surface, self.rect)
-        
-    def update_text(self):
-        #Method to update text if change is needed. This is going to be used for the score and for user input
-        self.surface = self.text_font.render(self.text_text, True, self.text_color) 
+        def set(self, new_text):
+            self.text_text = new_text
+            self.render()
 
-    def input_text(self, event):
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_BACKSPACE:
-                self.text == self.text[:-1]     #deletes last character if backspace is pressed
+        def draw(self, screen):
+            #Method to write text on the screen
+            screen.blit(self.surface, self.rect)
             
-            elif event.key == pygame.K_RETURN:
-                print("Eingabe abgeschlossen", self.text) #finishes user input if enter is pressed
+        #def update_text(self):
+            #Method to update text if change is needed. This is going to be used for the score and for user input
+            self.surface = self.text_font.render(self.text_text, True, self.text_color) 
 
-            else: 
-                self.text += event.unicode
+        def input_text(self, event):
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    self.text_text = self.text_text[:-1]     #deletes last character if backspace is pressed
+                
+                elif event.key == pygame.K_RETURN:
+                    print("Eingabe abgeschlossen", self.text_text) #finishes user input if enter is pressed
 
-            self.update_text()              #updates the text, change will be seen on the text
+                else: 
+                    self.text_text += event.unicode
+
+                self.update_text()              #updates the text, change will be seen on the text
 
