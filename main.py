@@ -33,7 +33,9 @@ if __name__ == "__main__":
     # Cooldown which allows to take damage
     DMG_COOLDOWN = .5 # in s
     # Maximum spaceship hp
-    MAX_HP = 200
+    MAX_HP = 210
+    # obtained damage
+    DAMAGE = MAX_HP//3
 
     current_shot = 0
     current_dmg = 0
@@ -57,15 +59,13 @@ if __name__ == "__main__":
     rotate_left = False
     rotate_right = False
     shoot = False 
-    item_spawn = False
-    
     # Create game objects before entering the loop
     
     # Initialize spaceship
     ship = spaceship.Spaceship(color= "hotpink", width= 0)
 
     # Initialize asteroids
-    flying_asteroids = asteroids.Asteroids(max_number= 4,min_number= 2, window_height= DISPLAY_HEIGHT, 
+    flying_asteroids = asteroids.Asteroids(max_number= 5,min_number= 2, window_height= DISPLAY_HEIGHT, 
                                            window_width=DISPLAY_WIDTH, max_speed=5)
 
     # Initialize ufo Handler
@@ -118,7 +118,7 @@ if __name__ == "__main__":
             init_dmg = time.time()
             if abs(current_dmg - init_dmg) >= DMG_COOLDOWN :
                 sounds.dmg_sound.play()
-                health_bar.hp -= 25
+                health_bar.hp -= DAMAGE
                 current_dmg = time.time()
         else:
             ship.draw(surface)
@@ -176,9 +176,9 @@ if __name__ == "__main__":
                     spawn_time = pygame.time.get_ticks()
                     ac_items.append(heart_item)
         
-            # only keep the items for ITEM_SPAWN_TIME
-        ac_items = [active_item for active_item in ac_items if pygame.time.get_ticks() - spawn_time < active_item.spawn_time and 
-                    not active_item.hit]
+            # only keep the items for their spawn time
+        ac_items = [active_item for active_item in ac_items if pygame.time.get_ticks() - spawn_time < active_item.spawn_time 
+                    and not active_item.hit]
 
         for active_item in ac_items:
             active_item.draw(surface)
@@ -187,8 +187,7 @@ if __name__ == "__main__":
             # remove those bullets that have hit something or left the game window
         bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
 
-        
-        
+
         # Normal game behavior
         pygame.display.update()
         clock.tick(FPS)

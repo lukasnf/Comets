@@ -28,7 +28,6 @@ class Item(Flying_Object):
                   self.size[1] = self.end_size[1]
              self.image = pygame.transform.scale(self.original_image, self.size)
          
-
     def draw(self, surface):
             self.increase_size()
             item_rect = self.image.get_rect(center= self.pos)
@@ -44,12 +43,19 @@ class Heart_Item(Item):
 
 class Shield_Item(Item):
      
-     def __init__(self, pos, direction, speed, image_path):
+     def __init__(self, pos, direction, speed):
           shield_png = ""
           path = IMAGES_DIR / shield_png
           self.spawn_time = 5000 #in ms 
-          super().__init__(pos, direction, speed, image_path)
+          super().__init__(pos, direction, speed, path)
         
+class Rapid_Fire_Item(Item):
+     
+     def __init__(self, pos, direction, speed):
+          fire_png = "rapid_fire.png"
+          path = IMAGES_DIR / fire_png
+          self.spawn_time = 3500 #in ms
+          super().__init__(pos, direction, speed, path)
 
 
 
