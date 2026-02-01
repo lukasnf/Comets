@@ -44,7 +44,7 @@ if __name__ == "__main__":
     
     #setting up titlescreen
     title_screen = True
-    title = text("ASTEROIDS", 80, "arial", "white", 170, 225)
+    title = text("ASTEROIDS", 80, "bad robots", "white", DISPLAY_WIDTH*0.253, DISPLAY_HEIGHT*0.35)
     press_key = text("Press ENTER to start game", 40, "Arial", "white", 150, 450)
 
     # initiate sounds
