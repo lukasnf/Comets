@@ -12,12 +12,13 @@ class Item(Flying_Object):
     def __init__(self, pos, direction, speed, image_path):
         super().__init__(pos, direction, speed)
         self.original_image = pygame.image.load(image_path).convert_alpha()
-
+        
         self.size = [0,0]
         self.end_size = [30,30]
         self.grow_speed= 2
         self.image = pygame.transform.scale(self.original_image, self.size)
         self.hit = False
+        self.spawn_time = pygame.time.get_ticks()
 
     def increase_size(self):
         if self.size[0] < self.end_size[0]:
@@ -38,7 +39,7 @@ class Heart_Item(Item):
      def __init__(self, pos, direction, speed):
         heart_png= "heart pixel art 254x254.png"
         path =  IMAGES_DIR / heart_png
-        self.spawn_time = 4000 #in ms
+        self.duration = 4000 #in ms
         super().__init__(pos, direction, speed, path)
 
 class Shield_Item(Item):
@@ -46,7 +47,7 @@ class Shield_Item(Item):
      def __init__(self, pos, direction, speed):
           shield_png = ""
           path = IMAGES_DIR / shield_png
-          self.spawn_time = 5000 #in ms 
+          self.duration = 5000 #in ms 
           super().__init__(pos, direction, speed, path)
         
 class Rapid_Fire_Item(Item):
@@ -54,7 +55,7 @@ class Rapid_Fire_Item(Item):
      def __init__(self, pos, direction, speed):
           fire_png = "rapid_fire.png"
           path = IMAGES_DIR / fire_png
-          self.spawn_time = 3500 #in ms
+          self.duration = 3500 #in ms
           super().__init__(pos, direction, speed, path)
 
 

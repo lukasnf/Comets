@@ -16,8 +16,8 @@ if __name__ == "__main__":
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
-    DISPLAY_WIDTH = 700
-    DISPLAY_HEIGHT = 700
+    DISPLAY_WIDTH = 1000
+    DISPLAY_HEIGHT = 1000
     
     # frame per second
     FPS = 50
@@ -85,8 +85,6 @@ if __name__ == "__main__":
     # List of active items
     ac_items = []
 
-
-
     # Game loop
     while running:
         # Event handling
@@ -98,8 +96,6 @@ if __name__ == "__main__":
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         title_screen = False
-                continue
-                
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP or event.key == pygame.K_w:
@@ -129,14 +125,14 @@ if __name__ == "__main__":
             press_key.draw(surface)
         else:
             health_bar.draw(surface)
-            # Draw and move game objects
-            #* Spaceship Control
-                # Damage control
+
+        #* Spaceship Control
+            # Damage control
             if ship.check_collision(flying_asteroids.collection, bullets):
                 init_dmg = time.time()
-                if abs(current_dmg - init_dmg) >= DMG_COOLDOWN :
+                if abs(current_dmg - init_dmg) >= DMG_COOLDOWN:
                     sounds.dmg_sound.play()
-                    health_bar.hp -= 25
+                    health_bar.hp -= DAMAGE
                     current_dmg = time.time()
             else:
                 ship.draw(surface)
@@ -152,9 +148,11 @@ if __name__ == "__main__":
                     ship.velocity = ship.velocity.normalize() * MAX_SPEED
             else:
                 ship.decelerate()
+
             ship.move()
             ship.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT)
-                # Shooting control, with shoot cooldown
+
+            # Shooting control, with shoot cooldown
             if shoot:
                 init_shot = time.time()
                 if abs(current_shot - init_shot) >= SHOT_COOLDOWN:
@@ -163,36 +161,42 @@ if __name__ == "__main__":
                                                         B_SPEED, "ship" ,radius= 2, color= "cyan")
                     bullets.append(projectiles)
                     current_shot = time.time()
-            #* Asteroids Control
+
+        #* Asteroids Control
             flying_asteroids.cyclic_boundary_condition()
             flying_asteroids.collision_detection()
             flying_asteroids.hit_detection(bullets)
             for aster in flying_asteroids.collection:
                 aster.move()
                 aster.draw(surface)
-            #* Bullet & Item control
-            #* Ufo control
+
+         #* Bullet & Item control
+         #* Ufo control
             ufo_handler.check_period()
             if ufo_handler.ufo != None:      
                 ufo_handler.draw_ufo(surface)
                 if ufo_handler.ufo.shoot():
                     bullets.append(ufo_handler.generate_projectile(ship))
                 ufo_handler.move_ufo()
+
             for bullet in bullets:
                 bullet.move()
                 bullet.draw(surface)
                 if bullet.hit:
-                    if random.randint(0,5) == 5 and len(ac_items) != 1:
+                    heart_exists = any(isinstance(i, item.Heart_Item) for i in ac_items)
+                    if random.randint(0,5) == 5 and not heart_exists:
                         heart_item = item.Heart_Item(bullet.pos, bullet.direction, speed= 2)
-                        spawn_time = pygame.time.get_ticks()
                         ac_items.append(heart_item)
-                # only keep the items for ITEM_SPAWN_TIME
-            ac_items = [active_item for active_item in ac_items if pygame.time.get_ticks() - spawn_time < active_item.spawn_time and 
-                        not active_item.hit]
+
+            # only keep the items for their spawn time
+            ac_items = [active_item for active_item in ac_items if pygame.time.get_ticks() - active_item.spawn_time < active_item.duration
+                         and not active_item.hit]
+            
             for active_item in ac_items:
                 active_item.draw(surface)
                 active_item.move()
-                # remove those bullets that have hit something or left the game window
+            
+            # remove those bullets that have hit something or left the game window
             bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
 
 
