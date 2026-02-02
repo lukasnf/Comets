@@ -16,8 +16,8 @@ if __name__ == "__main__":
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
-    DISPLAY_WIDTH = 1000
-    DISPLAY_HEIGHT = 1000
+    DISPLAY_WIDTH = 700
+    DISPLAY_HEIGHT = 700
     
     # frame per second
     FPS = 50
@@ -46,8 +46,12 @@ if __name__ == "__main__":
     
     #setting up titlescreen
     title_screen = True
-    title = text("ASTEROIDS", 80, "bad robots", "white", DISPLAY_WIDTH*0.253, DISPLAY_HEIGHT*0.35)
-    press_key = text("Press ENTER to start game", 40, "Arial", "white", 150, 450)
+    title = text("ASTEROIDS", 80, "bad robots", "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.35)
+    press_key = text("Press ENTER to start game", 40, "Arial", "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.66)
+
+    #setting up score-counter
+    score = 0
+    score_text = text(str(score).zfill(6), 40, "arial", "white", DISPLAY_WIDTH*0.085, DISPLAY_HEIGHT*0.1)
 
     # initiate sounds
     sounds = sound.Sounds()
@@ -119,12 +123,13 @@ if __name__ == "__main__":
 
         # Clear the screen by filling it with black color
         surface.fill(pygame.Color("black"))
-
+        #rendering screen
         if title_screen:
             title.draw(surface)
             press_key.draw(surface)
         else:
-            health_bar.draw(surface)
+            score_text.draw(surface) #draws score on surface
+            health_bar.draw(surface) #draws healthbar on surface
 
         #* Spaceship Control
             # Damage control
@@ -165,10 +170,11 @@ if __name__ == "__main__":
         #* Asteroids Control
             flying_asteroids.cyclic_boundary_condition()
             flying_asteroids.collision_detection()
-            flying_asteroids.hit_detection(bullets)
+            hit_list = flying_asteroids.hit_detection(bullets)
             for aster in flying_asteroids.collection:
                 aster.move()
                 aster.draw(surface)
+
 
          #* Bullet & Item control
          #* Ufo control
@@ -178,6 +184,16 @@ if __name__ == "__main__":
                 if ufo_handler.ufo.shoot():
                     bullets.append(ufo_handler.generate_projectile(ship))
                 ufo_handler.move_ufo()
+                  
+         #increase of score:
+            
+            
+            for asteroid in hit_list:
+                points = [20, 50, 100]  # points for level 0, 1, 2 asteroids
+
+                score += points[asteroid.level]
+                score_text.set(str(score).zfill(6))
+            bullets = [b for b in bullets if not b.hit]
 
             for bullet in bullets:
                 bullet.move()

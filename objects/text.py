@@ -25,7 +25,7 @@ class text():
 
         def render(self):
             self.surface = self.text_font.render(self.text_text, True, self.text_color)
-            self.rect = self.surface.get_rect(topleft=(self.text_x, self.text_y))
+            self.rect = self.surface.get_rect(center=(self.text_x, self.text_y))
 
         def set(self, new_text):
             self.text_text = new_text

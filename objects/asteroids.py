@@ -106,17 +106,24 @@ class Asteroids:
         asteriod2.pos += ((asteriod2.pos - asteriod1.pos) / dist) * overlap2
 
     def hit_detection(self, bullets):
-        for bullet in bullets:
+        hit_asteroids = []
+
+        for bullet in bullets:          
             if bullet.source != "ship":
                 continue
-            for asteriod in self.collection:
-                if (bullet.pos - asteriod.pos).length() < asteriod.radius:
+            if bullet.hit:
+                continue
+            for asteroid in list(self.collection):
+                if (bullet.pos - asteroid.pos).length() < asteroid.radius:
                     #Falls ein asteriod getroffen
                     bullet.hit = True
-                    self.collection.remove(asteriod)
-                    if asteriod.level > 0:
-                        self.spilt_asteriods(asteriod, bullet)
-                    return        
+                    
+                    self.collection.remove(asteroid)
+                    hit_asteroids.append(asteroid)
+                    if asteroid.level > 0:
+                        self.spilt_asteriods(asteroid, bullet)
+                    break
+        return hit_asteroids
                     
     def spilt_asteriods(self, asteriod, bullet):
         scattering_angle = random.randint(15, 50) # degrees
