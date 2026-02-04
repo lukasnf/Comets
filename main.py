@@ -16,8 +16,8 @@ if __name__ == "__main__":
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
-    DISPLAY_WIDTH = 700
-    DISPLAY_HEIGHT = 700
+    DISPLAY_WIDTH = 1000
+    DISPLAY_HEIGHT = 1000
     
     # frame per second
     FPS = 50
@@ -88,6 +88,10 @@ if __name__ == "__main__":
 
     # List of active items
     ac_items = []
+    # List of all item names
+    item_names = ["Heart_Item", "Shield_Item", "Rapid_Fire_Item"]
+    # List of all item classes
+    item_classes = [item.Heart_Item, item.Shield_Item, item.Rapid_Fire_Item]
 
     # Game loop
     while running:
@@ -100,7 +104,7 @@ if __name__ == "__main__":
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         title_screen = False
-
+                        
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP or event.key == pygame.K_w:
                     move_up = True
@@ -193,16 +197,16 @@ if __name__ == "__main__":
 
                 score += points[asteroid.level]
                 score_text.set(str(score).zfill(6))
-            bullets = [b for b in bullets if not b.hit]
-
+        
             for bullet in bullets:
                 bullet.move()
                 bullet.draw(surface)
                 if bullet.hit:
-                    heart_exists = any(isinstance(i, item.Heart_Item) for i in ac_items)
-                    if random.randint(0,5) == 5 and not heart_exists:
-                        heart_item = item.Heart_Item(bullet.pos, bullet.direction, speed= 2)
-                        ac_items.append(heart_item)
+                    item_exists = any(type(i).__name__ in item_names for i in ac_items)
+                    if random.randint(0,5) == 5 and not item_exists:
+                        random_item = random.choice(item_classes)
+                        current_item = random_item(bullet.pos, bullet.direction, speed= 2)
+                        ac_items.append(current_item)
 
             # only keep the items for their spawn time
             ac_items = [active_item for active_item in ac_items if pygame.time.get_ticks() - active_item.spawn_time < active_item.duration
