@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
     #setting up score-counter
     score = 0
-    score_text = Text(str(score).zfill(6), 40, "white", DISPLAY_WIDTH*0.085, DISPLAY_HEIGHT*0.1)
+    score_text = Text(str(score).zfill(6), 35, "white", DISPLAY_WIDTH*0.1, DISPLAY_HEIGHT*0.1)
 
     # initiate sounds
     sounds = sound.Sounds()
@@ -81,11 +81,10 @@ if __name__ == "__main__":
     ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
 
     # Initialize Healthbar 
-    health_bar = spaceship.Healthbar(height= 20, max_hp= MAX_HP) 
+    health_bar = spaceship.Healthbar(pos= (score_text.text_x, score_text.text_y), height= 20, max_hp= MAX_HP) 
 
     # Projectile list
     bullets = []
-
     # List of active items
     ac_items = []
     # List of all item names

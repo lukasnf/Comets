@@ -97,14 +97,14 @@ class Spaceship:
 
 class Healthbar:
 
-    def __init__(self, height, max_hp):
+    def __init__(self, pos, height, max_hp):
         self.hp = max_hp
         self.max_hp = max_hp
         self.height = height
-        self.pos = pygame.math.Vector2(30, 30)
+        self.pos = pos
 
     def draw(self, surface):
         ratio = self.hp / self.max_hp
-        pygame.draw.rect(surface, "red", (self.pos.x, self.pos.y, self.max_hp, self.height))
-        pygame.draw.rect(surface, "green", (self.pos.x, self.pos.y, self.max_hp * ratio, self.height))
+        pygame.draw.rect(surface, "red", (self.pos[0], self.pos[1], self.max_hp, self.height))
+        pygame.draw.rect(surface, "green", (self.pos[0], self.pos[1], self.max_hp * ratio, self.height))
         
