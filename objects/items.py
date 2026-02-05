@@ -45,7 +45,7 @@ class Heart_Item(Item):
 class Shield_Item(Item):
      
      def __init__(self, pos, direction, speed):
-          shield_png = "rapid_fire.png"
+          shield_png = "shield.png"
           path = IMAGES_DIR / shield_png
           self.duration = 1000 #in ms 
           super().__init__(pos, direction, speed, path)
