@@ -197,7 +197,7 @@ if __name__ == "__main__":
 
                 score += points[asteroid.level]
                 score_text.set(str(score).zfill(6))
-        
+            
             for bullet in bullets:
                 bullet.move()
                 bullet.draw(surface)
