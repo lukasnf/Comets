@@ -1,7 +1,10 @@
 import pygame
+from pathlib import Path
 
+BASE = Path(__file__).resolve().parent.parent
+FONT_DIR = BASE / "fonts"
 
-class text():
+class Text:
         """
         Class representing text on the screen. Text can't interact directly with the screen.
 
@@ -13,15 +16,18 @@ class text():
             text_y: y coordinate of the text
         """
 
-        def __init__(self, text_text, text_size, text_font, text_color, text_x, text_y):
+        def __init__(self, text_text, text_size, text_color, text_x, text_y):
             self.text_text = text_text
             self.text_size = text_size
-            self.text_font = pygame.font.SysFont(text_font, text_size)
             self.text_color = text_color
             self.text_x = text_x
             self.text_y = text_y
+            text_path = FONT_DIR / "Arcade.ttf"
+            self.text_font = pygame.font.Font(text_path, text_size)
 
             self.render()
+            
+            
 
         def render(self):
             self.surface = self.text_font.render(self.text_text, True, self.text_color)

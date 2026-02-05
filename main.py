@@ -6,7 +6,7 @@ import objects.ufo as ufo
 import objects.projectile as projectile
 import objects.items as item
 import objects.sounds as sound
-from objects.text import text
+from objects.text import Text
 import time
 import random
 
@@ -46,12 +46,12 @@ if __name__ == "__main__":
     
     #setting up titlescreen
     title_screen = True
-    title = text("ASTEROIDS", 80, "bad robots", "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.35)
-    press_key = text("Press ENTER to start game", 40, "Arial", "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.66)
+    title = Text("ASTEROIDS", 80, "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.35)
+    press_key = Text("Press ENTER to start game", 40, "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.66)
 
     #setting up score-counter
     score = 0
-    score_text = text(str(score).zfill(6), 40, "arial", "white", DISPLAY_WIDTH*0.085, DISPLAY_HEIGHT*0.1)
+    score_text = Text(str(score).zfill(6), 40, "white", DISPLAY_WIDTH*0.085, DISPLAY_HEIGHT*0.1)
 
     # initiate sounds
     sounds = sound.Sounds()
