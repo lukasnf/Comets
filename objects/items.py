@@ -9,12 +9,13 @@ IMAGES_DIR = BASE / "images"
 
 class Item(Flying_Object):
 
-    def __init__(self, pos, direction, speed, image_path):
+    def __init__(self, pos, direction, speed, png):
         super().__init__(pos, direction, speed)
+        image_path = IMAGES_DIR / png
         self.original_image = pygame.image.load(image_path).convert_alpha()
         
         self.size = [0,0]
-        self.end_size = [30,30]
+        self.end_size = [35,35]
         self.grow_speed= 2
         self.image = pygame.transform.scale(self.original_image, self.size)
         self.hit = False
@@ -33,32 +34,50 @@ class Item(Flying_Object):
             self.increase_size()
             item_rect = self.image.get_rect(center= self.pos)
             surface.blit(self.image, item_rect)
+          
+    def check_collision(coordinates):
+         pass
     
 class Heart_Item(Item):
      
      def __init__(self, pos, direction, speed):
-        heart_png= "heart pixel art 254x254.png"
-        path =  IMAGES_DIR / heart_png
+        heart_png = "heart pixel art 254x254.png"
         self.duration = 4000 #in ms
-        super().__init__(pos, direction, speed, path)
+        super().__init__(pos, direction, speed, heart_png)
 
 class Shield_Item(Item):
      
      def __init__(self, pos, direction, speed):
           shield_png = "shield.png"
-          path = IMAGES_DIR / shield_png
-          self.duration = 1000 #in ms 
-          super().__init__(pos, direction, speed, path)
+          self.duration = 3000 #in ms 
+          super().__init__(pos, direction, speed, shield_png)
         
 class Rapid_Fire_Item(Item):
      
      def __init__(self, pos, direction, speed):
-          fire_png = "rapid_fire.png"
-          path = IMAGES_DIR / fire_png
+          fire_png = "bullet.png"
           self.duration = 3500 #in ms
-          super().__init__(pos, direction, speed, path)
+          super().__init__(pos, direction, speed, fire_png)
 
+class Extra_Point_Item(Item):
+     
+     def __init__(self, pos, direction, speed):
+          coin_png = "coin.png"
+          self.duration = 2000 #in ms
+          super().__init__(pos, direction, speed, coin_png)
 
+class Feather_Item(Item):
 
+     def __init__(self, pos, direction, speed):
+          feather_png = "feather.png"
+          self.duration = 3000 #in ms
 
+          super().__init__(pos, direction, speed, feather_png)
+
+class Speed_Item(Item):
+
+     def __init__(self, pos, direction, speed):
+          speed_png = "speed.png"
+          self.duration = 3000 #in ms
+          super().__init__(pos, direction, speed, speed_png)
 

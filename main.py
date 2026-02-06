@@ -74,7 +74,7 @@ if __name__ == "__main__":
     ship = spaceship.Spaceship(color= "hotpink", width= 0)
 
     # Initialize asteroids
-    flying_asteroids = asteroids.Asteroids(max_number= 5,min_number= 2, window_height= DISPLAY_HEIGHT, 
+    flying_asteroids = asteroids.Asteroids(max_number= 20,min_number= 2, window_height= DISPLAY_HEIGHT, 
                                            window_width=DISPLAY_WIDTH, max_speed=5)
 
     # Initialize ufo Handler
@@ -88,9 +88,9 @@ if __name__ == "__main__":
     # List of active items
     ac_items = []
     # List of all item names
-    item_names = ["Heart_Item", "Shield_Item", "Rapid_Fire_Item"]
+    item_names = ["Heart_Item", "Shield_Item", "Rapid_Fire_Item", "Extra_Point_Item", "Feather_Item", "Speed_Item"]
     # List of all item classes
-    item_classes = [item.Heart_Item, item.Shield_Item, item.Rapid_Fire_Item]
+    item_classes = [item.Heart_Item, item.Shield_Item, item.Rapid_Fire_Item, item.Extra_Point_Item, item.Feather_Item, item.Speed_Item]
 
     # Game loop
     while running:
@@ -202,7 +202,7 @@ if __name__ == "__main__":
                 bullet.draw(surface)
                 if bullet.hit:
                     item_exists = any(type(i).__name__ in item_names for i in ac_items)
-                    if random.randint(0,5) == 5 and not item_exists:
+                    if random.randint(1,5) == 5 and not item_exists:
                         random_item = random.choice(item_classes)
                         current_item = random_item(bullet.pos, bullet.direction, speed= 2)
                         ac_items.append(current_item)
@@ -213,7 +213,7 @@ if __name__ == "__main__":
             
             for active_item in ac_items:
                 active_item.draw(surface)
-                active_item.move()
+                active_item.move()           
             
             # remove those bullets that have hit something or left the game window
             bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]

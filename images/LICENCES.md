@@ -18,3 +18,16 @@ License: Pixabay Content License
 Link to License: https://pixabay.com/service/license-summary/
 Usage Terms:
 Free to use, modify, and share without attribution. You are not allowed to sell the image as a standalone file or use it for trademarks or logos.
+
+4. bullet.png
+License: PNGEgg Terms of Service 
+Link to License: https://www.pngegg.com/tos
+Usage Terms: As all PNG images in PNGEgg are derived from the network users to share, so PNGEgg does not have sufficient monitoring capabilities to review the picture there are infringement and other circumstances. The user should consciously abide by the copyright law and other relevant laws and regulations, shall not infringe the legal rights of this site and the right holder, To PNGEgg and any third party losses, infringing users should bear full responsibility.
+
+5. coin.png
+License: PNGEgg Terms of Service 
+Link to License: https://www.pngegg.com/tos
+Usage Terms: As all PNG images in PNGEgg are derived from the network users to share, so PNGEgg does not have sufficient monitoring capabilities to review the picture there are infringement and other circumstances. The user should consciously abide by the copyright law and other relevant laws and regulations, shall not infringe the legal rights of this site and the right holder, To PNGEgg and any third party losses, infringing users should bear full responsibility.
+
+6. shield.png
+License: 
