@@ -81,7 +81,7 @@ if __name__ == "__main__":
     ship = spaceship.Spaceship(color= "hotpink", width= 0)
 
     # Initialize asteroids
-    flying_asteroids = asteroids.Asteroids(max_number= 20,min_number= 2, window_height= DISPLAY_HEIGHT, 
+    flying_asteroids = asteroids.Asteroids(max_number= 10,min_number= 2, window_height= DISPLAY_HEIGHT, 
                                            window_width=DISPLAY_WIDTH, max_speed=5)
 
     # Initialize ufo Handler
@@ -202,9 +202,7 @@ if __name__ == "__main__":
                     bullets.append(ufo_handler.generate_projectile(ship))
                 ufo_handler.move_ufo()
                   
-         #increase of score:
-            
-            
+         #increase of score:    
             for asteroid in hit_list:
                 points = [20, 50, 100]  # points for level 0, 1, 2 asteroids
 
