@@ -34,6 +34,7 @@ class Spaceship:
     def draw(self, surface):
         if self.alive:
             pygame.draw.polygon(surface, self.color, self.coordinates, self.width)
+        
     
     def center(self):
         """
