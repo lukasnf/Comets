@@ -17,7 +17,7 @@ if __name__ == "__main__":
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
     DISPLAY_WIDTH = 1000
-    DISPLAY_HEIGHT = 1000
+    DISPLAY_HEIGHT = 1000    
     
     # frame per second
     FPS = 50
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     #setting up titlescreen
     title_screen = True
     title = Text("ASTEROIDS", 80, "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.35)
-    press_key = Text("Press ENTER to start game", 40, "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.66)
+    press_key = Text("Press ENTER to START game", 40, "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.66)
 
     #setting up endscreen
     end_screen = False
@@ -81,8 +81,8 @@ if __name__ == "__main__":
     ship = spaceship.Spaceship(color= "hotpink", width= 0)
 
     # Initialize asteroids
-    flying_asteroids = asteroids.Asteroids(max_number= 20,min_number= 2, window_height= DISPLAY_HEIGHT, 
-                                           window_width=DISPLAY_WIDTH, max_speed=5)
+    flying_asteroids = asteroids.Asteroids(max_number= 6,min_number= 2, window_height= DISPLAY_HEIGHT, 
+                                           window_width=DISPLAY_WIDTH, max_speed=3  )
 
     # Initialize ufo Handler
     ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
@@ -237,7 +237,7 @@ if __name__ == "__main__":
                 game_over_start = pygame.time.get_ticks()
             game_over.draw(surface)      #transiotioning to the endscreen when spaceship dies
             
-            if pygame.time.get_ticks() - game_over_start > 6000:
+            if pygame.time.get_ticks() - game_over_start < 6000:
                 end_screen = True
                 
        
