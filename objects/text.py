@@ -41,7 +41,7 @@ class Text:
             #Method to write text on the screen
             screen.blit(self.surface, self.rect)
             
-        #def update_text(self):
+        def update_text(self):
             #Method to update text if change is needed. This is going to be used for the score and for user input
             self.surface = self.text_font.render(self.text_text, True, self.text_color) 
 

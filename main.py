@@ -16,8 +16,8 @@ if __name__ == "__main__":
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
-    DISPLAY_WIDTH = 700
-    DISPLAY_HEIGHT = 700
+    DISPLAY_WIDTH = 1000
+    DISPLAY_HEIGHT = 1000
     
     # frame per second
     FPS = 50
@@ -49,6 +49,13 @@ if __name__ == "__main__":
     title = Text("ASTEROIDS", 80, "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.35)
     press_key = Text("Press ENTER to start game", 40, "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.66)
 
+    #setting up endscreen
+    end_screen = False
+    game_over_start = pygame.time.get_ticks()
+    game_over = Text("GAME OVER", 45, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.25)
+    enter_name = Text("Enter your NAME", 40, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.38)
+    player_name = Text("", 50, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.5)
+    
     #setting up score-counter
     score = 0
     score_text = Text(str(score).zfill(6), 35, "white", DISPLAY_WIDTH*0.1, DISPLAY_HEIGHT*0.1)
@@ -103,6 +110,8 @@ if __name__ == "__main__":
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         title_screen = False
+            elif end_screen:
+                player_name.input_text(event)
                         
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP or event.key == pygame.K_w:
@@ -130,6 +139,10 @@ if __name__ == "__main__":
         if title_screen:
             title.draw(surface)
             press_key.draw(surface)
+        elif end_screen:
+            game_over.draw(surface)
+            enter_name.draw(surface)
+            player_name.draw(surface)
         else:
             score_text.draw(surface) #draws score on surface
             health_bar.draw(surface) #draws healthbar on surface
@@ -218,8 +231,16 @@ if __name__ == "__main__":
             
             # remove those bullets that have hit something or left the game window
             bullets = [bullet for bullet in bullets if not bullet.check_window(DISPLAY_WIDTH,DISPLAY_HEIGHT) and not bullet.hit]
-
-
+        
+        if not ship.alive and not end_screen:
+            if game_over_start is None:
+                game_over_start = pygame.time.get_ticks()
+            game_over.draw(surface)      #transiotioning to the endscreen when spaceship dies
+            
+            if pygame.time.get_ticks() - game_over_start > 6000:
+                end_screen = True
+                
+       
 
         # Normal game behavior
         pygame.display.update()
