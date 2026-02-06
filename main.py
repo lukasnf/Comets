@@ -136,11 +136,12 @@ if __name__ == "__main__":
 
         #* Spaceship Control
             # Damage control
-            if ship.check_collision(flying_asteroids.collection, bullets):
+            if ship.check_collision(flying_asteroids.collection, bullets) and ship.alive:
                 init_dmg = time.time()
                 if abs(current_dmg - init_dmg) >= DMG_COOLDOWN:
                     sounds.dmg_sound.play()
                     health_bar.hp -= DAMAGE
+                    ship.check_health(health_bar.hp)
                     current_dmg = time.time()
             else:
                 ship.draw(surface)

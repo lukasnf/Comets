@@ -14,6 +14,7 @@ class Spaceship:
         self.color = color
         self.velocity = pygame.math.Vector2(0,0)
         self.width = width
+        self.alive = True
 
     def move(self):
         """
@@ -26,9 +27,13 @@ class Spaceship:
         if self.velocity.length() < .3:
             self.velocity = pygame.math.Vector2(0,0)
         
+    def check_health(self, health):
+        if health <= 0:
+            self.alive = False
 
     def draw(self, surface):
-        pygame.draw.polygon(surface, self.color, self.coordinates, self.width)
+        if self.alive:
+            pygame.draw.polygon(surface, self.color, self.coordinates, self.width)
     
     def center(self):
         """
