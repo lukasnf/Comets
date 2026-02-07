@@ -55,7 +55,7 @@ class Text:
                     self.text_text = self.text_text[:-1]     #deletes last character if backspace is pressed
                 
                 elif event.key == pygame.K_RETURN:
-                    print("Eingabe abgeschlossen", self.text_text) #finishes user input if enter is pressed
+                    print("Eingabe abgeschlossen: Name lautet", self.text_text) #finishes user input if enter is pressed
 
                 else: 
                     if len(self.text_text) < 15:
