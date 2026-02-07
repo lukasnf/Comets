@@ -31,9 +31,10 @@ class Game:
         self.display_height = display_height
         self.display_width = display_width
         self.score_text = score_text
+        self.level = 1
+        #self.flying_asteroids = None
+        self.config_Level()
         self.ship = spaceship.Spaceship(color="hotpink", width=0)
-        self.flying_asteroids = asteroids.Asteroids(max_number= 4,min_number= 2, window_height= self.display_height, 
-                                           window_width= self.display_width, max_speed=5)
         self.ufo_handler = ufo.Ufo_Handler(display_width, display_height, 1)
         self.bullets = []
         self.ac_items = []
@@ -51,6 +52,16 @@ class Game:
         self.gameover = False
 
     def config_Level(self):
+        self.score = 0
+        match self.level:
+            case 1:
+                self.flying_asteroids = asteroids.Asteroids(max_number= 2,min_number= 2, window_height= self.display_height, 
+                                           window_width= self.display_width, max_speed=2)
+            case 2:
+                self.flying_asteroids = asteroids.Asteroids(max_number= 4,min_number= 3, window_height= self.display_height, 
+                                           window_width= self.display_width, max_speed=4)
+
+    def next_level(self):
         pass
 
     def update_game(self, surface, rotate_right, rotate_left, move_up, shoot):
@@ -101,7 +112,8 @@ class Game:
                 aster.move()
                 aster.draw(surface)
 
-
+            if len(self.flying_asteroids.collection) == 0:
+                self.next_level()
          #* Bullet & Item control
          #* Ufo control
             self.ufo_handler.check_period()
