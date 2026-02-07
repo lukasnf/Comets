@@ -54,8 +54,11 @@ if __name__ == "__main__":
     end_screen = False
     game_over_start = None
     game_over = Text("GAME OVER", 45, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.25)
-    enter_name = Text("Enter your NAME", 40, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.38)
+    enter_name = Text("Enter your NAME:", 40, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.38)
     player_name = Text("", 50, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.5)
+
+    #setting up leaderboard
+    
     
 
     # initiate sounds
