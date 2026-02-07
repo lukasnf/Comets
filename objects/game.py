@@ -4,6 +4,7 @@ import objects.ufo as ufo
 import objects.projectile as projectile
 import objects.items as item
 import objects.sounds as sound
+from objects.text import Text
 import random
 import time
 import pygame
@@ -30,9 +31,11 @@ class Game:
     def __init__(self, display_height, display_width, score_text):
         self.display_height = display_height
         self.display_width = display_width
+        self.level_label = Text("Level 1", 30, "white", self.display_width - 75, self.display_height*.1)
         self.score_text = score_text
+        # Initialize Healthbar 
+        self.health_bar = spaceship.Healthbar(pos= (self.score_text.text_x, self.score_text.text_y + self.score_text.text_size), height= 20, max_hp= MAX_HP) 
         self.level = 1
-        #self.flying_asteroids = None
         self.config_Level()
         self.ship = spaceship.Spaceship(color="hotpink", width=0)
         self.ufo_handler = ufo.Ufo_Handler(display_width, display_height, 1)
@@ -53,6 +56,7 @@ class Game:
 
     def config_Level(self):
         self.score = 0
+        self.health_bar.hp = self.health_bar.max_hp
         match self.level:
             case 1:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 2,min_number= 2, window_height= self.display_height, 
@@ -60,9 +64,14 @@ class Game:
             case 2:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 4,min_number= 3, window_height= self.display_height, 
                                            window_width= self.display_width, max_speed=4)
+            case 3:
+                self.flying_asteroids = asteroids.Asteroids(max_number= 6,min_number= 5, window_height= self.display_height, 
+                                           window_width= self.display_width, max_speed=4)
 
     def next_level(self):
-        pass
+        self.level += 1
+        self.level_label.set(f"Level {self.level}")
+        self.config_Level()
 
     def update_game(self, surface, rotate_right, rotate_left, move_up, shoot):
         #* Spaceship Control
@@ -114,6 +123,7 @@ class Game:
 
             if len(self.flying_asteroids.collection) == 0:
                 self.next_level()
+                return
          #* Bullet & Item control
          #* Ufo control
             self.ufo_handler.check_period()
@@ -154,6 +164,7 @@ class Game:
             # draw score and health bar
             self.score_text.draw(surface) #draws score on surface
             self.health_bar.draw(surface) #draws healthbar on surface
+            self.level_label.draw(surface)
 
 
         
