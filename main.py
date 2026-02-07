@@ -105,7 +105,7 @@ if __name__ == "__main__":
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         title_screen = False
-                    game = Game.Game(DISPLAY_HEIGHT, DISPLAY_WIDTH)
+                        game = Game.Game(DISPLAY_HEIGHT, DISPLAY_WIDTH)
             elif end_screen:
                 player_name.input_text(event)
                         
