@@ -22,8 +22,10 @@ class Text:
             self.text_color = text_color
             self.text_x = text_x
             self.text_y = text_y
+
             text_path = FONT_DIR / "Arcade.ttf"
             self.text_font = pygame.font.Font(text_path, text_size)
+            self.warning = ""
 
             self.render()
             
@@ -43,7 +45,9 @@ class Text:
             
         def update_text(self):
             #Method to update text if change is needed. This is going to be used for the score and for user input
-            self.surface = self.text_font.render(self.text_text, True, self.text_color) 
+            self.surface = self.text_font.render(self.text_text, True, self.text_color)
+            self.rect = self.surface.get_rect(center=(self.text_x, self.text_y))
+
 
         def input_text(self, event):
             if event.type == pygame.KEYDOWN:
@@ -54,7 +58,10 @@ class Text:
                     print("Eingabe abgeschlossen", self.text_text) #finishes user input if enter is pressed
 
                 else: 
-                    self.text_text += event.unicode
+                    if len(self) < 15:
+                        self.text_text += event.unicode
+                    else:
+                        self.warning = "NAME is to long"
 
                 self.update_text()              #updates the text, change will be seen on the text
 
