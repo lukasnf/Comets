@@ -58,7 +58,7 @@ class Text:
                     print("Eingabe abgeschlossen", self.text_text) #finishes user input if enter is pressed
 
                 else: 
-                    if len(self) < 15:
+                    if len(self.text_text) < 15:
                         self.text_text += event.unicode
                     else:
                         self.warning = "NAME is to long"
