@@ -42,9 +42,9 @@ class Game:
         self.bullets = []
         self.ac_items = []
         # List of all item names
-        self.item_names = ["Heart_Item", "Shield_Item", "Rapid_Fire_Item", "Extra_Point_Item", "Feather_Item", "Speed_Item"]
+        self.item_names = ["Heart_Item", "Rapid_Fire_Item"]
         # List of all item classes
-        self.item_classes = [item.Heart_Item, item.Shield_Item, item.Rapid_Fire_Item, item.Extra_Point_Item, item.Feather_Item, item.Speed_Item]
+        self.item_classes = [item.Heart_Item, item.Rapid_Fire_Item]
         # Initialize Healthbar 
         self.health_bar = spaceship.Healthbar(pos= (self.score_text.text_x, self.score_text.text_y + self.score_text.text_size), height= 20, max_hp= MAX_HP) 
         # initiate sounds
@@ -64,9 +64,13 @@ class Game:
             case 2:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 4,min_number= 3, window_height= self.display_height, 
                                            window_width= self.display_width, max_speed=4)
+                self.item_names.extend(["Extra_Point_Item", "Speed_Item"])
+                self.item_classes.extend([item.Extra_Point_Item, item.Speed_Item])
             case 3:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 6,min_number= 5, window_height= self.display_height, 
                                            window_width= self.display_width, max_speed=4)
+                self.item_names.extend(["Feather_Item", "Shield_Item"])
+                self.item_classes.extend([item.Feather_Item, item.Shield_Item])
 
     def next_level(self):
         self.level += 1
@@ -124,6 +128,7 @@ class Game:
             if len(self.flying_asteroids.collection) == 0:
                 self.next_level()
                 return
+            
          #* Bullet & Item control
          #* Ufo control
             self.ufo_handler.check_period()

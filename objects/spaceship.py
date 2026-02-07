@@ -1,5 +1,5 @@
 import pygame
-
+from objects.text import Text
 
 class Spaceship:
     """
