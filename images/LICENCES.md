@@ -29,5 +29,7 @@ License: PNGEgg Terms of Service
 Link to License: https://www.pngegg.com/tos
 Usage Terms: As all PNG images in PNGEgg are derived from the network users to share, so PNGEgg does not have sufficient monitoring capabilities to review the picture there are infringement and other circumstances. The user should consciously abide by the copyright law and other relevant laws and regulations, shall not infringe the legal rights of this site and the right holder, To PNGEgg and any third party losses, infringing users should bear full responsibility.
 
-6. shield.png
-License: 
+6. speed.png
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+Link to License: https://creativecommons.org/licenses/by/4.0/
+Usage Terms: Das Bild wurde vom Urheber selbst erstellt. Es darf frei verwendet, geteilt und angepasst werden, sofern der Name des Urhebers (Sarah Krause) genannt wird.

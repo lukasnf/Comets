@@ -47,7 +47,7 @@ class Heart_Item(Item):
         super().__init__(pos, direction, speed, heart_png)
      
      def apply(self, game):
-          game.healthbar.hp = game.healthbar.max_hp 
+          game.health_bar.hp = game.health_bar.max_hp 
           
 
 class Shield_Item(Item):
@@ -83,6 +83,7 @@ class Extra_Point_Item(Item):
      
      def apply(self, game):
           game.score += 100
+          game.score_text.set(str(game.score).zfill(6))
 
 
 class Feather_Item(Item):
@@ -90,14 +91,22 @@ class Feather_Item(Item):
      def __init__(self, pos, direction, speed):
           feather_png = "speed.png"
           self.duration = 3000 #in ms
-          self.end_size = [45,45]
+          self.end_size = [50,50]
           super().__init__(pos, direction, speed, feather_png)
+     
+     def apply(self, game):
+          for aster in game.flying_asteroids.collection:
+               aster.speed *= .5
 
 class Speed_Item(Item):
 
      def __init__(self, pos, direction, speed):
           speed_png = "speed.PNG"
           self.duration = 3000 #in ms
-          self.end_size = [45,45]
+          self.end_size = [50,50]
           super().__init__(pos, direction, speed, speed_png)
+     
+     def apply(self, game):
+          for aster in game.flying_asteroids.collection:
+               aster.max_speed *= 2 
 

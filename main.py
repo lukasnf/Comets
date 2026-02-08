@@ -8,8 +8,7 @@ import objects.items as item
 import objects.sounds as sound
 from objects.text import Text
 import objects.game as Game
-import time
-import random
+
 
 if __name__ == "__main__":
     pygame.init()
