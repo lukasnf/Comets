@@ -28,11 +28,11 @@ SHOT_COOLDOWN = .2 # in s
 
 class Game:
 
-    def __init__(self, display_height, display_width, score_text):
+    def __init__(self, display_height, display_width):
         self.display_height = display_height
         self.display_width = display_width
         self.level_label = Text("Level 1", 30, "white", self.display_width - 75, self.display_height*.1)
-        self.score_text = score_text
+        self.score_text = Text('0'.zfill(6), 35, "white", display_width*0.1, display_height*0.1)
         # Initialize Healthbar 
         self.health_bar = spaceship.Healthbar(pos= (self.score_text.text_x, self.score_text.text_y + self.score_text.text_size), height= 20, max_hp= MAX_HP) 
         self.level = 1
@@ -53,6 +53,8 @@ class Game:
         self.current_dmg = 0
         self.score = 0
         self.gameover = False
+        
+
 
     def config_Level(self):
         self.score = 0

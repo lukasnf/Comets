@@ -17,8 +17,8 @@ if __name__ == "__main__":
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
-    DISPLAY_WIDTH = 1000
-    DISPLAY_HEIGHT = 1000    
+    DISPLAY_WIDTH = 700
+    DISPLAY_HEIGHT = 700    
     
     # frame per second
     FPS = 50
@@ -52,14 +52,14 @@ if __name__ == "__main__":
 
     #setting up endscreen
     end_screen = False
-    game_over_start = pygame.time.get_ticks()
+    game_over_start = None
     game_over = Text("GAME OVER", 45, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.25)
-    enter_name = Text("Enter your NAME", 40, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.38)
+    enter_name = Text("Enter your NAME:", 40, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.38)
     player_name = Text("", 50, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.5)
+
+    #setting up leaderboard
     
-    #setting up score-counter
-    score = 0
-    score_text = Text(str(score).zfill(6), 35, "white", DISPLAY_WIDTH*0.1, DISPLAY_HEIGHT*0.1)
+    
 
     # initiate sounds
     sounds = sound.Sounds()
@@ -86,9 +86,6 @@ if __name__ == "__main__":
     # Initialize ufo Handler
     ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
 
-    # Initialize Healthbar 
-    health_bar = spaceship.Healthbar(pos= (score_text.text_x, score_text.text_y), height= 20, max_hp= MAX_HP) 
-
     # Projectile list
     bullets = []
     # List of active items
@@ -111,7 +108,7 @@ if __name__ == "__main__":
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         title_screen = False
-                    game = Game.Game(DISPLAY_HEIGHT, DISPLAY_WIDTH, score_text)
+                        game = Game.Game(DISPLAY_HEIGHT, DISPLAY_WIDTH)
             elif end_screen:
                 player_name.input_text(event)
                         
@@ -145,6 +142,8 @@ if __name__ == "__main__":
             game_over.draw(surface)
             enter_name.draw(surface)
             player_name.draw(surface)
+            score_end = Text(str(game.score), 40, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.78)
+            score_end.draw(surface)
 #        else:
 #
 #            score_text.draw(surface) #draws score on surface
@@ -249,7 +248,7 @@ if __name__ == "__main__":
                     game_over_start = pygame.time.get_ticks()
                 game_over.draw(surface)      #transiotioning to the endscreen when spaceship dies
 
-                if pygame.time.get_ticks() - game_over_start > 6000:
+                if pygame.time.get_ticks() - game_over_start >3000:
                     end_screen = True                
        
 
