@@ -150,8 +150,8 @@ if __name__ == "__main__":
             game_over.draw(surface)
             enter_name.draw(surface)
             player_name.draw(surface)
-            score_end = Text(str(game.score), 40, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.78)
-            score_end.draw(surface)
+            #score_end = Text(str(game.score), 40, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.78)
+            #score_end.draw(surface)
 #        else:
 #
 #            score_text.draw(surface) #draws score on surface
