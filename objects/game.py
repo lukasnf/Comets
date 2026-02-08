@@ -53,6 +53,10 @@ class Game:
         self.current_dmg = 0
         self.score = 0
         self.gameover = False
+        self.shield_time = 0
+        self.rapid_fire_time = 0
+        self.speed_time = 0
+        self.feather_time = 0
 
 
     def config_Level(self):
@@ -82,10 +86,15 @@ class Game:
         #* Spaceship Control
             # Damage control
             if self.ship.check_collision(self.flying_asteroids.collection, self.bullets) and self.ship.alive:
+                if pygame.time.get_ticks() < self.shield_time:
+                    dealt_damage = 0
+                else:
+                    dealt_damage = DAMAGE
                 init_dmg = time.time()
                 if abs(self.current_dmg - init_dmg) >= DMG_COOLDOWN:
-                    self.sounds.dmg_sound.play()
-                    self.health_bar.hp -= DAMAGE
+                    if dealt_damage > 0 :
+                        self.sounds.dmg_sound.play()
+                    self.health_bar.hp -= dealt_damage
                     self.ship.check_health(self.health_bar.hp)
                     self.current_dmg = time.time()
             else:
@@ -107,8 +116,13 @@ class Game:
             self.ship.check_window(self.display_width, self.display_height)
             # Shooting control, with shoot cooldown
             if shoot and self.ship.alive:
+                if pygame.time.get_ticks() < self.rapid_fire_time:
+                    s_cooldown = 0
+                else:
+                    s_cooldown = SHOT_COOLDOWN
+                    
                 init_shot = time.time()
-                if abs(self.current_shot - init_shot) >= SHOT_COOLDOWN:
+                if abs(self.current_shot - init_shot) >= s_cooldown:
                     self.sounds.shooting_sound.play()
                     projectiles = projectile.Projectile(self.ship.coordinates[-1], self.ship.direction, 
                                                         B_SPEED, "ship" ,radius= 2, color= "cyan")
@@ -160,7 +174,7 @@ class Game:
                 active_item.draw(surface)
                 active_item.move()           
                 if active_item.check_collision(self.ship.coordinates):
-                    self.sounds.dmg_sound.play()
+                    active_item.apply(self)
 
             # only keep the items for their spawn time
             self.ac_items = [active_item for active_item in self.ac_items if pygame.time.get_ticks() - active_item.spawn_time < active_item.duration
