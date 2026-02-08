@@ -43,7 +43,9 @@ if __name__ == "__main__":
     current_dmg = 0
     
     # create the main screen
-    surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
+    #surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
+    surface = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+    DISPLAY_WIDTH, DISPLAY_HEIGHT = surface.get_size()
     
     #setting up titlescreen
     title_screen = True
@@ -124,6 +126,8 @@ if __name__ == "__main__":
                     shoot = True
                 if event.key == pygame.K_n:
                     cheat = True
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP or event.key == pygame.K_w:
