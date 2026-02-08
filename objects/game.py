@@ -155,13 +155,15 @@ class Game:
                         current_item = random_item(bullet.pos, bullet.direction, speed= 2)
                         self.ac_items.append(current_item)
 
-            # only keep the items for their spawn time
-            self.ac_items = [active_item for active_item in self.ac_items if pygame.time.get_ticks() - active_item.spawn_time < active_item.duration
-                         and not active_item.hit]
-            
             for active_item in self.ac_items:
                 active_item.draw(surface)
                 active_item.move()           
+                if active_item.check_collision(self.ship.coordinates):
+                    self.sounds.dmg_sound.play()
+
+            # only keep the items for their spawn time
+            self.ac_items = [active_item for active_item in self.ac_items if pygame.time.get_ticks() - active_item.spawn_time < active_item.duration
+                         and not active_item.hit]
             
             # remove those bullets that have hit something or left the game window
             self.bullets = [bullet for bullet in self.bullets if not bullet.check_window(self.display_width, self.display_height) and not bullet.hit]

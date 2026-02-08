@@ -88,9 +88,6 @@ class Spaceship:
              any((pos - bullet.pos).length() < 5 for pos in self.coordinates + [self.midpoint] for bullet in bullets)):
             return True 
 
-    def draw_thrust(self, surface):
-        pass
-
     def __str__(self):
         """
         String representation of the spaceship's current state, including position and velocity.
