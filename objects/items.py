@@ -1,9 +1,6 @@
 import pygame
 from objects.flying_object import Flying_Object
 from pathlib import Path
-from objects.spaceship import Healthbar, Spaceship
-
-
 
 BASE = Path(__file__).resolve().parent.parent
 IMAGES_DIR = BASE / "images"
@@ -49,8 +46,8 @@ class Heart_Item(Item):
         self.end_size = [30,30]
         super().__init__(pos, direction, speed, heart_png)
      
-     def apply(self, healthbar):
-          healthbar.hp = healthbar.max_hp 
+     def apply(self, game):
+          game.healthbar.hp = game.healthbar.max_hp 
           
 
 class Shield_Item(Item):
@@ -61,13 +58,10 @@ class Shield_Item(Item):
           self.end_size = [50,50]
           super().__init__(pos, direction, speed, shield_png)
      
-     def apply(self, damage):
-          dmg == damage
-          if pygame.time.get_ticks() - self.apply_time < 4000:
-               dmg = 0
-          else:
-               dmg = damage
-        
+     def apply(self, game):
+          game.shield_time = pygame.time.get_ticks() + 4000
+     
+          
 class Rapid_Fire_Item(Item):
      
      def __init__(self, pos, direction, speed):
@@ -76,6 +70,9 @@ class Rapid_Fire_Item(Item):
           self.end_size = [30,30]
           super().__init__(pos, direction, speed, fire_png)
 
+     def apply(self, game):
+          game.rapid_fire_time = pygame.time.get_ticks() + 2500
+
 class Extra_Point_Item(Item):
      
      def __init__(self, pos, direction, speed):
@@ -83,12 +80,15 @@ class Extra_Point_Item(Item):
           self.duration = 5000 #in ms
           self.end_size = [40,40]
           super().__init__(pos, direction, speed, coin_png)
+     
+     def apply(self, game):
+          game.score += 100
 
 
 class Feather_Item(Item):
 
      def __init__(self, pos, direction, speed):
-          feather_png = "bullet.png"
+          feather_png = "speed.png"
           self.duration = 3000 #in ms
           self.end_size = [45,45]
           super().__init__(pos, direction, speed, feather_png)
@@ -96,8 +96,8 @@ class Feather_Item(Item):
 class Speed_Item(Item):
 
      def __init__(self, pos, direction, speed):
-          speed_png = "bullet.png"
+          speed_png = "speed.PNG"
           self.duration = 3000 #in ms
-          self.end_size = [40,40]
+          self.end_size = [45,45]
           super().__init__(pos, direction, speed, speed_png)
 
