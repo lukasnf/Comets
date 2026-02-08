@@ -43,7 +43,9 @@ if __name__ == "__main__":
     current_dmg = 0
     
     # create the main screen
-    surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
+    #surface = pygame.display.set_mode(size=(DISPLAY_WIDTH, DISPLAY_HEIGHT))
+    surface = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+    DISPLAY_WIDTH, DISPLAY_HEIGHT = surface.get_size()
     
     #setting up titlescreen
     title_screen = True
@@ -74,6 +76,7 @@ if __name__ == "__main__":
     rotate_left = False
     rotate_right = False
     shoot = False 
+    cheat = False
     # Create game objects before entering the loop
     
     # Initialize spaceship
@@ -121,6 +124,10 @@ if __name__ == "__main__":
                     rotate_right = True
                 if event.key == pygame.K_SPACE:
                     shoot = True
+                if event.key == pygame.K_n:
+                    cheat = True
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP or event.key == pygame.K_w:
@@ -131,6 +138,8 @@ if __name__ == "__main__":
                     rotate_right = False
                 if event.key == pygame.K_SPACE:
                     shoot = False
+                if event.key == pygame.K_n:
+                    cheat = False
 
         # Clear the screen by filling it with black color
         surface.fill(pygame.Color("black"))
@@ -242,7 +251,8 @@ if __name__ == "__main__":
 #            if pygame.time.get_ticks() - game_over_start < 6000:
 #                end_screen = True
         if game != None:
-            game.update_game(surface, rotate_right, rotate_left, move_up, shoot)
+            game.update_game(surface, rotate_right, rotate_left, move_up, shoot, cheat)
+            cheat = False
             if game.gameover and not end_screen:
                 if game_over_start is None:
                     game_over_start = pygame.time.get_ticks()

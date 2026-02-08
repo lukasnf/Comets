@@ -82,7 +82,7 @@ class Game:
         self.level_label.set(f"Level {self.level}")
         self.config_Level()
 
-    def update_game(self, surface, rotate_right, rotate_left, move_up, shoot):
+    def update_game(self, surface, rotate_right, rotate_left, move_up, shoot, cheat):
         #* Spaceship Control
             # Damage control
             if self.ship.check_collision(self.flying_asteroids.collection, self.bullets) and self.ship.alive:
@@ -140,7 +140,7 @@ class Game:
                 aster.move()
                 aster.draw(surface)
 
-            if len(self.flying_asteroids.collection) == 0:
+            if len(self.flying_asteroids.collection) == 0 or cheat:
                 self.next_level()
                 return
             
