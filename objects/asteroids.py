@@ -29,37 +29,13 @@ class Asteroids:
             a Asteroids
         """
         level = random.randint(0, 2)
-        #if random.randint(0, 1):
-        #    # x is first choice
-        #    x = random.randint(-radius, self.window_width + radius)
-        #    is_on_the_top = random.randint(0, 1)
-        #    y = -radius if is_on_the_top  else self.window_height + radius
-        #    dx = random.randint(-self.max_speed, self.max_speed)
-        #    dy = (1 if is_on_the_top else -1) * random.randint(0, self.max_speed)
-        #else:
-        #    # y is first choice
-        #    y = random.randint(-radius, self.window_height + radius)
-        #    is_on_the_left = random.randint(0, 1)
-        #    x = -radius if is_on_the_left else self.window_width + radius
-        #    dy = random.randint(-self.max_speed, self.max_speed)
-        #    dx = (1 if is_on_the_left else -1) * random.randint(0, self.max_speed)
-        #return Asteroid(level, x, y, dx, dy)
         return Asteroid(level, window_width=self.window_width, window_height=self.window_height, max_speed=self.max_speed)
     
     def cyclic_boundary_condition(self):
         """
         proofs whether a asteroid is outside the window and do not come back.
         """
-        #for aster in self.collection:
-        #    if (aster.pos[0] < -ASTEROID_SIZES[2] and aster.direction[0] < 0):
-        #        aster.pos[0] = self.window_width + ASTEROID_SIZES[2]
-        #    elif (aster.pos[0] > self.window_width + ASTEROID_SIZES[2] and aster.direction[0] > 0):
-        #        aster.pos[0] = -ASTEROID_SIZES[2]
-        #    
-        #    if (aster.pos[1] < -ASTEROID_SIZES[2] and aster.direction[1] < 0):
-        #        aster.pos[1] = self.window_height + ASTEROID_SIZES[2]
-        #    elif (aster.pos[1] > self.window_height + ASTEROID_SIZES[2] and aster.direction[1] > 0):
-        #        aster.pos[1] = -ASTEROID_SIZES[2]
+
         for aster in self.collection:
             if (aster.pos[0] < -aster.radius and aster.direction[0] < 0):
                 aster.pos[0] = self.window_width + aster.radius

@@ -63,8 +63,6 @@ if __name__ == "__main__":
     #setting up leaderboard
     leaderboard = Leaderboard(DISPLAY_WIDTH, DISPLAY_HEIGHT)
 
-    
-
     # initiate sounds
     sounds = sound.Sounds()
 

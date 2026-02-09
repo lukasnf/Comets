@@ -23,23 +23,7 @@ class Flying_Object:
         """
         self.pos = self.pos + self.direction * self.speed
 
-    def generate_random_border_startpos(self, object_width, object_height, window_width, window_height, max_speed):
-        #if random.randint(0, 1):
-        #    # x is first choice
-        #    self.pos[0] = random.randint(int(-object_width/2), int(window_width + object_width/2))
-        #    is_on_the_top = random.randint(0, 1)
-        #    self.pos[1] = -object_height/2 if is_on_the_top  else window_height + object_height/2
-        #    self.direction[0] = random.uniform(-1, 1)
-        #    self.direction[1] = (1 if is_on_the_top else -1) * random.uniform(0.1, 1)
-        #else:
-        #    # y is first choice
-        #    self.pos[1] = random.randint(int(-object_height/2), int(window_height + object_height/2))
-        #    is_on_the_left = random.randint(0, 1)
-        #    self.pos[0] = -object_height/2 if is_on_the_left  else window_height + object_width/2
-        #    self.direction[1] = random.uniform(-1, 1)
-        #    self.direction[0] = (1 if is_on_the_left else -1) * random.uniform(0.1, 1)
-        #self.direction = self.direction / self.direction.length()
-        #self.speed = random.uniform(0.1, max_speed)
+    def generate_random_border_startpos(self, object_width, object_height, window_width, window_height, max_speed=None, speed=None):
         if random.randint(0, 1):
             # x is first choice
             x = random.randint(int(-object_width/2), int(window_width + object_width/2))
@@ -56,4 +40,7 @@ class Flying_Object:
             dx = (1 if is_on_the_left else -1) * random.uniform(0.1, 1)
         self.pos = pygame.math.Vector2(x,y)
         self.direction = pygame.math.Vector2(dx, dy).normalize()
-        self.speed = random.uniform(0.5, max_speed)
+        if max_speed != None:
+            self.speed = random.uniform(0.5, max_speed)
+        elif speed != None:
+            self.speed = speed

@@ -85,7 +85,7 @@ class Spaceship:
     def check_collision(self, asteroid_list, bullets):
         self.center()
         if (any((pos - aster.pos).length() < aster.radius for pos in self.coordinates + [self.midpoint] for aster in asteroid_list) or
-             any((pos - bullet.pos).length() < 10 for pos in self.coordinates + [self.midpoint] for bullet in bullets)):
+             any((pos - bullet.pos).length() < 20 and bullet.source != "ship" for pos in self.coordinates + [self.midpoint] for bullet in bullets)):
             return True 
 
     def __str__(self):

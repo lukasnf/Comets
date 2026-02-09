@@ -13,7 +13,7 @@ class Ufo_Handler:
         self.time = pygame.time.get_ticks()
         self.period = period_s * 1000 # in ms
         self.ufo = None
-        self.max_speed = 4
+        self.max_speed = 3
         self.generate_ufo()
 
     def check_period(self):
@@ -31,45 +31,25 @@ class Ufo_Handler:
         self.ufo.draw(surface)
 
     def generate_ufo(self):
-        #if random.randint(0, 1):
-        #    # x is first choice
-        #    x = random.randint(int(-Ufo.width/2), int(self.window_width + Ufo.width/2))
-        #    is_on_the_top = random.randint(0, 1)
-        #    y = -Ufo.height/2 if is_on_the_top  else self.window_height + Ufo.height/2
-        #    dx = random.randint(-self.max_speed, self.max_speed)
-        #    dy = (1 if is_on_the_top else -1) * random.randint(0, self.max_speed)
-        #else:
-        #    # y is first choice
-        #    y = random.randint(int(-Ufo.height/2), int(self.window_height + Ufo.height/2))
-        #    is_on_the_left = random.randint(0, 1)
-        #    x = -Ufo.width/2 if is_on_the_left else self.window_width + Ufo.width/2
-        #    dy = random.randint(-self.max_speed, self.max_speed)
-        #    dx = (1 if is_on_the_left else -1) * random.randint(0, self.max_speed)
-        #self.ufo = Ufo(x, y, dx, dy)
         self.ufo = Ufo(self.window_height, self.window_width, self.max_speed) 
 
     def generate_projectile(self, aim):
-        return projectile.Projectile(self.ufo.pos, pygame.math.Vector2.normalize(aim.center() - self.ufo.pos), self.ufo.speed * 2, "ufo", color="green")
+        return projectile.Projectile(self.ufo.get_center(), pygame.math.Vector2.normalize(aim.center() - self.ufo.pos), self.ufo.speed * 2, "ufo", color="green")
 
 class Ufo(flying_object.Flying_Object):
     width = 70 
     height = 30
 
-    #def __init__(self, x, y, dx, dy, speed=1, cooldown=1000):
-    #    self.color_metal = "grey"
-    #    self.color_glass = "aqua"
-    #    self.time = pygame.time.get_ticks()
-    #    self.cooldown = cooldown
-    #    flying_object.Flying_Object.__init__(self, pygame.math.Vector2([x, y]), pygame.math.Vector2([dx, dy]), speed)
-
-    def __init__(self, window_width, window_height, max_speed, speed=1, cooldown=1000):
+    def __init__(self, window_width, window_height, max_speed, cooldown=1000):
         self.color_metal = "grey"
         self.color_glass = "aqua"
         self.time = pygame.time.get_ticks()
         self.cooldown = cooldown
         flying_object.Flying_Object.__init__(self)
-        flying_object.Flying_Object.generate_random_border_startpos(self, Ufo.width, Ufo.height, window_width, window_height, max_speed)
+        flying_object.Flying_Object.generate_random_border_startpos(self, Ufo.width, Ufo.height, window_width, window_height, speed=max_speed)
 
+    def get_center(self):
+        return pygame.math.Vector2(self.pos.x + Ufo.width/2, self.pos.y + Ufo.height/2)
 
     def shoot(self):
         if pygame.time.get_ticks() > self.time + self.cooldown:
