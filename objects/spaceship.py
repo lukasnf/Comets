@@ -5,7 +5,7 @@ class Spaceship:
     """
 
     """
-    friction = .97
+    friction = .98
 
     def __init__(self, color, width=0):
         self.coordinates = [(440,770),(455,765),(470,770),(455,730)]

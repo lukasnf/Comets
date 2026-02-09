@@ -136,7 +136,7 @@ class Game:
             if pygame.time.get_ticks() < self.feather_time :
                 speed_factor = .5
             elif pygame.time.get_ticks() < self.speed_time:
-                speed_factor = 2
+                speed_factor = 4
             else: speed_factor = 1
                 
             self.flying_asteroids.cyclic_boundary_condition()
@@ -182,6 +182,7 @@ class Game:
                 active_item.draw(surface)
                 active_item.move()           
                 if active_item.check_collision(self.ship.coordinates):
+                    self.sounds.item_pickup.play()
                     active_item.apply(self)
 
             # only keep the items for their spawn time

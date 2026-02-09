@@ -33,3 +33,9 @@ Usage Terms: As all PNG images in PNGEgg are derived from the network users to s
 License: Creative Commons Attribution 4.0 International (CC BY 4.0)
 Link to License: https://creativecommons.org/licenses/by/4.0/
 Usage Terms: Das Bild wurde vom Urheber selbst erstellt. Es darf frei verwendet, geteilt und angepasst werden, sofern der Name des Urhebers (Sarah Krause) genannt wird.
+
+7. item.pickup.mp3
+License: Pixabay Content License 
+Link to License: https://pixabay.com/service/license-summary/
+Usage Terms:
+Free to use, modify, and share without attribution. You are not allowed to sell the image as a standalone file or use it for trademarks or logos.

@@ -22,7 +22,7 @@ class Item(Flying_Object):
         """
         Initializes an Item with its specific porperties.
         
-        Parameters:
+        Attributes:
           pos (pygame.Vector2): position vector for the item.
           direction (pygame.Vector2): direction vector, which dictates further movement.
           speed (float): float, which scales the direction vector.
@@ -53,7 +53,7 @@ class Item(Flying_Object):
             """
             Draws the item by creating a pygame rect around it.
             
-            Parameters:
+            Attributes:
                surface: pygame game window on which sould be drawn.
             """
             self.increase_size()
@@ -64,7 +64,7 @@ class Item(Flying_Object):
          """
          Checks if the item gets obained by the spaceship. 
          
-          Parameters:
+          Attributes:
                cooridnates (list): list of the spaceship's coordinates.
 
           Returns:
@@ -98,7 +98,7 @@ class Heart_Item(Item):
           """
           Sets the spaceship's health to maximum.
 
-           Parameters:
+           Attributes:
                game (class): Game class in which all objects are initialized.
           """
           game.health_bar.hp = game.health_bar.max_hp 
@@ -178,23 +178,48 @@ class Extra_Point_Item(Item):
 
 
 class Feather_Item(Item):
-
+     """
+     Item, which reduces the opponents speed.
+     """
      def __init__(self, pos, direction, speed):
+          """
+          Initializes specific item attributes.
+
+          Attributes:
+               duration (float): spawn duration of the extra point item.
+               end_size (list): maximum x,y size of the item image.
+          """
           feather_png = "speed.png"
           self.duration = 3000 #in ms
           self.end_size = [50,50]
           super().__init__(pos, direction, speed, feather_png)
      
      def apply(self, game):
+          """
+          Defines how long the item should show its effect.
+          """
           game.feather_time = pygame.time.get_ticks() + 4000
 
 class Speed_Item(Item):
+     """
+     Item, which increases the opponets speed.
+     """
 
      def __init__(self, pos, direction, speed):
+          """
+          Initializes specific item attributes.
+
+          Attributes:
+               duration (float): spawn duration of the extra point item.
+               end_size (list): maximum x,y size of the item image.
+          """
           speed_png = "speed.PNG"
           self.duration = 3000 #in ms
           self.end_size = [50,50]
           super().__init__(pos, direction, speed, speed_png)
      
      def apply(self, game):
-          game.speed_time = pygame.time.get_ticks() + 3000
+          """
+          Defines how long the item should show its effect.
+          """
+          game.speed_time = pygame.time.get_ticks() + 5000

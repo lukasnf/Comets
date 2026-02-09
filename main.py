@@ -265,4 +265,4 @@ if __name__ == "__main__":
         pygame.display.update()
         clock.tick(FPS)
 
-    pygame.quit()  # Call the quit() method outside the while loop to end the application.
+    pygame.quit()  # Call the quit() method outside the while loop to end the application.d
