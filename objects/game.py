@@ -92,7 +92,7 @@ class Game:
                     dealt_damage = DAMAGE
                 init_dmg = time.time()
                 if abs(self.current_dmg - init_dmg) >= DMG_COOLDOWN:
-                    if dealt_damage > 0 :
+                    if dealt_damage > 0:
                         self.sounds.dmg_sound.play()
                     self.health_bar.hp -= dealt_damage
                     self.ship.check_health(self.health_bar.hp)
@@ -133,10 +133,17 @@ class Game:
                 self.gameover = True
 
         #* Asteroids Control
+            if pygame.time.get_ticks() < self.feather_time :
+                speed_factor = .5
+            elif pygame.time.get_ticks() < self.speed_time:
+                speed_factor = 2
+            else: speed_factor = 1
+                
             self.flying_asteroids.cyclic_boundary_condition()
             self.flying_asteroids.collision_detection()
             hit_list = self.flying_asteroids.hit_detection(self.bullets)
             for aster in self.flying_asteroids.collection:
+                aster.speed *= speed_factor
                 aster.move()
                 aster.draw(surface)
 
