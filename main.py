@@ -91,6 +91,15 @@ if __name__ == "__main__":
                 new_state = title_screen.handle_event(event)
                 if new_state == "play":
                     game = Game.Game(DISPLAY_HEIGHT, DISPLAY_WIDTH)
+                    end_screen.player_name.set("")
+
+                    move_up = False
+                    rotate_left = False
+                    rotate_right = False
+                    shoot = False
+                    cheat = False
+                
+
                     state = "play"
 
             
