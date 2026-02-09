@@ -7,6 +7,10 @@ import objects.projectile as projectile
 import objects.items as item
 import objects.sounds as sound
 from objects.text import Text
+from objects.highscore import Highscore
+from objects.titlescreen import Titlescreen
+from objects.endscreen import Endscreen
+from objects.leaderboard import Leaderboard
 import objects.game as Game
 
 
@@ -46,20 +50,19 @@ if __name__ == "__main__":
     surface = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
     DISPLAY_WIDTH, DISPLAY_HEIGHT = surface.get_size()
     
+
+    #setting up state machine:
+    state = "title"
+
     #setting up titlescreen
-    title_screen = True
-    title = Text("ASTEROIDS", 80, "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.35)
-    press_key = Text("Press ENTER to START game", 40, "white", DISPLAY_WIDTH*0.5, DISPLAY_HEIGHT*0.66)
+    title_screen = Titlescreen(DISPLAY_WIDTH, DISPLAY_HEIGHT)
 
     #setting up endscreen
-    end_screen = False
-    game_over_start = None
-    game_over = Text("GAME OVER", 45, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.25)
-    enter_name = Text("Enter your NAME:", 40, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.38)
-    player_name = Text("", 50, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.5)
+    end_screen = Endscreen(DISPLAY_WIDTH, DISPLAY_HEIGHT)
 
     #setting up leaderboard
-    
+    leaderboard = Leaderboard(DISPLAY_WIDTH, DISPLAY_HEIGHT)
+
     
 
     # initiate sounds
@@ -86,60 +89,76 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT:
                 running = False  # Exit the game when the window is closed
 
-            if title_screen:    #creating title screen
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        title_screen = False
-                        game = Game.Game(DISPLAY_HEIGHT, DISPLAY_WIDTH)
-            elif end_screen:
-                player_name.input_text(event)
-                        
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP or event.key == pygame.K_w:
-                    move_up = True
-                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                    rotate_left = True
-                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                    rotate_right = True
-                if event.key == pygame.K_SPACE:
-                    shoot = True
-                if event.key == pygame.K_n:
-                    cheat = True
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
+            if state == "title":
+                new_state = title_screen.handle_event(event)
+                if new_state == "play":
+                    game = Game.Game(DISPLAY_HEIGHT, DISPLAY_WIDTH)
+                    state = "play"
 
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_UP or event.key == pygame.K_w:
-                    move_up = False
-                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                    rotate_left = False
-                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                    rotate_right = False
-                if event.key == pygame.K_SPACE:
-                    shoot = False
-                if event.key == pygame.K_n:
-                    cheat = False
+            
+                        
+            elif state == "play":
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP or event.key == pygame.K_w:
+                        move_up = True
+                    if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                        rotate_left = True
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                        rotate_right = True
+                    if event.key == pygame.K_SPACE:
+                        shoot = True
+                    if event.key == pygame.K_n:
+                        cheat = True
+                    if event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_UP or event.key == pygame.K_w:
+                        move_up = False
+                    if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+                        rotate_left = False
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                        rotate_right = False
+                    if event.key == pygame.K_SPACE:
+                        shoot = False
+                    if event.key == pygame.K_n:
+                        cheat = False
+
+            elif state == "endscreen":
+                new_state = end_screen.handle_event(event)
+                if new_state == "leaderboard":
+                    hs = Highscore.Highscore()
+                    hs.load_highscore()
+                    hs.write_highscore(end_screen.player_name.text_text, game.score)
+                    leaderboard = Leaderboard(DISPLAY_WIDTH, DISPLAY_HEIGHT)
+                    state = "leaderboard"
+            
+            elif state == "leaderboard":
+                new_state = leaderboard.handle_event(event)
+                if new_state == "title":
+                    state = "title"
+
 
         # Clear the screen by filling it with black color
         surface.fill(pygame.Color("black"))
         #rendering screen
-        if title_screen:
-            title.draw(surface)
-            press_key.draw(surface)            
-        elif end_screen:
-            game_over.draw(surface)
-            enter_name.draw(surface)
-            player_name.draw(surface)
-            #score_end = Text(str(game.score), 40, "white", DISPLAY_WIDTH*.5, DISPLAY_HEIGHT*.78)
-            #score_end.draw(surface)
-#        
-        if game != None:
+        if state == "title":
+            title_screen.draw(surface)
+        elif state == "play":
             game.update_game(surface, rotate_right, rotate_left, move_up, shoot, cheat)
             cheat = False
+            if game.gameover:
+                state = "endscreen"
+        elif state == "endscreen":
+            end_screen.draw(surface)
+        elif state == "leaderboard":
+            leaderboard.draw(surface)
+#        
+        if game != None:
             if game.gameover and not end_screen:
                 if game_over_start is None:
                     game_over_start = pygame.time.get_ticks()
-                game_over.draw(surface)      #transiotioning to the endscreen when spaceship dies
+                #game_over.draw(surface)      #transiotioning to the endscreen when spaceship dies
 
                 if pygame.time.get_ticks() - game_over_start > 3000:
                     end_screen = True                

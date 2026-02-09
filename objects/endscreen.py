@@ -1,5 +1,5 @@
 import pygame
-import objects.text as Text
+from objects.text import Text
 
 class Endscreen:
     """"""
@@ -16,7 +16,7 @@ class Endscreen:
         
         self.player_name.input_text(event)
         
-        return None
+        return "endscreen"
     
     def draw(self, surface):
         self.game_over.draw(surface)

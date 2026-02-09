@@ -1,5 +1,5 @@
 import pygame
-import objects.text as Text
+from objects.text import Text
 
 class Titlescreen:
     """
@@ -15,7 +15,7 @@ class Titlescreen:
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                return "start_game"
+                return "play"
 
     
     def draw(self, surface):

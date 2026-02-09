@@ -1,7 +1,6 @@
 import pygame
-import objects.highscore as Highscore
-import objects.text as Text
-
+from objects.highscore import Highscore
+from objects.text import Text
 
 
 class Leaderboard:
@@ -43,7 +42,7 @@ class Leaderboard:
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-            return "return_to_title"
+            return "title"
         return None
     
     def draw(self, surface):
