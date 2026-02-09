@@ -257,7 +257,7 @@ if __name__ == "__main__":
                     game_over_start = pygame.time.get_ticks()
                 game_over.draw(surface)      #transiotioning to the endscreen when spaceship dies
 
-                if pygame.time.get_ticks() - game_over_start >3000:
+                if pygame.time.get_ticks() - game_over_start > 3000:
                     end_screen = True                
        
 

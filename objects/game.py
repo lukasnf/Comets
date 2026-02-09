@@ -143,9 +143,11 @@ class Game:
             self.flying_asteroids.collision_detection()
             hit_list = self.flying_asteroids.hit_detection(self.bullets)
             for aster in self.flying_asteroids.collection:
+                orig_speed = aster.speed
                 aster.speed *= speed_factor
                 aster.move()
                 aster.draw(surface)
+                aster.speed = orig_speed
 
             if len(self.flying_asteroids.collection) == 0 or cheat:
                 self.next_level()
