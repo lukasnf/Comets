@@ -125,7 +125,7 @@ if __name__ == "__main__":
             elif state == "endscreen":
                 new_state = end_screen.handle_event(event)
                 if new_state == "leaderboard":
-                    hs = Highscore.Highscore()
+                    hs = Highscore()
                     hs.load_highscore()
                     hs.write_highscore(end_screen.player_name.text_text, game.score)
                     leaderboard = Leaderboard(DISPLAY_WIDTH, DISPLAY_HEIGHT)
@@ -147,19 +147,11 @@ if __name__ == "__main__":
             cheat = False
             if game.gameover:
                 state = "endscreen"
+                continue
         elif state == "endscreen":
             end_screen.draw(surface)
         elif state == "leaderboard":
-            leaderboard.draw(surface)
-#        
-        if game != None:
-            if game.gameover and not end_screen:
-                if game_over_start is None:
-                    game_over_start = pygame.time.get_ticks()
-                #game_over.draw(surface)      #transiotioning to the endscreen when spaceship dies
-
-                if pygame.time.get_ticks() - game_over_start > 3000:
-                    end_screen = True                
+            leaderboard.draw(surface)        
        
 
         # Normal game behavior
