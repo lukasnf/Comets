@@ -143,7 +143,6 @@ class Game:
             if len(self.flying_asteroids.collection) == 0 or cheat:
                 self.next_level()
                 return
-            print([aster.pos for aster in self.flying_asteroids.collection])
          #* Bullet & Item control
          #* Ufo control
             self.ufo_handler.check_period()
