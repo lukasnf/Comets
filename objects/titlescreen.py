@@ -2,7 +2,9 @@ import pygame
 import objects.text as Text
 
 class Titlescreen:
-    """"""
+    """
+    Docstring for Titlescreen
+    """
     def __init__(self, width, height):
         self.width = width
         self.height = height
@@ -11,9 +13,10 @@ class Titlescreen:
         self.press_key = Text("Press ENTER to START game", 40, "white", width*0.5, height*0.66)
 
     def handle_event(self, event):
-        if event.type == pygame.KEYDOWN and pygame.K_RETURN:
-            return
-        return None
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                return "start_game"
+
     
     def draw(self, surface):
         self.title.draw(surface)

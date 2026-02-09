@@ -13,8 +13,9 @@ class Endscreen:
 
 
     def handle_event(self, event):
-        if event.type == pygame.KEYDOWN and pygame.K_RETURN:
-            return
+        
+        self.player_name.input_text(event)
+        
         return None
     
     def draw(self, surface):
