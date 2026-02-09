@@ -19,7 +19,7 @@ class Flying_Object:
 
     def move(self):
         """
-        Move the asteroid based on its direction and speed. It is moved in the direction of (dx, dy) scaled by speed.
+        Move the Object based on its direction and speed. It is moved in a direction scaled by speed.
         """
         self.pos = self.pos + self.direction * self.speed
 
