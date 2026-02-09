@@ -16,8 +16,8 @@ if __name__ == "__main__":
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
-    DISPLAY_WIDTH = 700
-    DISPLAY_HEIGHT = 700    
+    #DISPLAY_WIDTH = 700
+    #DISPLAY_HEIGHT = 700    
     
     # frame per second
     FPS = 50
@@ -79,23 +79,23 @@ if __name__ == "__main__":
     # Create game objects before entering the loop
     
     # Initialize spaceship
-    ship = spaceship.Spaceship(color= "hotpink", width= 0)
-
-    # Initialize asteroids
-    flying_asteroids = asteroids.Asteroids(max_number= 10,min_number= 2, window_height= DISPLAY_HEIGHT, 
-                                           window_width=DISPLAY_WIDTH, max_speed=5)
-    
-    # Initialize ufo Handler
-    ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
-
-    # Projectile list
-    bullets = []
-    # List of active items
-    ac_items = []
-    # List of all item names
-    item_names = ["Heart_Item", "Shield_Item", "Rapid_Fire_Item", "Extra_Point_Item", "Feather_Item", "Speed_Item"]
-    # List of all item classes
-    item_classes = [item.Heart_Item, item.Shield_Item, item.Rapid_Fire_Item, item.Extra_Point_Item, item.Feather_Item, item.Speed_Item]
+#    ship = spaceship.Spaceship(color= "hotpink", width= 0)
+#
+#    # Initialize asteroids
+#    flying_asteroids = asteroids.Asteroids(max_number= 10,min_number= 2, window_height= DISPLAY_HEIGHT, 
+#                                           window_width=DISPLAY_WIDTH, max_speed=5)
+#    
+#    # Initialize ufo Handler
+#    ufo_handler = ufo.Ufo_Handler(DISPLAY_WIDTH, DISPLAY_HEIGHT, 1)
+#
+#    # Projectile list
+#    bullets = []
+#    # List of active items
+#    ac_items = []
+#    # List of all item names
+#    item_names = ["Heart_Item", "Shield_Item", "Rapid_Fire_Item", "Extra_Point_Item", "Feather_Item", "Speed_Item"]
+#    # List of all item classes
+#    item_classes = [item.Heart_Item, item.Shield_Item, item.Rapid_Fire_Item, item.Extra_Point_Item, item.Feather_Item, item.Speed_Item]
 
     game = None
 

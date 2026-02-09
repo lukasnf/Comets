@@ -29,37 +29,47 @@ class Asteroids:
             a Asteroids
         """
         level = random.randint(0, 2)
-        radius = ASTEROID_SIZES[level]
-        if random.randint(0, 1):
-            # x is first choice
-            x = random.randint(-radius, self.window_width + radius)
-            is_on_the_top = random.randint(0, 1)
-            y = -radius if is_on_the_top  else self.window_height + radius
-            dx = random.randint(-self.max_speed, self.max_speed)
-            dy = (1 if is_on_the_top else -1) * random.randint(0, self.max_speed)
-        else:
-            # y is first choice
-            y = random.randint(-radius, self.window_height + radius)
-            is_on_the_left = random.randint(0, 1)
-            x = -radius if is_on_the_left else self.window_width + radius
-            dy = random.randint(-self.max_speed, self.max_speed)
-            dx = (1 if is_on_the_left else -1) * random.randint(0, self.max_speed)
-        return Asteroid(level, x, y, dx, dy)
+        #if random.randint(0, 1):
+        #    # x is first choice
+        #    x = random.randint(-radius, self.window_width + radius)
+        #    is_on_the_top = random.randint(0, 1)
+        #    y = -radius if is_on_the_top  else self.window_height + radius
+        #    dx = random.randint(-self.max_speed, self.max_speed)
+        #    dy = (1 if is_on_the_top else -1) * random.randint(0, self.max_speed)
+        #else:
+        #    # y is first choice
+        #    y = random.randint(-radius, self.window_height + radius)
+        #    is_on_the_left = random.randint(0, 1)
+        #    x = -radius if is_on_the_left else self.window_width + radius
+        #    dy = random.randint(-self.max_speed, self.max_speed)
+        #    dx = (1 if is_on_the_left else -1) * random.randint(0, self.max_speed)
+        #return Asteroid(level, x, y, dx, dy)
+        return Asteroid(level, window_width=self.window_width, window_height=self.window_height, max_speed=self.max_speed)
     
     def cyclic_boundary_condition(self):
         """
         proofs whether a asteroid is outside the window and do not come back.
         """
+        #for aster in self.collection:
+        #    if (aster.pos[0] < -ASTEROID_SIZES[2] and aster.direction[0] < 0):
+        #        aster.pos[0] = self.window_width + ASTEROID_SIZES[2]
+        #    elif (aster.pos[0] > self.window_width + ASTEROID_SIZES[2] and aster.direction[0] > 0):
+        #        aster.pos[0] = -ASTEROID_SIZES[2]
+        #    
+        #    if (aster.pos[1] < -ASTEROID_SIZES[2] and aster.direction[1] < 0):
+        #        aster.pos[1] = self.window_height + ASTEROID_SIZES[2]
+        #    elif (aster.pos[1] > self.window_height + ASTEROID_SIZES[2] and aster.direction[1] > 0):
+        #        aster.pos[1] = -ASTEROID_SIZES[2]
         for aster in self.collection:
-            if (aster.pos[0] < -ASTEROID_SIZES[2] and aster.direction[0] < 0):
-                aster.pos[0] = self.window_width + ASTEROID_SIZES[2]
-            elif (aster.pos[0] > self.window_width + ASTEROID_SIZES[2] and aster.direction[0] > 0):
-                aster.pos[0] = -ASTEROID_SIZES[2]
+            if (aster.pos[0] < -aster.radius and aster.direction[0] < 0):
+                aster.pos[0] = self.window_width + aster.radius
+            elif (aster.pos[0] > self.window_width + aster.radius and aster.direction[0] > 0):
+                aster.pos[0] = -aster.radius
             
-            if (aster.pos[1] < -ASTEROID_SIZES[2] and aster.direction[1] < 0):
-                aster.pos[1] = self.window_height + ASTEROID_SIZES[2]
-            elif (aster.pos[1] > self.window_height + ASTEROID_SIZES[2] and aster.direction[1] > 0):
-                aster.pos[1] = -ASTEROID_SIZES[2]
+            if (aster.pos[1] < -aster.radius and aster.direction[1] < 0):
+                aster.pos[1] = self.window_height + aster.radius
+            elif (aster.pos[1] > self.window_height + aster.radius and aster.direction[1] > 0):
+                aster.pos[1] = -aster.radius
     
     def collision_detection(self):
         """
@@ -67,7 +77,7 @@ class Asteroids:
         """
         for asteriod1 in self.collection:
             for asteriod2 in self.collection:
-                if asteriod1 == asteriod2:
+                if asteriod1.pos == asteriod2.pos:
                     continue
                 if (asteriod1.pos - asteriod2.pos).length() <= asteriod1.radius + asteriod2.radius:
                     self.elastic_impact(asteriod1, asteriod2)
@@ -76,8 +86,10 @@ class Asteroids:
     def elastic_impact(self, asteriod1, asteriod2):
         connecting_line = asteriod1.pos - asteriod2.pos
         angle = math.radians(pygame.math.Vector2([1, 0]).angle_to(connecting_line)) # convert degree to radiant
-        asteriod1.direction = self.calculate_new_velocity(angle, asteriod1, asteriod2)
-        asteriod2.direction = self.calculate_new_velocity(angle, asteriod2, asteriod1)
+        new_direction1 = self.calculate_new_velocity(angle, asteriod1, asteriod2)
+        new_direction2 = self.calculate_new_velocity(angle, asteriod2, asteriod1)
+        asteriod1.direction = new_direction1
+        asteriod2.direction = new_direction2
 
     def calculate_new_velocity(self, angle, asteriod1, asteriod2):
         """
@@ -107,22 +119,22 @@ class Asteroids:
 
     def hit_detection(self, bullets):
         hit_asteroids = []
+        indices_to_remove = list()
 
         for bullet in bullets:          
-            if bullet.source != "ship":
+            if bullet.source != "ship" or bullet.hit:
                 continue
-            if bullet.hit:
-                continue
-            for asteroid in list(self.collection):
+            for index,asteroid in enumerate(self.collection):
                 if (bullet.pos - asteroid.pos).length() < asteroid.radius:
                     #Falls ein asteriod getroffen
-                    bullet.hit = True
-                    
-                    self.collection.remove(asteroid)
+                    bullet.hit = True                   
+                    indices_to_remove.append(index)
                     hit_asteroids.append(asteroid)
                     if asteroid.level > 0:
                         self.spilt_asteriods(asteroid, bullet)
                     break
+        for index in sorted(list(indices_to_remove), reverse=True):
+            self.collection.pop(index)
         return hit_asteroids
                     
     def spilt_asteriods(self, asteriod, bullet):
@@ -136,11 +148,8 @@ class Asteroids:
         else:
             new_direction2 = bullet_direction_impact + asteriod.direction.rotate(scattering_angle)
             new_direction1 = bullet_direction_impact + asteriod.direction.rotate(360 - scattering_angle)
-        self.collection.append(Asteroid(asteriod.level - 1, new_pos1[0], new_pos1[1], new_direction1[0], new_direction1[1]))
-        self.collection.append(Asteroid(asteriod.level - 1, new_pos2[0], new_pos2[1], new_direction2[0], new_direction2[1]))
-        
-
-    
+        self.collection.append(Asteroid(asteriod.level - 1, pos=new_pos1, direction=new_direction1))
+        self.collection.append(Asteroid(asteriod.level - 1, pos=new_pos2, direction=new_direction2))
 
     
 
@@ -160,7 +169,7 @@ class Asteroid(flying_object.Flying_Object, pygame.Rect):
         speed (int): The speed of the asteroid.
     """
 
-    def __init__(self, level, x, y, dx=0, dy=0, color="red", speed=1):
+    def __init__(self, level, pos=None, direction=None, color="red", speed=1, window_width=None, window_height=None, max_speed=None):
         """
         Initialize the asteroid with its radius, position, direction, color, and speed.
 
@@ -179,12 +188,15 @@ class Asteroid(flying_object.Flying_Object, pygame.Rect):
         self.mass = self.radius
         self.color = color
 
-        flying_object.Flying_Object.__init__(
-            self, pygame.math.Vector2([x, y]), pygame.math.Vector2([dx, dy]), speed)
-        pygame.Rect.__init__(self,
-            self.pos[0], self.pos[1], 2 * self.radius, 2 * self.radius
-        )  # pygame.Rect wants the coordinates in (left, top, width, height)
-        
+        if pos != None and direction != None:
+            flying_object.Flying_Object.__init__(self, pos, direction, speed)
+        else:
+            flying_object.Flying_Object.__init__(self)
+            flying_object.Flying_Object.generate_random_border_startpos(self, 2 * self.radius, 2 * self.radius, window_width, window_height, max_speed=max_speed)
+        #print(window_width, window_height, self.pos)
+        #pygame.Rect.__init__(self,
+        #    self.pos[0], self.pos[1], 2 * self.radius, 2 * self.radius
+        #)  # pygame.Rect wants the coordinates in (left, top, width, height)
 
     def draw(self, surface):
         """

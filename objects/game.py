@@ -65,7 +65,7 @@ class Game:
         match self.level:
             case 1:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 2,min_number= 2, window_height= self.display_height, 
-                                           window_width= self.display_width, max_speed=2)
+                                           window_width= self.display_width, max_speed=5)
             case 2:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 4,min_number= 3, window_height= self.display_height, 
                                            window_width= self.display_width, max_speed=4)
@@ -143,7 +143,7 @@ class Game:
             if len(self.flying_asteroids.collection) == 0 or cheat:
                 self.next_level()
                 return
-            
+            print([aster.pos for aster in self.flying_asteroids.collection])
          #* Bullet & Item control
          #* Ufo control
             self.ufo_handler.check_period()
