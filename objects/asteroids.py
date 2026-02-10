@@ -7,10 +7,32 @@ ASTEROID_SIZES = [20, 35, 50]
 
 class Asteroids:
     """
-    A collection of Astroids, which are shown on the window.
+    A collection of Astroids, which are shown on the window. This class managed the asteriods in game.
+
+    Attributes:
+        max_number (int): the max amount of asteriods, which could appear
+        min_number (int): the min amount of asteriods, which could appear
+        window_height (int): the height of the window
+        window_width (int): the width of the window
+        max_speed (int): the highst possible start speed
+        collection (list): all asteriods in the current game
     """
 
     def __init__(self, max_number, min_number, window_height, window_width, max_speed):
+        """
+        This methode initializes the Asteriods collection manager.
+        
+        Parameters:
+            max_number (int): the max amount of asteriods, which could appear
+            min_number (int): the min amount of asteriods, which could appear
+            window_height (int): the height of the window
+            window_width (int): the width of the window
+            max_speed (int): the highst possible start speed
+            collection (list): all asteriods in the current game
+        
+        Return:
+            None
+        """
         self.max_number = max_number
         self.min_number = min_number
         self.window_height = window_height
@@ -20,7 +42,7 @@ class Asteroids:
 
     def generate_astroid(self):
         """
-        This generates a asteroid outside the window, which then flies into the frame
+        This generates a asteroid with a random level outside the window, which then flies into the frame
         
         Parameter:
             None
@@ -33,7 +55,13 @@ class Asteroids:
     
     def cyclic_boundary_condition(self):
         """
-        proofs whether a asteroid is outside the window and do not come back.
+        Proofs whether a asteroid is outside the window and do not come back. In this case the postions changes
+        to opposite side.
+
+        Parameters:
+            None
+        Return:
+            None
         """
 
         for aster in self.collection:
@@ -49,7 +77,13 @@ class Asteroids:
     
     def collision_detection(self):
         """
-        proofs collsion in of the asteroids.
+        Proofs whether two asteroids collide. In this case the asteriods push elastically.
+
+        Parameter:
+            None
+        
+        Retrun:
+            None
         """
         for asteriod1 in self.collection:
             for asteriod2 in self.collection:
@@ -60,6 +94,16 @@ class Asteroids:
                     self.seperate_asteriods(asteriod1, asteriod2)
 
     def elastic_impact(self, asteriod1, asteriod2):
+        """
+        This methode managed the elastic impact of the asteriods
+        
+        Parameter:
+            asteriod1 (Asteriod)
+            asteriod2 (Asteriod)
+        
+        Return:
+            None
+        """
         connecting_line = asteriod1.pos - asteriod2.pos
         angle = math.radians(pygame.math.Vector2([1, 0]).angle_to(connecting_line)) # convert degree to radiant
         new_direction1 = self.calculate_new_velocity(angle, asteriod1, asteriod2)
@@ -69,7 +113,15 @@ class Asteroids:
 
     def calculate_new_velocity(self, angle, asteriod1, asteriod2):
         """
-        Calulcates the velocity for asteriod1. 
+        Calulcates the new velocity for asteriod1 after a collision with asteriod2. 
+
+        Parameter:
+            angle (float): the angle between the connectionline of the asteriods centers and the x-axis. in radiants
+            asteriod1 (Asteriod): 
+            asteriod2 (Asteriod):
+
+        Return:
+            the new velocity of asteriod1
         """
         rotate_vector = pygame.math.Vector2([math.cos(angle), math.sin(angle)])
         v1t = pygame.math.Vector2([
@@ -85,7 +137,10 @@ class Asteroids:
         If two asteroids overlap, they have to be separated before the new velocities can be calculated.
 
         Parameters:
-            asteriod1, asteriod2 (Asteriod)
+            asteriod1, asteriod2 (Asteriod): 
+
+        Return: 
+
         """
         dist = (asteriod1.pos - asteriod2.pos).length()
         overlap1 = asteriod1.radius - (asteriod1.radius**2 - asteriod2.radius**2 + dist**2) / (2 * dist)
@@ -169,10 +224,6 @@ class Asteroid(flying_object.Flying_Object, pygame.Rect):
         else:
             flying_object.Flying_Object.__init__(self)
             flying_object.Flying_Object.generate_random_border_startpos(self, 2 * self.radius, 2 * self.radius, window_width, window_height, max_speed=max_speed)
-        #print(window_width, window_height, self.pos)
-        #pygame.Rect.__init__(self,
-        #    self.pos[0], self.pos[1], 2 * self.radius, 2 * self.radius
-        #)  # pygame.Rect wants the coordinates in (left, top, width, height)
 
     def draw(self, surface):
         """

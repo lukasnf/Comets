@@ -13,6 +13,14 @@ class Flying_Object:
 
 
     def __init__(self, pos=pygame.math.Vector2(), direction=pygame.math.Vector2(), speed=1):
+        """
+        Docstring for __init__
+        
+        :param self: Description
+        :param pos: Description
+        :param direction: Description
+        :param speed: Description
+        """
         self.pos = pos
         self.direction = direction
         self.speed = speed
