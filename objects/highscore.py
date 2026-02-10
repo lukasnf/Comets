@@ -1,5 +1,9 @@
 import pandas as pd
 from datetime import date
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent.parent
+HIGHSCORE_DIR = BASE / "highscores"
 
 class Highscore():
     """
@@ -13,6 +17,8 @@ class Highscore():
         """
         self.highscore_path = highscore_path
         self.columns = columns
+
+        self.highscore_path = HIGHSCORE_DIR / "highscores.csv"
 
     def load_highscore(self):
         try:
