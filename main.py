@@ -66,10 +66,6 @@ if __name__ == "__main__":
     # enter the infinite game loop
     print(f"entering game loop")
     running = True
-    move_up = False
-    rotate_left = False
-    rotate_right = False
-    shoot = False 
     cheat = False
    
     game = None
