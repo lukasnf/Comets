@@ -35,11 +35,15 @@ class Game:
         self.score_text = Text('0'.zfill(6), 35, "white", display_width*0.1, display_height*0.1)
         # Initialize Healthbar 
         self.health_bar = spaceship.Healthbar(pos= (self.score_text.text_x, self.score_text.text_y + self.score_text.text_size), height= 20, max_hp= MAX_HP) 
+        
         self.level = 1
         self.config_Level()
+        # Initialize the spaceship
         self.ship = spaceship.Spaceship(color="hotpink", width=0)
         self.ufo_handler = ufo.Ufo_Handler(display_width, display_height, 1)
+        # List of existing bullets
         self.bullets = []
+        # List of all active items
         self.ac_items = []
         # List of all item names
         self.item_names = ["Heart_Item", "Rapid_Fire_Item"]
@@ -49,6 +53,7 @@ class Game:
         self.health_bar = spaceship.Healthbar(pos= (self.score_text.text_x, self.score_text.text_y + self.score_text.text_size), height= 20, max_hp= MAX_HP) 
         # initiate sounds
         self.sounds = sound.Sounds()
+
         self.current_shot = 0
         self.current_dmg = 0
         self.score = 0
@@ -84,11 +89,14 @@ class Game:
         #* Spaceship Control
             # Damage control
             if self.ship.check_collision(self.flying_asteroids.collection, self.bullets) and self.ship.alive:
+                # Shield item control
                 if pygame.time.get_ticks() < self.shield_time:
                     dealt_damage = 0
                 else:
                     dealt_damage = DAMAGE
+
                 init_dmg = time.time()
+                # Shoot cooldown control
                 if abs(self.current_dmg - init_dmg) >= DMG_COOLDOWN:
                     if dealt_damage > 0:
                         self.sounds.dmg_sound.play()
@@ -97,12 +105,14 @@ class Game:
                     self.current_dmg = time.time()
             else:
                 self.ship.draw(surface)
-                # Spaceship rotation logic
+
+            # Spaceship rotation logic
             if rotate_right:
                 self.ship.rotate(THETA)
             elif rotate_left:
                 self.ship.rotate(-THETA)
-                # Spaceship acceleration    
+
+            # Spaceship acceleration    
             if move_up:
                 self.ship.velocity += self.ship.direction * THRUST 
                 if self.ship.velocity.length() > MAX_SPEED:
@@ -112,7 +122,7 @@ class Game:
 
             self.ship.move()
             self.ship.check_window(self.display_width, self.display_height)
-            # Shooting control, with shoot cooldown
+            # Rapid fire item control
             if shoot and self.ship.alive:
                 if pygame.time.get_ticks() < self.rapid_fire_time:
                     s_cooldown = 0

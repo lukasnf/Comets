@@ -107,7 +107,7 @@ if __name__ == "__main__":
                     if event.key == pygame.K_n:
                         cheat = True
                     if event.key == pygame.K_ESCAPE:
-                        pygame.quit()
+                        running = False
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_UP or event.key == pygame.K_w:
