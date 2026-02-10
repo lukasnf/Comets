@@ -137,9 +137,11 @@ class Asteroids:
         If two asteroids overlap, they have to be separated before the new velocities can be calculated.
 
         Parameters:
-            asteriod1, asteriod2 (Asteriod): 
+            asteriod1 (Asteriod):
+            asteriod2 (Asteriod):
 
         Return: 
+            None
 
         """
         dist = (asteriod1.pos - asteriod2.pos).length()
@@ -149,6 +151,15 @@ class Asteroids:
         asteriod2.pos += ((asteriod2.pos - asteriod1.pos) / dist) * overlap2
 
     def hit_detection(self, bullets):
+        """
+        This methode proofs if a bullet has hit the asteriod. And deletes this asteriod.
+
+        Parameter:
+            bullets (list): the bullets in the current game situation.
+
+        Retrun:
+            asteriod (list): hitted asteroids
+        """
         hit_asteroids = []
         indices_to_remove = list()
 
@@ -157,7 +168,6 @@ class Asteroids:
                 continue
             for index,asteroid in enumerate(self.collection):
                 if (bullet.pos - asteroid.pos).length() < asteroid.radius:
-                    #Falls ein asteriod getroffen
                     bullet.hit = True                   
                     indices_to_remove.append(index)
                     hit_asteroids.append(asteroid)
@@ -169,6 +179,16 @@ class Asteroids:
         return hit_asteroids
                     
     def spilt_asteriods(self, asteriod, bullet):
+        """
+        If an asteriods was hitted by a bullet. This asteriods split in two smaller.
+
+        Parameter:
+            asteriod (Asteriod): 
+            bullet (Projectile):
+        
+        Return:
+            None
+        """
         scattering_angle = random.randint(15, 50) # degrees
         bullet_direction_impact = bullet.direction / 5
         new_pos1 = asteriod.pos + (bullet.direction.rotate(90) / bullet.direction.length()) * ASTEROID_SIZES[asteriod.level - 1]
