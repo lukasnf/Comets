@@ -67,15 +67,15 @@ class Game:
     def config_Level(self):
         match self.level:
             case 1:
-                self.flying_asteroids = asteroids.Asteroids(max_number= 2,min_number= 2, window_height= self.display_height, 
+                self.flying_asteroids = asteroids.Asteroids(max_number= 5,min_number= 5, window_height= self.display_height, 
                                            window_width= self.display_width, max_speed=5)
             case 2:
-                self.flying_asteroids = asteroids.Asteroids(max_number= 4,min_number= 3, window_height= self.display_height, 
+                self.flying_asteroids = asteroids.Asteroids(max_number= 7,min_number= 6, window_height= self.display_height, 
                                            window_width= self.display_width, max_speed=4)
                 self.item_names.extend(["Extra_Point_Item", "Speed_Item"])
                 self.item_classes.extend([item.Extra_Point_Item, item.Speed_Item])
             case 3:
-                self.flying_asteroids = asteroids.Asteroids(max_number= 6,min_number= 5, window_height= self.display_height, 
+                self.flying_asteroids = asteroids.Asteroids(max_number= 9,min_number= 7, window_height= self.display_height, 
                                            window_width= self.display_width, max_speed=4)
                 self.item_names.extend(["Feather_Item", "Shield_Item"])
                 self.item_classes.extend([item.Feather_Item, item.Shield_Item])

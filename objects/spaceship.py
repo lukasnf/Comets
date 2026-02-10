@@ -140,7 +140,7 @@ class Spaceship:
         #     any((pos - bullet.pos).length() < 20 and bullet.source != "ship" for pos in self.coordinates + [self.midpoint] for bullet in bullets)):
         #    return True 
         if (any((pos - aster.pos).length() < aster.radius for pos in self.coordinates + [self.midpoint] for aster in asteroid_list) or
-            any(self.proof_bullet_collision(bullet) and bullet.source != "ship" for bullet in bullets)):
+            any(self.proof_bullet_collision(bullet) for bullet in list(filter(lambda x : x.source != "ship", bullets)))):
             return True 
         
     def proof_bullet_collision(self, bullet):
