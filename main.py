@@ -1,12 +1,6 @@
 import pygame
 # Import the game objects
-import objects.spaceship as spaceship
-import objects.asteroids as asteroids
-import objects.ufo as ufo
-import objects.projectile as projectile
-import objects.items as item
 import objects.sounds as sound
-from objects.text import Text
 from objects.highscore import Highscore
 from objects.titlescreen import Titlescreen
 from objects.endscreen import Endscreen
