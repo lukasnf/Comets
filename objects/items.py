@@ -1,9 +1,3 @@
-"""
-item.py is a module handeling all in-game items for the game Asteroids.
-It contains items such as healing, extra points, invincibility, rapid fire and a slow down or speed up effect,
-which are all implemented in seperate subclasses lead by a base Item class.
-"""
-
 import pygame
 from objects.flying_object import Flying_Object
 from pathlib import Path
@@ -50,21 +44,21 @@ class Item(Flying_Object):
              self.image = pygame.transform.scale(self.original_image, self.size)
 
     def draw(self, surface):
-            """
-            Draws the item by creating a pygame rect around it.
+          """
+          Draws the item by creating a pygame rect around it.
             
-            Attributes:
+           Args:
                surface: pygame game window on which sould be drawn.
-            """
-            self.increase_size()
-            self.item_rect = self.image.get_rect(center= self.pos)
-            surface.blit(self.image, self.item_rect)
+          """
+          self.increase_size()
+          self.item_rect = self.image.get_rect(center= self.pos)
+          surface.blit(self.image, self.item_rect)
           
     def check_collision(self, coordinates):
          """
          Checks if the item gets obained by the spaceship. 
          
-          Attributes:
+          Args:
                cooridnates (list): list of the spaceship's coordinates.
 
           Returns:
@@ -98,7 +92,7 @@ class Heart_Item(Item):
           """
           Sets the spaceship's health to maximum.
 
-           Attributes:
+           Args:
                game (class): Game class in which all objects are initialized.
           """
           game.health_bar.hp = game.health_bar.max_hp 
@@ -112,7 +106,7 @@ class Shield_Item(Item):
           """
           Initializes specific item attributes.
 
-          Attributes:
+          Args:
                duration (float): spawn duration of the shield item.
                end_size (list): maximum x,y size of the item image.
           """

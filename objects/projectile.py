@@ -1,6 +1,3 @@
-"""
-projectile.py is a module handeling all kinds of projectiles (bullets) for the Asteroid game.
-"""
 import pygame
 from objects import flying_object
 
@@ -31,7 +28,7 @@ class Projectile(flying_object.Flying_Object):
         """
         Draws the projectile as a pygame.circle.
 
-         Attrubutes:
+         Args:
             surface (pygame.window): surface on which should be drawn.
         """
         pygame.draw.circle(surface, self.color, self.pos, self.radius)
@@ -40,7 +37,7 @@ class Projectile(flying_object.Flying_Object):
         """
         Checks, if the projectile left the game window.
         
-         Attributes: 
+         Args: 
             width (int): width of the game window
             height (int): height of the game window
          Returns:

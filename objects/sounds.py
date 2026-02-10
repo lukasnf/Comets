@@ -1,7 +1,3 @@
-"""
-sounds.py is a sound module managing all Asteroid ingame sounds.
-"""
-
 from pathlib import Path
 import pygame
 
@@ -19,9 +15,9 @@ class Sounds:
         It requies the initialization of pygame.mixer.
 
          Attributes:
-            dmg_sound: sound played, if player takes damage
-            shooting_sound: sound played, if player shoots projectiles
-            item_pickup: sound played, if an ingame item is obtained
+            dmg_sound: sound played, if player takes damage.
+            shooting_sound: sound played, if player shoots projectiles.
+            item_pickup: sound played, if an ingame item is obtained.
         """
         self.dmg_sound = pygame.mixer.Sound(SOUNDS_DIR/"damage_sound.mp3")
         self.shooting_sound = pygame.mixer.Sound(SOUNDS_DIR/"shoot.wav")

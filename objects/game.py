@@ -158,6 +158,7 @@ class Game:
                 if self.ufo_handler.ufo.shoot():
                     self.bullets.append(self.ufo_handler.generate_projectile(self.ship))
                 self.ufo_handler.move_ufo()
+            self.ufo_handler.max_speed *= speed_factor
                   
          #increase of score:    
             for asteroid in hit_list:
