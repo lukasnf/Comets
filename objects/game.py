@@ -60,8 +60,6 @@ class Game:
 
 
     def config_Level(self):
-        self.score = 0
-        self.health_bar.hp = self.health_bar.max_hp
         match self.level:
             case 1:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 2,min_number= 2, window_height= self.display_height, 
