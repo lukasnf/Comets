@@ -145,7 +145,7 @@ class Asteroid(flying_object.Flying_Object, pygame.Rect):
         speed (int): The speed of the asteroid.
     """
 
-    def __init__(self, level, pos=None, direction=None, color="red", speed=1, window_width=None, window_height=None, max_speed=None):
+    def __init__(self, level, pos=None, direction=None, color="grey", speed=1, window_width=None, window_height=None, max_speed=None):
         """
         Initialize the asteroid with its radius, position, direction, color, and speed.
 
@@ -184,7 +184,7 @@ class Asteroid(flying_object.Flying_Object, pygame.Rect):
         """
 
         pygame.draw.circle(
-            surface, pygame.Color(self.color), self.pos, self.radius, 3
+            surface, pygame.Color(self.color), self.pos, self.radius, 0
         )  # last number if the box width
 
 

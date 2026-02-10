@@ -27,9 +27,7 @@ class Text:
             self.text_font = pygame.font.Font(text_path, text_size)
             self.warning = ""
 
-            self.render()
-            
-            
+            self.render()                       
 
         def render(self):
             self.surface = self.text_font.render(self.text_text, True, self.text_color)

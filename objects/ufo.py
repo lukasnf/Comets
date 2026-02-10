@@ -6,6 +6,7 @@ from objects import projectile
 
 class Ufo_Handler:
 
+
     def __init__(self, window_width, window_height, period_s):
         self.window_width = window_width
         self.window_height = window_height

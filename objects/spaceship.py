@@ -84,9 +84,41 @@ class Spaceship:
 
     def check_collision(self, asteroid_list, bullets):
         self.center()
+        #if (any((pos - aster.pos).length() < aster.radius for pos in self.coordinates + [self.midpoint] for aster in asteroid_list) or
+        #     any((pos - bullet.pos).length() < 20 and bullet.source != "ship" for pos in self.coordinates + [self.midpoint] for bullet in bullets)):
+        #    return True 
         if (any((pos - aster.pos).length() < aster.radius for pos in self.coordinates + [self.midpoint] for aster in asteroid_list) or
-             any((pos - bullet.pos).length() < 20 and bullet.source != "ship" for pos in self.coordinates + [self.midpoint] for bullet in bullets)):
+            any(self.proof_bullet_collision(bullet) and bullet.source != "ship" for bullet in bullets)):
             return True 
+        
+    def proof_bullet_collision(self, bullet):
+        for index in range(len(self.coordinates)):
+            if (index < len(self.coordinates) - 1 and self.do_intersect(self.coordinates[index], self.coordinates[index + 1], bullet.pos, bullet.pos + bullet.direction * bullet.speed) 
+                or index >= len(self.coordinates) - 1 and self.do_intersect(self.coordinates[index], self.coordinates[0], bullet.pos, bullet.pos + bullet.direction * bullet.speed)):
+                return True
+        return False
+
+    def do_intersect(self, line1_start, line1_end, line2_start, line2_end):
+        """
+        This methode proofs if 2 lines has a intersection point.
+        
+        :param self: Description
+        :param line1_start: Description
+        :param line1_end: Description
+        :param line2_start: Description
+        :param line2_end: Description
+        """
+        m1 = (line1_start.y - line1_end.y) / (line1_start.x - line1_end.x)
+        b1 = line1_start.y - m1 * line1_start.x
+        m2 = (line2_start.y - line2_end.y) / (line2_start.x - line2_end.x)
+        b2 = line2_start.y - m2 * line2_start.x
+
+        intersection_x = (b2 - b1) / (m1 - m2)
+
+        is_in_line1 = (intersection_x >= line1_start.x and intersection_x <= line1_end.x) or (intersection_x <= line1_start.x and intersection_x >= line1_end.x)
+        is_in_line2 = (intersection_x >= line2_start.x and intersection_x <= line2_end.x) or (intersection_x <= line2_start.x and intersection_x >= line2_end.x)
+
+        return is_in_line1 and is_in_line2
 
     def __str__(self):
         """
