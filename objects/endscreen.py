@@ -2,7 +2,12 @@ import pygame
 from objects.text import Text
 
 class Endscreen:
-    """"""
+    """
+    Class representing the endscreen: shows "GAME OVER", score and allows player to give a name 
+        Attributes:
+            width: width of the screen
+            height: height of the screen
+    """
     def __init__(self, width, height):
         self.width = width
         self.height = height

@@ -28,7 +28,7 @@ class Leaderboard:
         self.lines = []
         y = 180
 
-        for _, row in self.top5.iterrows():
+        for _, row in self.top5.iterrows(): #
             name = row["Player Name"]
             score = row["Score"]
             date = row["Date"]

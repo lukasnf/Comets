@@ -3,7 +3,10 @@ from objects.text import Text
 
 class Titlescreen:
     """
-    Docstring for Titlescreen
+    Class representing titlescreen: shows you name of game, allows player to go to leaderboard or game
+        Attributes:
+            width: width of screen
+            height: height of screen
     """
     def __init__(self, width, height):
         self.width = width
