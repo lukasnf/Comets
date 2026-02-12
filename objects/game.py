@@ -71,13 +71,13 @@ class Game:
             case 2:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 7,min_number= 6, window_height= self.display_height, 
                                            window_width= self.display_width, max_speed=4)
-                self.item_names.extend(["Extra_Point_Item", "Speed_Item"])
-                self.item_classes.extend([item.Extra_Point_Item, item.Speed_Item])
+                self.item_names.extend(["Extra_Point_Item", "Speed_Item", "Shield_Item"])
+                self.item_classes.extend([item.Extra_Point_Item, item.Speed_Item, item.Shield_Item])
             case 3:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 9,min_number= 7, window_height= self.display_height, 
                                            window_width= self.display_width, max_speed=4)
-                self.item_names.extend(["Feather_Item", "Shield_Item"])
-                self.item_classes.extend([item.Feather_Item, item.Shield_Item])
+                self.item_names.extend(["Feather_Item"])
+                self.item_classes.extend([item.Feather_Item])
 
     def next_level(self):
         self.level += 1
@@ -140,11 +140,13 @@ class Game:
                 self.gameover = True
 
         #* Asteroids Control
-            if pygame.time.get_ticks() < self.feather_time :
+            # Feather and Speed Item control
+            if pygame.time.get_ticks() < self.feather_time:
                 speed_factor = .5
             elif pygame.time.get_ticks() < self.speed_time:
                 speed_factor = 4
-            else: speed_factor = 1
+            else: 
+                speed_factor = 1
                 
             self.flying_asteroids.cyclic_boundary_condition()
             self.flying_asteroids.collision_detection()
@@ -162,14 +164,16 @@ class Game:
          #* Bullet & Item control
          #* Ufo control
             self.ufo_handler.check_period()
-            if self.ufo_handler.ufo != None: 
+            if self.ufo_handler.ufo != None:
+                ufo_orig_speed = self.ufo_handler.ufo.speed
+                self.ufo_handler.ufo.speed *= speed_factor 
                 self.ufo_handler.draw_ufo(surface)
                 if self.ufo_handler.ufo.shoot(self.score):
                     self.bullets.append(self.ufo_handler.generate_projectile(self.ship))
                 self.ufo_handler.move_ufo()
             if self.ufo_handler.ufo != None:
+                self.ufo_handler.ufo.speed = ufo_orig_speed
                 self.ufo_handler.ufo_down_shooting(list(filter(lambda x: x.source == "ship", self.bullets)))
-            self.ufo_handler.max_speed *= speed_factor
                   
          #increase of score:    
             for asteroid in hit_list:

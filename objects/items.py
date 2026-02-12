@@ -112,7 +112,7 @@ class Shield_Item(Item):
           """
           shield_png = "shield.png"
           self.duration = 3500 #in ms 
-          self.end_size = [40,40]
+          self.end_size = [50,50]
           super().__init__(pos, direction, speed, shield_png)
      
      def apply(self, game):
