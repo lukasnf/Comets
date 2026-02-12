@@ -140,11 +140,13 @@ class Game:
                 self.gameover = True
 
         #* Asteroids Control
-            if pygame.time.get_ticks() < self.feather_time :
+            # Feather and Speed Item control
+            if pygame.time.get_ticks() < self.feather_time:
                 speed_factor = .5
             elif pygame.time.get_ticks() < self.speed_time:
                 speed_factor = 4
-            else: speed_factor = 1
+            else: 
+                speed_factor = 1
                 
             self.flying_asteroids.cyclic_boundary_condition()
             self.flying_asteroids.collision_detection()
@@ -162,14 +164,16 @@ class Game:
          #* Bullet & Item control
          #* Ufo control
             self.ufo_handler.check_period()
-            if self.ufo_handler.ufo != None: 
+            if self.ufo_handler.ufo != None:
+                ufo_orig_speed = self.ufo_handler.ufo.speed
+                self.ufo_handler.ufo.speed *= speed_factor 
                 self.ufo_handler.draw_ufo(surface)
                 if self.ufo_handler.ufo.shoot(self.score):
                     self.bullets.append(self.ufo_handler.generate_projectile(self.ship))
                 self.ufo_handler.move_ufo()
             if self.ufo_handler.ufo != None:
+                self.ufo_handler.ufo.speed = ufo_orig_speed
                 self.ufo_handler.ufo_down_shooting(list(filter(lambda x: x.source == "ship", self.bullets)))
-            self.ufo_handler.max_speed *= speed_factor
                   
          #increase of score:    
             for asteroid in hit_list:
