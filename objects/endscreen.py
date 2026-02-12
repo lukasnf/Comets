@@ -15,6 +15,7 @@ class Endscreen:
         self.game_over = Text("GAME OVER", 45, "white", width*.5, height*.25)
         self.enter_name = Text("Enter your NAME:", 40, "white", width*.5, height*.38)
         self.player_name = Text("", 50, "white", width*.5, height*.5)
+        self.warning_text = Text("NAME is too long!", 40, "red", width*.5, height*.7 )
         
 
 
@@ -27,7 +28,6 @@ class Endscreen:
         
         self.player_name.input_text(event)  #will get input of user for nameinput
         
-        return None
         
     
     def draw(self, surface):
@@ -35,4 +35,7 @@ class Endscreen:
         self.game_over.draw(surface)
         self.enter_name.draw(surface)
         self.player_name.draw(surface)
+        while self.player_name.warning:
+            print("bug")
+            self.warning_text.draw(surface)
         
