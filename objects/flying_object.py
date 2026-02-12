@@ -14,12 +14,12 @@ class Flying_Object:
 
     def __init__(self, pos=pygame.math.Vector2(), direction=pygame.math.Vector2(), speed=1):
         """
-        Docstring for __init__
+        Initialize the object's physical properties.
         
-        :param self: Description
-        :param pos: Description
-        :param direction: Description
-        :param speed: Description
+        Parameters:
+            pos (pygame.math.Vector2): The position of the object in space.
+            direction (pygame.math.Vector2): The direction of motion in space.
+            speed (int): The speed of the object.
         """
         self.pos = pos
         self.direction = direction
@@ -28,10 +28,30 @@ class Flying_Object:
     def move(self):
         """
         Move the Object based on its direction and speed. It is moved in a direction scaled by speed.
+
+        Parameter:
+            None
+
+        Return:
+            None
         """
         self.pos = self.pos + self.direction * self.speed
 
     def generate_random_border_startpos(self, object_width, object_height, window_width, window_height, max_speed=None, speed=None):
+        """
+        Spawn the object at a random window border with an inward trajectory.
+
+        Parameters:
+            object_width (float): 
+            object_height (float):
+            window_width (int): the size of the window
+            window_height (int): the size of the window
+            max_speed (float): if the speed is not given, the speed is a will be a random value between 0.5 and max_speed
+            speed (float): the speed of the new object
+        
+        Retrun:
+            None
+        """
         if random.randint(0, 1):
             # x is first choice
             x = random.randint(int(-object_width/2), int(window_width + object_width/2))
@@ -56,54 +76,20 @@ class Flying_Object:
 
     def do_intersect(self, p1, p2, p3, p4):
         """
-        Prüft, ob sich die Strecke (p1, p2) mit (p3, p4) schneidet.
-        Nutzt das Kreuzprodukt-Verfahren (robuster gegen vertikale Linien).
+        Check if line1 (p1, p2) intersects with segment (p3, p4) using cross products.
+
+        Parameters:
+            p1 (float): The startposition of line1.
+            p2 (float): The endposition of line1.
+            p3 (float): The startposition of line2.
+            p4 (float): The endposition of the line2.
+
+        Return:
+            Ture if line1 and line2 intersect.
         """
         def cross_product(A, B, C):
-            # Prüft die Orientierung von drei Punkten (Counter-Clockwise)
             return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x)
     
-        # Ein Schnittpunkt existiert nur, wenn die Punktepaare 
-        # unterschiedliche Orientierungen zueinander haben
         return (cross_product(p1, p3, p4) != cross_product(p2, p3, p4) and 
                 cross_product(p1, p2, p3) != cross_product(p1, p2, p4))
 
-#    def do_intersect(self, line1_start, line1_end, line2_start, line2_end):
-#        """
-#        This methode proofs if 2 lines has a intersection point.
-#        
-#        :param self: Description
-#        :param line1_start: Description
-#        :param line1_end: Description
-#        :param line2_start: Description
-#        :param line2_end: Description
-#        """
-#        if line1_start.x == line1_end.x and line2_start.x != line2_end.x:
-#            m = (line2_start.y - line2_end.y) / (line2_start.x - line2_end.x)
-#            b = line2_start.y - m * line2_start.x
-#            y = m * line1_start.x + b
-#            return (line1_start.y >= y and line1_end.y <= y) or (line1_start.y <= y and line1_end.y >= y)
-#        elif line2_start.x == line2_end.x and line1_start.x != line1_end.x:
-#            m = (line1_start.y - line1_end.y) / (line1_start.x - line1_end.x)
-#            b = line1_start.y - m * line1_start.x
-#            y = m * line2_start.x + b
-#            return (line2_start.y >= y and line2_end.y <= y) or (line2_start.y <= y and line2_end.y >= y)
-#        elif line2_start.x == line2_end.x and line1_start.x == line1_end.x:
-#            return line1_start.x == line2_start.x
-#
-#        m1 = (line1_start.y - line1_end.y) / (line1_start.x - line1_end.x)
-#        b1 = line1_start.y - m1 * line1_start.x
-#        m2 = (line2_start.y - line2_end.y) / (line2_start.x - line2_end.x)
-#        b2 = line2_start.y - m2 * line2_start.x
-#
-#        if m1 == m2 :
-#            return b1 == b2
-#
-#        intersection_x = (b2 - b1) / (m1 - m2)
-#        y1 = intersection_x * m1 + b1
-#
-#        is_in_line1 = (intersection_x >= line1_start.x and intersection_x <= line1_end.x) or (intersection_x <= line1_start.x and intersection_x >= line1_end.x)
-#        is_in_line2 = (((intersection_x >= line2_start.x and intersection_x <= line2_end.x) or (intersection_x <= line2_start.x and intersection_x >= line2_end.x)) and
-#                       ((y1 >= line1_start.y and y1 <= line1_end.y) or (y1 <= line1_start.y and y1 >= line1_end.y)))
-#
-#        return is_in_line1 and is_in_line2
