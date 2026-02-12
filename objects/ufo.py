@@ -21,8 +21,12 @@ class Ufo_Handler:
             self.time = pygame.time.get_ticks()
 
     def move_ufo(self):
-        if (self.ufo.pos[0] <= -Ufo.width and self.ufo.direction[0] < 0) or (self.ufo.pos[0] >= self.window_width and self.ufo.direction[0] > 0):
+        if ((self.ufo.pos[0] <= -Ufo.width and self.ufo.direction[0] < 0) 
+            or (self.ufo.pos[0] >= self.window_width and self.ufo.direction[0] > 0)
+            or (self.ufo.pos[1] <= -Ufo.height and self.ufo.direction[1] < 0)
+            or (self.ufo.pos[1] >= self.window_height and self.ufo.direction[1] > 0)):
             self.ufo = None
+            self.time = pygame.time.get_ticks()
         else:
             self.ufo.move()
 
@@ -32,6 +36,7 @@ class Ufo_Handler:
     def ufo_down_shooting(self, bullets):
         if self.ufo.check_collision(bullets):
             self.ufo = None
+            self.time = pygame.time.get_ticks()
 
     def generate_ufo(self):
         self.ufo = Ufo(self.window_height, self.window_width, self.max_speed) 
@@ -44,7 +49,7 @@ class Ufo(flying_object.Flying_Object):
     height = 30
 
     def __init__(self, window_width, window_height, max_speed, cooldown=1000):
-        self.color_metal = "grey"
+        self.color_metal = "darkgrey"
         self.color_glass = "aqua"
         self.time = pygame.time.get_ticks()
         self.cooldown_start = cooldown
@@ -55,7 +60,7 @@ class Ufo(flying_object.Flying_Object):
         return pygame.math.Vector2(self.pos.x + Ufo.width/2, self.pos.y + Ufo.height/2)
 
     def shoot(self, score):
-        if pygame.time.get_ticks() > self.time + self.cooldown_start - (score // 2) :
+        if pygame.time.get_ticks() > self.time + self.cooldown_start - (score // 10) :
             self.time = pygame.time.get_ticks()
             return True
         return False

@@ -14,8 +14,6 @@ if __name__ == "__main__":
 
     # window size in pixels: this game uses x-y coordinates like computer screens, not like math!
     # x=0, y=0 is top left corner, positive y is down, positive x is right
-    #DISPLAY_WIDTH = 700
-    #DISPLAY_HEIGHT = 700    
     
     # frame per second
     FPS = 50
