@@ -9,9 +9,9 @@ Usage Terms:
 License: Creative Commons Zero (CC0), Public Domain Dedication
 Link to License: https://opengameart.org/content/heart-pixel-art
 Usage Terms:
-"You can use the art commercially. You can modify or edit the art as you like.
+You can use the art commercially. You can modify or edit the art as you like.
 Copyright/Attribution Notice: 
-no need to credit "
+no need to credit.
 
 3. shoot.wav
 License: Pixabay Content License 
