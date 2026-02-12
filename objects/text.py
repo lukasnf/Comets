@@ -30,10 +30,12 @@ class Text:
             self.render()                       
 
         def render(self):
+            #Method to render the text -> text will be visible on screen
             self.surface = self.text_font.render(self.text_text, True, self.text_color)
             self.rect = self.surface.get_rect(center=(self.text_x, self.text_y))
 
         def set(self, new_text):
+            #Method to change text
             self.text_text = new_text
             self.render()
 
@@ -48,6 +50,7 @@ class Text:
 
 
         def input_text(self, event):
+            #Method to allow user to input name
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     self.text_text = self.text_text[:-1]     #deletes last character if backspace is pressed
@@ -59,7 +62,7 @@ class Text:
                     if len(self.text_text) < 15:
                         self.text_text += event.unicode
                     else:
-                        self.warning = "NAME is to long"
+                        self.warning.set("NAME is too long")
 
                 self.update_text()              #updates the text, change will be seen on the text
 

@@ -13,15 +13,23 @@ class Titlescreen:
         self.height = height
 
         self.title = Text("ASTEROIDS", 80, "white", width*0.5, height*0.35)
-        self.press_key = Text("Press ENTER to START game", 40, "white", width*0.5, height*0.66)
-
+        self.press_key_start = Text("Press ENTER to START game", 40, "white", width*0.5, height*0.66)
+        self.press_key_score = Text("Press SPACE to see HIGHSCORES", 40, "white", width*0.5, height*0.83)
+   
+   
     def handle_event(self, event):
+        #Method to give return if certain keys are pressed.
+        #Pressed key gives return that changes state for state machine
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 return "play"
+            if event.key == pygame.K_SPACE:
+                return "leaderboard"
 
     
     def draw(self, surface):
+        #Method to draw the titlescreen
         self.title.draw(surface)
-        self.press_key.draw(surface)
+        self.press_key_start.draw(surface)
+        self.press_key_score.draw(surface)
         

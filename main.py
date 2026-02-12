@@ -73,8 +73,9 @@ if __name__ == "__main__":
                     shoot = False
                     cheat = False
                 
-
                     state = "play"
+                elif new_state == "leaderboard":
+                    state = "leaderboard"
 
             
                         
