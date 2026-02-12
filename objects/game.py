@@ -71,13 +71,13 @@ class Game:
             case 2:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 7,min_number= 6, window_height= self.display_height, 
                                            window_width= self.display_width, max_speed=4)
-                self.item_names.extend(["Extra_Point_Item", "Speed_Item"])
-                self.item_classes.extend([item.Extra_Point_Item, item.Speed_Item])
+                self.item_names.extend(["Extra_Point_Item", "Speed_Item", "Shield_Item"])
+                self.item_classes.extend([item.Extra_Point_Item, item.Speed_Item, item.Shield_Item])
             case 3:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 9,min_number= 7, window_height= self.display_height, 
                                            window_width= self.display_width, max_speed=4)
-                self.item_names.extend(["Feather_Item", "Shield_Item"])
-                self.item_classes.extend([item.Feather_Item, item.Shield_Item])
+                self.item_names.extend(["Feather_Item"])
+                self.item_classes.extend([item.Feather_Item])
 
     def next_level(self):
         self.level += 1
