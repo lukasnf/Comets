@@ -35,6 +35,6 @@ class Endscreen:
         self.game_over.draw(surface)
         self.enter_name.draw(surface)
         self.player_name.draw(surface)
-        while self.player_name.warning:
+        if self.player_name.warning:
             self.warning_text.draw(surface)
         
