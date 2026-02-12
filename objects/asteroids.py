@@ -174,7 +174,7 @@ class Asteroids:
                     if asteroid.level > 0:
                         self.spilt_asteriods(asteroid, bullet)
                     break
-        for index in sorted(list(indices_to_remove), reverse=True):
+        for index in sorted(list(set(indices_to_remove)), reverse=True):
             self.collection.pop(index)
         return hit_asteroids
                     
