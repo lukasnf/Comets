@@ -1,5 +1,4 @@
 import pygame
-import random
 from objects import flying_object
 from objects import projectile
 
