@@ -6,7 +6,6 @@ from objects import projectile
 
 class Ufo_Handler:
 
-
     def __init__(self, window_width, window_height, period_s):
         self.window_width = window_width
         self.window_height = window_height
@@ -49,21 +48,21 @@ class Ufo(flying_object.Flying_Object):
         self.color_metal = "grey"
         self.color_glass = "aqua"
         self.time = pygame.time.get_ticks()
-        self.cooldown = cooldown
+        self.cooldown_start = cooldown
         flying_object.Flying_Object.__init__(self)
         flying_object.Flying_Object.generate_random_border_startpos(self, Ufo.width, Ufo.height, window_width, window_height, speed=max_speed)
 
     def get_center(self):
         return pygame.math.Vector2(self.pos.x + Ufo.width/2, self.pos.y + Ufo.height/2)
 
-    def shoot(self):
-        if pygame.time.get_ticks() > self.time + self.cooldown:
+    def shoot(self, score):
+        if pygame.time.get_ticks() > self.time + self.cooldown_start - (score // 2) :
             self.time = pygame.time.get_ticks()
             return True
         return False
     
     def check_collision(self, bullets):
-        ufo_lines = [[self.pos + pygame.math.Vector2([0, Ufo.height/2]), self.pos + pygame.math.Vector2([Ufo.width, Ufo.height/2])],[self.pos + pygame.math.Vector2([Ufo.width/2, 0]), self.pos + pygame.math.Vector2([Ufo.width/2, Ufo.height])]]
+        ufo_lines = [[self.pos + pygame.math.Vector2([0, Ufo.height*(2/3)]), self.pos + pygame.math.Vector2([Ufo.width, Ufo.height*(2/3)])],[self.pos + pygame.math.Vector2([Ufo.width/2, 0]), self.pos + pygame.math.Vector2([Ufo.width/2, Ufo.height])]]
         for bullet in bullets:
             if any(self.do_intersect(ufo_line[0], ufo_line[1], bullet.pos, bullet.pos + bullet.direction * bullet.speed) for ufo_line in ufo_lines):
                 return True

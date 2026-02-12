@@ -99,7 +99,7 @@ class Game:
                 if abs(self.current_dmg - init_dmg) >= DMG_COOLDOWN:
                     if dealt_damage > 0:
                         self.sounds.dmg_sound.play()
-                    self.health_bar.hp -= dealt_damage
+                    #self.health_bar.hp -= dealt_damage
                     self.ship.check_health(self.health_bar.hp)
                     self.current_dmg = time.time()
             else:
@@ -164,7 +164,7 @@ class Game:
             self.ufo_handler.check_period()
             if self.ufo_handler.ufo != None: 
                 self.ufo_handler.draw_ufo(surface)
-                if self.ufo_handler.ufo.shoot():
+                if self.ufo_handler.ufo.shoot(self.score):
                     self.bullets.append(self.ufo_handler.generate_projectile(self.ship))
                 self.ufo_handler.move_ufo()
             if self.ufo_handler.ufo != None:

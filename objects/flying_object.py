@@ -63,11 +63,18 @@ class Flying_Object:
         :param line2_start: Description
         :param line2_end: Description
         """
-        if line1_start.x == line1_end.x:
-            return (line1_start.x >= line2_start.x and line1_start.x <= line2_end.x) or (line1_start.x <= line2_start.x and line1_start.x >= line2_end.x)
-        if line2_start.x == line2_end.x:
-            return (line2_start.x >= line2_start.x and line2_start.x <= line2_end.x) or (line2_start.x <= line2_start.x and line2_start.x >= line2_end.x)
-
+        if line1_start.x == line1_end.x and line2_start.x != line2_end.x:
+            m = (line2_start.y - line2_end.y) / (line2_start.x - line2_end.x)
+            b = line2_start.y - m * line2_start.x
+            y = m * line1_start.x + b
+            return (line1_start.y >= y and line1_end.y <= y) or (line1_start.y <= y and line1_end.y >= y)
+        elif line2_start.x == line2_end.x and line1_start.x != line1_end.x:
+            m = (line1_start.y - line1_end.y) / (line1_start.x - line1_end.x)
+            b = line1_start.y - m * line1_start.x
+            y = m * line2_start.x + b
+            return (line2_start.y >= y and line2_end.y <= y) or (line2_start.y <= y and line2_end.y >= y)
+        elif line2_start.x == line2_end.x and line1_start.x == line1_end.x:
+            return line1_start.x == line2_start.x
 
         m1 = (line1_start.y - line1_end.y) / (line1_start.x - line1_end.x)
         b1 = line1_start.y - m1 * line1_start.x
