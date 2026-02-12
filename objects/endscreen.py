@@ -36,6 +36,5 @@ class Endscreen:
         self.enter_name.draw(surface)
         self.player_name.draw(surface)
         while self.player_name.warning:
-            print("bug")
             self.warning_text.draw(surface)
         
