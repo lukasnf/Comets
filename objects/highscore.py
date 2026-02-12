@@ -21,6 +21,7 @@ class Highscore():
         self.highscore_path = HIGHSCORE_DIR / "highscores.csv"
 
     def load_highscore(self):
+        #Method to read the csv
         try:
             self.df = pd.read_csv(self.highscore_path)
         except FileNotFoundError:
@@ -28,9 +29,11 @@ class Highscore():
             print(FileNotFoundError)
 
     def save_highscore(self):
+        #saves new score on the csv
         self.df.to_csv(self.highscore_path, index=False)
 
     def write_highscore(self, player_name, player_score):
+        #writes new score on the csv
         current_date = date.today()
         length_of_df = len(self.df)
         self.df.loc[length_of_df] = [player_name, player_score, current_date]

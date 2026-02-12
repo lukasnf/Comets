@@ -19,16 +19,19 @@ class Endscreen:
 
 
     def handle_event(self, event):
+        #Method to give return if certain keys are pressed.
+        #Pressed key gives return that changes state for state machine
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 return "leaderboard"
         
-        self.player_name.input_text(event)
+        self.player_name.input_text(event)  #will get input of user for nameinput
         
         return None
         
     
     def draw(self, surface):
+        #Method to draw the endscreen
         self.game_over.draw(surface)
         self.enter_name.draw(surface)
         self.player_name.draw(surface)

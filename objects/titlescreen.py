@@ -18,6 +18,8 @@ class Titlescreen:
    
    
     def handle_event(self, event):
+        #Method to give return if certain keys are pressed.
+        #Pressed key gives return that changes state for state machine
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 return "play"
@@ -26,6 +28,7 @@ class Titlescreen:
 
     
     def draw(self, surface):
+        #Method to draw the titlescreen
         self.title.draw(surface)
         self.press_key_start.draw(surface)
         self.press_key_score.draw(surface)
