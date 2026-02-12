@@ -23,9 +23,11 @@ class Text:
             self.text_x = text_x
             self.text_y = text_y
 
+            self.warning = False
+
             text_path = FONT_DIR / "Arcade.ttf"
             self.text_font = pygame.font.Font(text_path, text_size)
-            self.warning = ""
+            
 
             self.render()                       
 
@@ -52,6 +54,7 @@ class Text:
         def input_text(self, event):
             #Method to allow user to input name
             if event.type == pygame.KEYDOWN:
+                self.warning = False
                 if event.key == pygame.K_BACKSPACE:
                     self.text_text = self.text_text[:-1]     #deletes last character if backspace is pressed
                 
@@ -61,8 +64,10 @@ class Text:
                 else: 
                     if len(self.text_text) < 15:
                         self.text_text += event.unicode
-                    else:
-                        self.warning.set("NAME is too long")
+                        
+                    elif len(self.text_text) == 15:      
+                        self.warning = True
+                    
 
                 self.update_text()              #updates the text, change will be seen on the text
 
