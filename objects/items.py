@@ -85,7 +85,7 @@ class Heart_Item(Item):
         """
         heart_png = "heart pixel art 254x254.png"
         self.duration = 5000 #in ms
-        self.end_size = [30,30]
+        self.end_size = [45,45]
         super().__init__(pos, direction, speed, heart_png)
      
      def apply(self, game):
@@ -112,7 +112,7 @@ class Shield_Item(Item):
           """
           shield_png = "shield.png"
           self.duration = 3500 #in ms 
-          self.end_size = [50,50]
+          self.end_size = [55,55]
           super().__init__(pos, direction, speed, shield_png)
      
      def apply(self, game):
@@ -137,7 +137,7 @@ class Rapid_Fire_Item(Item):
           """
           fire_png = "bullet.png"
           self.duration = 5000 #in ms
-          self.end_size = [40,40]
+          self.end_size = [50,50]
           super().__init__(pos, direction, speed, fire_png)
 
      def apply(self, game):
@@ -160,7 +160,7 @@ class Extra_Point_Item(Item):
           """
           coin_png = "coin.png"
           self.duration = 5000 #in ms
-          self.end_size = [40,40]
+          self.end_size = [50,50]
           super().__init__(pos, direction, speed, coin_png)
      
      def apply(self, game):
@@ -185,7 +185,7 @@ class Feather_Item(Item):
           """
           feather_png = "speed.png"
           self.duration = 3000 #in ms
-          self.end_size = [50,50]
+          self.end_size = [55,55]
           super().__init__(pos, direction, speed, feather_png)
      
      def apply(self, game):
@@ -209,7 +209,7 @@ class Speed_Item(Item):
           """
           speed_png = "speed.PNG"
           self.duration = 3000 #in ms
-          self.end_size = [50,50]
+          self.end_size = [55,55]
           super().__init__(pos, direction, speed, speed_png)
      
      def apply(self, game):

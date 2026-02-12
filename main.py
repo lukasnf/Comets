@@ -19,22 +19,6 @@ if __name__ == "__main__":
     
     # frame per second
     FPS = 50
-    # angle rotation speed
-    THETA = 6
-    # scales how fast the spaceship accelerates
-    THRUST = .3
-    # initiate maximum speed
-    MAX_SPEED = 10
-    # Bullet speed
-    B_SPEED = MAX_SPEED + 5
-    # Cooldown between the shots
-    SHOT_COOLDOWN = .2 # in s
-    # Cooldown which allows to take damage
-    DMG_COOLDOWN = .5 # in s
-    # Maximum spaceship hp
-    MAX_HP = 210
-    # obtained damage
-    DAMAGE = MAX_HP//3
 
     current_shot = 0
     current_dmg = 0
@@ -157,4 +141,4 @@ if __name__ == "__main__":
         pygame.display.update()
         clock.tick(FPS)
 
-    pygame.quit()  # Call the quit() method outside the while loop to end the application.d
+    pygame.quit()  # Call the quit() method outside the while loop to end the application.

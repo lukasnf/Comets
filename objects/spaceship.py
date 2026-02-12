@@ -48,6 +48,7 @@ class Spaceship:
     def check_health(self, health):
         """
         Checks whether the ship's health is positive.
+        
          Attributes:
             health (int): Current life points of the spaceship.
         """
