@@ -204,7 +204,7 @@ class Asteroids:
 
     
 
-class Asteroid(flying_object.Flying_Object, pygame.Rect):
+class Asteroid(flying_object.Flying_Object):
     """
     class to create the asteroids inheriting from pygame.Rect
     The asteroid is represented as a circle for simplicity and defined by its radius and position.

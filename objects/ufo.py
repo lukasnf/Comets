@@ -31,6 +31,10 @@ class Ufo_Handler:
     def draw_ufo(self, surface):
         self.ufo.draw(surface)
 
+    def ufo_down_shooting(self, bullets):
+        if self.ufo.check_collision(bullets):
+            self.ufo = None
+
     def generate_ufo(self):
         self.ufo = Ufo(self.window_height, self.window_width, self.max_speed) 
 
@@ -57,6 +61,13 @@ class Ufo(flying_object.Flying_Object):
             self.time = pygame.time.get_ticks()
             return True
         return False
+    
+    def check_collision(self, bullets):
+        ufo_lines = [[self.pos + pygame.math.Vector2([0, Ufo.height/2]), self.pos + pygame.math.Vector2([Ufo.width, Ufo.height/2])],[self.pos + pygame.math.Vector2([Ufo.width/2, 0]), self.pos + pygame.math.Vector2([Ufo.width/2, Ufo.height])]]
+        for bullet in bullets:
+            if any(self.do_intersect(ufo_line[0], ufo_line[1], bullet.pos, bullet.pos + bullet.direction * bullet.speed) for ufo_line in ufo_lines):
+                return True
+
         
     def draw(self, surface):
         rect_metal_shield = pygame.Rect(self.pos[0], self.pos[1] + int(Ufo.height / 3), Ufo.width, int(2 * Ufo.height / 3))

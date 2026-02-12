@@ -52,3 +52,34 @@ class Flying_Object:
             self.speed = random.uniform(0.5, max_speed)
         elif speed != None:
             self.speed = speed
+    
+    def do_intersect(self, line1_start, line1_end, line2_start, line2_end):
+        """
+        This methode proofs if 2 lines has a intersection point.
+        
+        :param self: Description
+        :param line1_start: Description
+        :param line1_end: Description
+        :param line2_start: Description
+        :param line2_end: Description
+        """
+        if line1_start.x == line1_end.x:
+            return (line1_start.x >= line2_start.x and line1_start.x <= line2_end.x) or (line1_start.x <= line2_start.x and line1_start.x >= line2_end.x)
+        if line2_start.x == line2_end.x:
+            return (line2_start.x >= line2_start.x and line2_start.x <= line2_end.x) or (line2_start.x <= line2_start.x and line2_start.x >= line2_end.x)
+
+
+        m1 = (line1_start.y - line1_end.y) / (line1_start.x - line1_end.x)
+        b1 = line1_start.y - m1 * line1_start.x
+        m2 = (line2_start.y - line2_end.y) / (line2_start.x - line2_end.x)
+        b2 = line2_start.y - m2 * line2_start.x
+
+        if m1 == m2 :
+            return b1 == b2
+
+        intersection_x = (b2 - b1) / (m1 - m2)
+
+        is_in_line1 = (intersection_x >= line1_start.x and intersection_x <= line1_end.x) or (intersection_x <= line1_start.x and intersection_x >= line1_end.x)
+        is_in_line2 = (intersection_x >= line2_start.x and intersection_x <= line2_end.x) or (intersection_x <= line2_start.x and intersection_x >= line2_end.x)
+
+        return is_in_line1 and is_in_line2

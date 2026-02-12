@@ -1,6 +1,7 @@
 import pygame
+from objects import flying_object
 
-class Spaceship:
+class Spaceship(flying_object.Flying_Object):
     """
     Represents the players controlled model.
     Polygon based.
@@ -150,28 +151,7 @@ class Spaceship:
                 return True
         return False
 
-    def do_intersect(self, line1_start, line1_end, line2_start, line2_end):
-        """
-        This methode proofs if 2 lines has a intersection point.
-        
-        :param self: Description
-        :param line1_start: Description
-        :param line1_end: Description
-        :param line2_start: Description
-        :param line2_end: Description
-        """
-        m1 = (line1_start.y - line1_end.y) / (line1_start.x - line1_end.x)
-        b1 = line1_start.y - m1 * line1_start.x
-        m2 = (line2_start.y - line2_end.y) / (line2_start.x - line2_end.x)
-        b2 = line2_start.y - m2 * line2_start.x
-
-        intersection_x = (b2 - b1) / (m1 - m2)
-
-        is_in_line1 = (intersection_x >= line1_start.x and intersection_x <= line1_end.x) or (intersection_x <= line1_start.x and intersection_x >= line1_end.x)
-        is_in_line2 = (intersection_x >= line2_start.x and intersection_x <= line2_end.x) or (intersection_x <= line2_start.x and intersection_x >= line2_end.x)
-
-        return is_in_line1 and is_in_line2
-
+    
     def __str__(self):
         """
         String representation of the spaceship's current state, including position and velocity.
