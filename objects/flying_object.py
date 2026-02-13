@@ -85,7 +85,7 @@ class Flying_Object:
             p4 (float): The endposition of the line2.
 
         Return:
-            Ture if line1 and line2 intersect.
+            True if line1 and line2 intersect.
         """
         def cross_product(A, B, C):
             return (C.y - A.y) * (B.x - A.x) > (B.y - A.y) * (C.x - A.x)

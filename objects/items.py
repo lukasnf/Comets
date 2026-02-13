@@ -112,7 +112,7 @@ class Shield_Item(Item):
           """
           shield_png = "shield.png"
           self.duration = 3500 #in ms 
-          self.end_size = [50,50]
+          self.end_size = [40,40]
           super().__init__(pos, direction, speed, shield_png)
      
      def apply(self, game):
@@ -167,7 +167,7 @@ class Extra_Point_Item(Item):
           """
           Increases, the game score by 100 points.
           """
-          game.score += 100
+          game.score += 250
           game.score_text.set(str(game.score).zfill(6))
 
 

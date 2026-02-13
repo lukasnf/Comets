@@ -138,14 +138,17 @@ class Spaceship(flying_object.Flying_Object):
           bool: True on impact with an entity.
         """
         self.center()
-        #if (any((pos - aster.pos).length() < aster.radius for pos in self.coordinates + [self.midpoint] for aster in asteroid_list) or
-        #     any((pos - bullet.pos).length() < 20 and bullet.source != "ship" for pos in self.coordinates + [self.midpoint] for bullet in bullets)):
-        #    return True 
         if (any((pos - aster.pos).length() < aster.radius for pos in self.coordinates + [self.midpoint] for aster in asteroid_list) or
             any(self.proof_bullet_collision(bullet) for bullet in list(filter(lambda x : x.source != "ship", bullets)))):
             return True 
         
     def proof_bullet_collision(self, bullet):
+        """
+        proofs if the velocity vector of the bullet an border of the space collide.
+        
+        Parameters:
+            bullet (list): the list of bullets in the game 
+        """
         for index in range(len(self.coordinates)):
             if (index < len(self.coordinates) - 1 and self.do_intersect(self.coordinates[index], self.coordinates[index + 1], bullet.pos, bullet.pos + bullet.direction * bullet.speed) 
                 or index >= len(self.coordinates) - 1 and self.do_intersect(self.coordinates[index], self.coordinates[0], bullet.pos, bullet.pos + bullet.direction * bullet.speed)):

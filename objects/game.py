@@ -27,8 +27,22 @@ DAMAGE = MAX_HP//3
 SHOT_COOLDOWN = .2 # in s
 
 class Game:
+    """
+    manages the complete game
+    """
 
     def __init__(self, display_height, display_width):
+
+        """
+        Initializes the game
+        
+        Parameters:
+            display_height (int): the height of the window
+            display_width (int): the width of the window
+
+        Return:
+            None
+        """
         self.display_height = display_height
         self.display_width = display_width
         self.level_label = Text("Level 1", 30, "white", self.display_width - 75, self.display_height*.1)
@@ -64,6 +78,15 @@ class Game:
 
 
     def config_Level(self):
+        """
+        configures a level. Different amount of sstriods and typs of items
+
+        Parameter:
+            None
+
+        Return:
+            None
+        """
         match self.level:
             case 1:
                 self.flying_asteroids = asteroids.Asteroids(max_number= 5,min_number= 5, window_height= self.display_height, 
@@ -80,136 +103,145 @@ class Game:
                 self.item_classes.extend([item.Feather_Item])
 
     def next_level(self):
+        """
+        configures the next level
+
+        Parameters:
+            None
+        
+        Return:
+            None
+        """
         self.level += 1
         self.level_label.set(f"Level {self.level}")
         self.config_Level()
 
     def update_game(self, surface, rotate_right, rotate_left, move_up, shoot, cheat):
-        #* Spaceship Control
-            # Damage control
-            if self.ship.check_collision(self.flying_asteroids.collection, self.bullets) and self.ship.alive:
-                # Shield item control
-                if pygame.time.get_ticks() < self.shield_time:
-                    dealt_damage = 0
-                else:
-                    dealt_damage = DAMAGE
-
-                init_dmg = time.time()
-                # Shoot cooldown control
-                if abs(self.current_dmg - init_dmg) >= DMG_COOLDOWN:
-                    if dealt_damage > 0:
-                        self.sounds.dmg_sound.play()
-                    self.health_bar.hp -= dealt_damage
-                    self.ship.check_health(self.health_bar.hp)
-                    self.current_dmg = time.time()
+        """
+        updates the gameframe
+        
+        Parameters:
+            surface (pygame surface): the surface of the game on the window
+            rotate_right, rotate_left, move_up, shoot, cheat (bool): the commands cause from a key press
+        
+        Return:
+            None
+        """
+    #* Spaceship Control
+        # Damage control
+        if self.ship.check_collision(self.flying_asteroids.collection, self.bullets) and self.ship.alive:
+            # Shield item control
+            if pygame.time.get_ticks() < self.shield_time:
+                dealt_damage = 0
             else:
-                self.ship.draw(surface)
-
-            # Spaceship rotation logic
-            if rotate_right:
-                self.ship.rotate(THETA)
-            elif rotate_left:
-                self.ship.rotate(-THETA)
-
-            # Spaceship acceleration    
-            if move_up:
-                self.ship.velocity += self.ship.direction * THRUST 
-                if self.ship.velocity.length() > MAX_SPEED:
-                    self.ship.velocity = self.ship.velocity.normalize() * MAX_SPEED
+                dealt_damage = DAMAGE
+            init_dmg = time.time()
+            # Shoot cooldown control
+            if abs(self.current_dmg - init_dmg) >= DMG_COOLDOWN:
+                if dealt_damage > 0:
+                    self.sounds.dmg_sound.play()
+                self.health_bar.hp -= dealt_damage
+                self.ship.check_health(self.health_bar.hp)
+                self.current_dmg = time.time()
+        else:
+            self.ship.draw(surface)
+        # Spaceship rotation logic
+        if rotate_right:
+            self.ship.rotate(THETA)
+        elif rotate_left:
+            self.ship.rotate(-THETA)
+        # Spaceship acceleration    
+        if move_up:
+            self.ship.velocity += self.ship.direction * THRUST 
+            if self.ship.velocity.length() > MAX_SPEED:
+                self.ship.velocity = self.ship.velocity.normalize() * MAX_SPEED
+        else:
+            self.ship.decelerate()
+        self.ship.move()
+        self.ship.check_window(self.display_width, self.display_height)
+        # Rapid fire item control
+        if shoot and self.ship.alive:
+            if pygame.time.get_ticks() < self.rapid_fire_time:
+                s_cooldown = 0
             else:
-                self.ship.decelerate()
-
-            self.ship.move()
-            self.ship.check_window(self.display_width, self.display_height)
-            # Rapid fire item control
-            if shoot and self.ship.alive:
-                if pygame.time.get_ticks() < self.rapid_fire_time:
-                    s_cooldown = 0
-                else:
-                    s_cooldown = SHOT_COOLDOWN
-                    
-                init_shot = time.time()
-                if abs(self.current_shot - init_shot) >= s_cooldown:
-                    self.sounds.shooting_sound.play()
-                    projectiles = projectile.Projectile(self.ship.coordinates[-1], self.ship.direction, 
-                                                        B_SPEED, "ship" ,radius= 2, color= "cyan")
-                    self.bullets.append(projectiles)
-                    self.current_shot = time.time()
-            
-            if not self.ship.alive:
-                self.gameover = True
-
-        #* Asteroids Control
-            # Feather and Speed Item control
-            if pygame.time.get_ticks() < self.feather_time:
-                speed_factor = .5
-            elif pygame.time.get_ticks() < self.speed_time:
-                speed_factor = 4
-            else: 
-                speed_factor = 1
+                s_cooldown = SHOT_COOLDOWN
                 
-            self.flying_asteroids.cyclic_boundary_condition()
-            self.flying_asteroids.collision_detection()
-            hit_list = self.flying_asteroids.hit_detection(self.bullets)
-            for aster in self.flying_asteroids.collection:
-                orig_speed = aster.speed
-                aster.speed *= speed_factor
-                aster.move()
-                aster.draw(surface)
-                aster.speed = orig_speed
-
-            if len(self.flying_asteroids.collection) == 0 or cheat:
-                self.next_level()
-                return
-         #* Bullet & Item control
-         #* Ufo control
-            self.ufo_handler.check_period()
-            if self.ufo_handler.ufo != None:
-                ufo_orig_speed = self.ufo_handler.ufo.speed
-                self.ufo_handler.ufo.speed *= speed_factor 
-                self.ufo_handler.draw_ufo(surface)
-                if self.ufo_handler.ufo.shoot(self.score):
-                    self.bullets.append(self.ufo_handler.generate_projectile(self.ship))
-                self.ufo_handler.move_ufo()
-            if self.ufo_handler.ufo != None:
-                self.ufo_handler.ufo.speed = ufo_orig_speed
-                self.ufo_handler.ufo_down_shooting(list(filter(lambda x: x.source == "ship", self.bullets)))
-                  
-         #increase of score:    
-            for asteroid in hit_list:
-                points = [20, 50, 100]  # points for level 0, 1, 2 asteroids
-
-                self.score += points[asteroid.level]
-                self.score_text.set(str(self.score).zfill(6))
+            init_shot = time.time()
+            if abs(self.current_shot - init_shot) >= s_cooldown:
+                self.sounds.shooting_sound.play()
+                projectiles = projectile.Projectile(self.ship.coordinates[-1], self.ship.direction, 
+                                                    B_SPEED, "ship" ,radius= 2, color= "cyan")
+                self.bullets.append(projectiles)
+                self.current_shot = time.time()
+        
+        if not self.ship.alive:
+            self.gameover = True
+    #* Asteroids Control
+        # Feather and Speed Item control
+        if pygame.time.get_ticks() < self.feather_time:
+            speed_factor = .5
+        elif pygame.time.get_ticks() < self.speed_time:
+            speed_factor = 4
+        else: 
+            speed_factor = 1
             
-            for bullet in self.bullets:
-                bullet.move()
-                bullet.draw(surface)
-                if bullet.hit:
-                    item_exists = any(type(i).__name__ in self.item_names for i in self.ac_items)
-                    if random.randint(1,5) == 5 and not item_exists:
-                        random_item = random.choice(self.item_classes)
-                        current_item = random_item(bullet.pos, bullet.direction, speed= 2)
-                        self.ac_items.append(current_item)
-
-            for active_item in self.ac_items:
-                active_item.draw(surface)
-                active_item.move()           
-                if active_item.check_collision(self.ship.coordinates):
-                    self.sounds.item_pickup.play()
-                    active_item.apply(self)
-
-            # only keep the items for their spawn time
-            self.ac_items = [active_item for active_item in self.ac_items if pygame.time.get_ticks() - active_item.spawn_time < active_item.duration
-                         and not active_item.hit]
-            
-            # remove those bullets that have hit something or left the game window
-            self.bullets = [bullet for bullet in self.bullets if not bullet.check_window(self.display_width, self.display_height) and not bullet.hit]
-
-            # draw score and health bar
-            self.score_text.draw(surface) #draws score on surface
-            self.health_bar.draw(surface) #draws healthbar on surface
-            self.level_label.draw(surface)
+        self.flying_asteroids.cyclic_boundary_condition()
+        self.flying_asteroids.collision_detection()
+        hit_list = self.flying_asteroids.hit_detection(self.bullets)
+        for aster in self.flying_asteroids.collection:
+            orig_speed = aster.speed
+            aster.speed *= speed_factor
+            aster.move()
+            aster.draw(surface)
+            aster.speed = orig_speed
+        if len(self.flying_asteroids.collection) == 0 or cheat:
+            self.next_level()
+            return
+     #* Bullet & Item control
+     #* Ufo control
+        self.ufo_handler.check_period()
+        if self.ufo_handler.ufo != None:
+            ufo_orig_speed = self.ufo_handler.ufo.speed
+            self.ufo_handler.ufo.speed *= speed_factor 
+            self.ufo_handler.draw_ufo(surface)
+            if self.ufo_handler.ufo.shoot(self.score):
+                self.bullets.append(self.ufo_handler.generate_projectile(self.ship))
+            self.ufo_handler.move_ufo()
+        if self.ufo_handler.ufo != None:
+            self.ufo_handler.ufo.speed = ufo_orig_speed
+            self.ufo_handler.ufo_down_shooting(list(filter(lambda x: x.source == "ship", self.bullets)))
+              
+     #increase of score:    
+        for asteroid in hit_list:
+            points = [20, 50, 100]  # points for level 0, 1, 2 asteroids
+            self.score += points[asteroid.level]
+            self.score_text.set(str(self.score).zfill(6))
+        
+        for bullet in self.bullets:
+            bullet.move()
+            bullet.draw(surface)
+            if bullet.hit:
+                item_exists = any(type(i).__name__ in self.item_names for i in self.ac_items)
+                if random.randint(1,5) == 5 and not item_exists:
+                    random_item = random.choice(self.item_classes)
+                    current_item = random_item(bullet.pos, bullet.direction, speed= 2)
+                    self.ac_items.append(current_item)
+        for active_item in self.ac_items:
+            active_item.draw(surface)
+            active_item.move()           
+            if active_item.check_collision(self.ship.coordinates):
+                self.sounds.item_pickup.play()
+                active_item.apply(self)
+        # only keep the items for their spawn time
+        self.ac_items = [active_item for active_item in self.ac_items if pygame.time.get_ticks() - active_item.spawn_time < active_item.duration
+                     and not active_item.hit]
+        
+        # remove those bullets that have hit something or left the game window
+        self.bullets = [bullet for bullet in self.bullets if not bullet.check_window(self.display_width, self.display_height) and not bullet.hit]
+        # draw score and health bar
+        self.score_text.draw(surface) #draws score on surface
+        self.health_bar.draw(surface) #draws healthbar on surface
+        self.level_label.draw(surface)
 
 
         
