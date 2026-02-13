@@ -47,7 +47,7 @@ class Item(Flying_Object):
           """
           Draws the item by creating a pygame rect around it.
             
-           Args:
+           Param:
                surface: pygame game window on which sould be drawn.
           """
           self.increase_size()
@@ -58,7 +58,7 @@ class Item(Flying_Object):
          """
          Checks if the item gets obained by the spaceship. 
          
-          Args:
+          Param:
                cooridnates (list): list of the spaceship's coordinates.
 
           Returns:
@@ -92,7 +92,7 @@ class Heart_Item(Item):
           """
           Sets the spaceship's health to maximum.
 
-           Args:
+           Param:
                game (class): Game class in which all objects are initialized.
           """
           game.health_bar.hp = game.health_bar.max_hp 
@@ -106,7 +106,7 @@ class Shield_Item(Item):
           """
           Initializes specific item attributes.
 
-          Args:
+          Attributes:
                duration (float): spawn duration of the shield item.
                end_size (list): maximum x,y size of the item image.
           """

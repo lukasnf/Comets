@@ -50,7 +50,7 @@ class Spaceship(flying_object.Flying_Object):
         """
         Checks whether the ship's health is positive.
         
-         Attributes:
+         Param:
             health (int): Current life points of the spaceship.
         """
         if health <= 0:
@@ -84,7 +84,7 @@ class Spaceship(flying_object.Flying_Object):
         """
         Rotates the the origin vectors of the coordinates to rotate them around the origin and move them back to their position on the screen.
          
-         Args: 
+         Param: 
             angle (int): Rotationangle "-" inidcates counterclockwise rotation. Default: -1 
         """
         origin_vec = [self.coordinates[i] - self.midpoint for i in range(len(self.coordinates))]
@@ -98,7 +98,7 @@ class Spaceship(flying_object.Flying_Object):
         """
         Realizes cyclic boundary condition on the spaceship. Warps it to the cooresponding side if the ship left the game window.
          
-         Args:
+         Param:
             width (int): pygame window witdh.
             height (height): pygame window height.
 
@@ -130,7 +130,7 @@ class Spaceship(flying_object.Flying_Object):
         """
         Checks if a entity collides with the spaceship.
 
-         Args:
+         Param:
             asteroid_list (list): List of all currently existing asteroids and ther corresponding attributes.
             bullets (list): List of all currently existing bullets and their corrensponding attributes.
         
