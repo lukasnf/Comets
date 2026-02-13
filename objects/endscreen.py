@@ -12,10 +12,10 @@ class Endscreen:
         self.width = width
         self.height = height
 
-        self.game_over = Text("GAME OVER", 45, "white", width*.5, height*.25)
-        self.victory_text = Text("Well played!", 45, "white", width*.5, height*.25)
-        self.enter_name = Text("Enter your NAME:", 40, "white", width*.5, height*.38)
-        self.submit_name = Text("Press ENTER to SUBMIT NAME", 40, "white", width*.5, height*9)
+        self.game_over = Text("GAME OVER", 45, "white", width*.5, height*.2)
+        self.victory_text = Text("Well played!", 45, "white", width*.5, height*.2)
+        self.enter_name = Text("Enter your NAME:", 40, "white", width*.5, height*.33)
+        self.submit_name = Text("Press ENTER to SUBMIT NAME", 40, "white", width*.5, height*.83)
         self.player_name = Text("", 50, "white", width*.5, height*.5)
         self.warning_text = Text("NAME is too long!", 40, "red", width*.5, height*.7 )
         

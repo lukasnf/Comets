@@ -146,7 +146,7 @@ class Game:
             if abs(self.current_dmg - init_dmg) >= DMG_COOLDOWN:
                 if dealt_damage > 0:
                     self.sounds.dmg_sound.play()
-                #self.health_bar.hp -= dealt_damage
+                self.health_bar.hp -= dealt_damage
                 self.ship.check_health(self.health_bar.hp)
                 self.current_dmg = time.time()
         else:
