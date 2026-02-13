@@ -13,6 +13,7 @@ class Endscreen:
         self.height = height
 
         self.game_over = Text("GAME OVER", 45, "white", width*.5, height*.25)
+        self.victory_text = Text("Well played!", 45, "white", width*.5, height*.25)
         self.enter_name = Text("Enter your NAME:", 40, "white", width*.5, height*.38)
         self.player_name = Text("", 50, "white", width*.5, height*.5)
         self.warning_text = Text("NAME is too long!", 40, "red", width*.5, height*.7 )
@@ -28,7 +29,12 @@ class Endscreen:
         
         self.player_name.input_text(event)  #will get input of user for nameinput
         
-        
+    def draw_victory_screen(self, surface):
+        self.victory_text.draw(surface)
+        self.enter_name.draw(surface)
+        self.player_name.draw(surface)
+        if self.player_name.warning:
+            self.warning_text.draw(surface)
     
     def draw(self, surface):
         #Method to draw the endscreen

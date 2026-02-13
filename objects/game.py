@@ -66,12 +66,13 @@ class Game:
         self.health_bar = spaceship.Healthbar(pos= (self.score_text.text_x - self.score_text.text_size - 50, self.score_text.text_y + self.score_text.text_size), height= 30, max_hp= MAX_HP) 
         # initiate sounds
         self.sounds = sound.Sounds()
-        self.sounds.shooting_sound.set_volume(.3)
+        self.sounds.shooting_sound.set_volume(.2)
         
         self.current_shot = 0
         self.current_dmg = 0
         self.score = 0
         self.gameover = False
+        self.victory = False
         self.shield_time = 0
         self.rapid_fire_time = 0
         self.speed_time = 0
@@ -113,6 +114,10 @@ class Game:
         Return:
             None
         """
+        if self.level >= 3:
+            self.victory = True
+            self.gameover = True
+            return
         self.level += 1
         self.level_label.set(f"Level {self.level}")
         self.config_Level()
@@ -141,7 +146,7 @@ class Game:
             if abs(self.current_dmg - init_dmg) >= DMG_COOLDOWN:
                 if dealt_damage > 0:
                     self.sounds.dmg_sound.play()
-                self.health_bar.hp -= dealt_damage
+                #self.health_bar.hp -= dealt_damage
                 self.ship.check_health(self.health_bar.hp)
                 self.current_dmg = time.time()
         else:

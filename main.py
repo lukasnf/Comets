@@ -52,7 +52,6 @@ if __name__ == "__main__":
     print(f"entering game loop")
     running = True 
     cheat = False
-   
     game = None
 
     # Game loop
@@ -136,7 +135,10 @@ if __name__ == "__main__":
                 state = "endscreen"
                 continue
         elif state == "endscreen":
-            end_screen.draw(surface)
+            if game.victory:
+                end_screen.draw_victory_screen(surface)
+            else:
+                end_screen.draw(surface)
         elif state == "leaderboard":
             leaderboard.draw(surface)        
        
