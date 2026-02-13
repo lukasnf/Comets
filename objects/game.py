@@ -66,7 +66,8 @@ class Game:
         self.health_bar = spaceship.Healthbar(pos= (self.score_text.text_x - self.score_text.text_size - 50, self.score_text.text_y + self.score_text.text_size), height= 30, max_hp= MAX_HP) 
         # initiate sounds
         self.sounds = sound.Sounds()
-
+        self.sounds.shooting_sound.set_volume(.3)
+        
         self.current_shot = 0
         self.current_dmg = 0
         self.score = 0
@@ -242,6 +243,5 @@ class Game:
         self.score_text.draw(surface) #draws score on surface
         self.health_bar.draw(surface) #draws healthbar on surface
         self.level_label.draw(surface)
-
 
         

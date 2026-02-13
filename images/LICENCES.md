@@ -45,3 +45,9 @@ License: Google ToS
 Link to License: https://policies.google.com/terms#toc-intro
 Usage Terms:
 NA
+
+9. weltall_musik.mp3
+License: Pixabay Content License 
+Link to License: https://pixabay.com/service/license-summary/
+Usage Terms:
+Free to use, modify, and share without attribution. You are not allowed to sell the image as a standalone file or use it for trademarks or logos.

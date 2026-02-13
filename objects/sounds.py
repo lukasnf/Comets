@@ -22,3 +22,4 @@ class Sounds:
         self.dmg_sound = pygame.mixer.Sound(SOUNDS_DIR/"damage_sound.mp3")
         self.shooting_sound = pygame.mixer.Sound(SOUNDS_DIR/"shoot.wav")
         self.item_pickup = pygame.mixer.Sound(SOUNDS_DIR/"item_pickup.mp3")
+        self.space_sound = pygame.mixer.Sound(SOUNDS_DIR/"weltall_musik.mp3")

@@ -41,6 +41,10 @@ if __name__ == "__main__":
     # initiate sounds
     sounds = sound.Sounds()
 
+    # initiate game sound
+    sounds.space_sound.play(loops= -1)
+    sounds.space_sound.set_volume(.3)
+
     # initialize the clock for FPS calculation
     clock = pygame.time.Clock()
 
@@ -61,6 +65,7 @@ if __name__ == "__main__":
             if state == "title":
                 new_state = title_screen.handle_event(event)
                 if new_state == "play":
+                    sounds.space_sound.set_volume(.05)
                     game = Game.Game(DISPLAY_HEIGHT, DISPLAY_WIDTH)
                     end_screen.player_name.set("")
 
@@ -115,6 +120,7 @@ if __name__ == "__main__":
             elif state == "leaderboard":
                 new_state = leaderboard.handle_event(event)
                 if new_state == "title":
+                    sounds.space_sound.set_volume(.3)
                     state = "title"
 
 
@@ -138,5 +144,6 @@ if __name__ == "__main__":
         # Normal game behavior
         pygame.display.update()
         clock.tick(FPS)
+
 
     pygame.quit()  # Call the quit() method outside the while loop to end the application.
