@@ -15,6 +15,7 @@ class Endscreen:
         self.game_over = Text("GAME OVER", 45, "white", width*.5, height*.25)
         self.victory_text = Text("Well played!", 45, "white", width*.5, height*.25)
         self.enter_name = Text("Enter your NAME:", 40, "white", width*.5, height*.38)
+        self.submit_name = Text("Press ENTER to SUBMIT NAME", 40, "white", width*.5, height*9)
         self.player_name = Text("", 50, "white", width*.5, height*.5)
         self.warning_text = Text("NAME is too long!", 40, "red", width*.5, height*.7 )
         
@@ -33,6 +34,7 @@ class Endscreen:
         self.victory_text.draw(surface)
         self.enter_name.draw(surface)
         self.player_name.draw(surface)
+        self.submit_name.draw(surface)
         if self.player_name.warning:
             self.warning_text.draw(surface)
     
@@ -41,6 +43,7 @@ class Endscreen:
         self.game_over.draw(surface)
         self.enter_name.draw(surface)
         self.player_name.draw(surface)
+        self.submit_name.draw(surface)
         if self.player_name.warning:
             self.warning_text.draw(surface)
         
