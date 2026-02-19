@@ -77,9 +77,7 @@ if __name__ == "__main__":
                     state = "play"
                 elif new_state == "leaderboard":
                     state = "leaderboard"
-
             
-                        
             elif state == "play":
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP or event.key == pygame.K_w:
@@ -146,6 +144,6 @@ if __name__ == "__main__":
         # Normal game behavior
         pygame.display.update()
         clock.tick(FPS)
-
+        pygame.mouse.set_visible(False)
 
     pygame.quit()  # Call the quit() method outside the while loop to end the application.

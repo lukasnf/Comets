@@ -41,14 +41,3 @@ class Highscore():
 
     def show_highscores(self):
         print(self.df.sort_values(by=["Score", "Date"], ascending=False))
-
-
-if __name__ == "__main__":
-    highscore = Highscore()
-    highscore.load_highscore()
-    highscore.write_highscore("Mustermann", 235092)
-    highscore.write_highscore("Max", 100)
-    highscore.write_highscore("Unbekannt", 50)
-    highscore.show_highscores()
-    #print(highscore.df)
-    #highscore.save_highscore()

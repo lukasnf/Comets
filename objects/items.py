@@ -65,7 +65,6 @@ class Item(Flying_Object):
                bool: True if a collision is detected.
          """
          if any((position - self.pos).length() < (self.size[0]/2) for position in coordinates):
-              self.apply_time = pygame.time.get_ticks()
               self.hit = True
               return True
          return False
