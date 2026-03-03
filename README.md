@@ -51,4 +51,7 @@ If you want to play with the original assets, create the following folders in th
    ```bash
    python main.py
 
-README made with Gemini.
+README made with Google's Gemini 3 Pro.
+
+Have fun!
+Lukas
