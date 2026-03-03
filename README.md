@@ -10,10 +10,8 @@ A Python remake of the classic arcade game "Asteroids", built with Pygame.
   * 🛡️ **Shield:** Grants temporary invincibility.
   * 🔫 **Rapid Fire:** Significantly reduces shoot cooldown.
   * 🪙 **Extra Point:** Grants bonus score points.
-  * 🪶 **Feather:** Slows down time (enemies move slower).
-  * ⚡ **Speed:** Increases enemy speed (watch out!).
-* **Leaderboard:** Persistent high score tracking using `pandas`, saved locally in a `.csv` file.
-
+  * 🪶 **Feather:** Slows down time.
+  * ⚡ **Speed:** Increases enemy speed.
 ---
 
 ## ⚠️ Important Note on Assets (Sounds & Fonts)
@@ -40,10 +38,17 @@ If you want to play with the original assets, create the following folders in th
 ---
 
 ## 🛠️ Installation & Execution
-
+0. **Install the dependencies:**
+   ```bash
+   pip install pygame pandas
+   
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/YOUR_USERNAME/Meteroids.git](https://github.com/YOUR_USERNAME/Meteroids.git)
-   cd Meteroids
+   git clone [https://github.com/YOUR_USERNAME/Comets.git](https://github.com/YOUR_USERNAME/Cometss.git)
+   cd Comets
+
+2. **Run the game**
+   ```bash
+   python main.py
 
 README made with Gemini.
