@@ -44,7 +44,7 @@ If you want to play with the original assets, create the following folders in th
    
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/YOUR_USERNAME/Comets.git](https://github.com/YOUR_USERNAME/Cometss.git)
+   git clone https://github.com/lukasnf/Comets.git
    cd Comets
 
 2. **Run the game**
