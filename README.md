@@ -37,7 +37,7 @@ If you want to play with the original assets, create the following folders in th
 
 ---
 
-## 🛠️ Installation & Execution
+## 🛠️ Installation
 0. **Install the dependencies:**
    ```bash
    pip install pygame pandas
