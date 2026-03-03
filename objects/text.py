@@ -26,7 +26,6 @@ class Text:
             self.warning = False
 
             text_path = FONT_DIR / "Arcade.ttf"
-            self.text_font = pygame.font.Font(text_path, text_size)
 
             if text_path.exists():
                 self.text_font = pygame.font.Font(text_path, text_size)
