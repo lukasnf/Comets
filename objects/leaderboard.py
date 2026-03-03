@@ -33,13 +33,10 @@ class Leaderboard:
             name = row["Player Name"]
             score = row["Score"]
             date = row["Date"]
-
             line = Text(f"{name}   -   {score}   -   {date}", 
                         40, "white", width * 0.5, y)
             self.lines.append(line)
             y += 60
-
-
 
     def handle_event(self, event):
         #Method to give return if certain keys are pressed.
