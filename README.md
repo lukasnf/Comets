@@ -1,57 +1,78 @@
-# 🚀 Comets
+# Comets
 
-A Python remake of the classic arcade game "Asteroids", built with Pygame. 
+A remake of the arcade classic *Asteroids*, written in Python with Pygame.
 
-## ✨ Features
-* **Physics-based Movement:** Realistic spaceship acceleration and friction using vector math.
-* **Progressive Levels:** Asteroids split into smaller pieces when hit. Higher levels spawn more asteroids and introduce UFOs that shoot back.
-* **Item System:** Collect dynamically spawning power-ups:
-  * ❤️ **Heart:** Restores health to maximum.
-  * 🛡️ **Shield:** Grants temporary invincibility.
-  * 🔫 **Rapid Fire:** Significantly reduces shoot cooldown.
-  * 🪙 **Extra Point:** Grants bonus score points.
-  * 🪶 **Feather:** Slows down time.
-  * ⚡ **Speed:** Increases enemy speed.
----
+![Gameplay](docs/gameplay.gif)
+<!-- Record a 5–10 s clip of the game and save it as docs/gameplay.gif -->
 
-## ⚠️ Important Note on Assets (Sounds & Fonts)
-To comply with licensing and keep the repository clean, **custom fonts are not included** in this repository (they are excluded via `.gitignore`). 
+## Features
 
-**Want the full experience?**
-If you want to play with the original assets, create the following folders in the root directory and add your own files:
-* `fonts/Arcade.ttf`
----
+- **Vector-based physics:** the ship accelerates, drifts and slows down through friction
+- **Progressive levels:** asteroids split into smaller pieces when hit; later levels spawn more asteroids and UFOs that shoot back
+- **Power-ups that spawn during play:**
 
-## 🎮 Controls
-
-| Action | Key(s) |
+| Item | Effect |
 | :--- | :--- |
-| **Accelerate** | `W` or `UP Arrow` |
-| **Rotate Left** | `A` or `LEFT Arrow` |
-| **Rotate Right** | `D` or `RIGHT Arrow` |
-| **Shoot** | `SPACE` |
-| **Skip Level (Cheat)**| `N` |
-| **Quit Game** | `ESC` |
+| Heart | Restores full health |
+| Shield | Temporary invincibility |
+| Rapid Fire | Shorter shooting cooldown |
+| Extra Point | Bonus score |
+| Feather | Slows down time |
+| Speed *(debuff)* | Makes enemies faster |
 
-*On the Title Screen:* Press `ENTER` to start the game or `SPACE` to view the Leaderboard.
+- **Leaderboard** that saves high scores between sessions
 
----
+## Technical Highlights
 
-## 🛠️ Installation
-0. **Install the dependencies:**
-   ```bash
-   pip install pygame pandas
-   
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/lukasnf/Comets.git
-   cd Comets
+- Object-oriented structure with separate classes for ship, asteroids, UFOs, bullets and items
+- 2D vector math for movement, rotation and friction
+- Collision detection between all game objects
+- Fixed-timestep game loop with level and state management (title screen, game, leaderboard)
 
-2. **Run the game**
-   ```bash
-   python main.py
+<!-- Only keep the points that are actually true for your code, and add your own. -->
 
-README made with Google's Gemini 3 Pro.
+## Getting Started
 
-Have fun!
-Lukas
+```bash
+git clone https://github.com/lukasnf/Comets.git
+cd Comets
+pip install -r requirements.txt
+python main.py
+```
+
+Requires Python 3.10 or newer.
+
+## Controls
+
+| Action | Key |
+| :--- | :--- |
+| Accelerate | `W` / `↑` |
+| Rotate left | `A` / `←` |
+| Rotate right | `D` / `→` |
+| Shoot | `Space` |
+| Skip level (cheat) | `N` |
+| Quit | `Esc` |
+
+On the title screen, press `Enter` to start or `Space` to open the leaderboard.
+
+## Fonts
+
+The arcade font is not included for licensing reasons. The game falls back to a default font; for the original look, place a font file at `fonts/Arcade.ttf`.
+
+## Project Structure
+
+```
+Comets/
+├── main.py          # Entry point and game loop
+├── ...              # Fill in your actual modules
+├── docs/            # Screenshots and GIFs for this README
+└── requirements.txt
+```
+
+## What I Learned
+
+<!-- 2–3 sentences in your own words, e.g. what was hardest and how you solved it. -->
+
+## License
+
+MIT, see [LICENSE](LICENSE).
