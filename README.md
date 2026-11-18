@@ -71,9 +71,9 @@ Comets/
 ```
 
 ## What I Learned
+Comets was a three-person team project in my first semester at KIT, developed together with Oliver and Benjamin. I was mainly responsible for [z. B. the physics and collision system / the item system / the level logic].
 
-<!-- 2–3 sentences in your own words, e.g. what was hardest and how you solved it. -->
-
+Working as a team taught me to coordinate tasks and use Git collaboratively, with branches, merges and resolving conflicts. I also learned to structure a larger Python codebase into classes and modules so that three people could work on it in parallel.
 ## License
 
 MIT, see [LICENSE](LICENSE).
