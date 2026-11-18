@@ -3,7 +3,8 @@
 A remake of the arcade classic *Asteroids*, written in Python with Pygame.
 
 ![Gameplay](docs/gameplay.gif)
-<!-- Record a 5–10 s clip of the game and save it as docs/gameplay.gif -->
+<img width="470" height="305" alt="comets" src="https://github.com/user-attachments/assets/63bd777e-b201-4a3b-b4e1-555fbefe43eb" />
+
 
 ## Features
 
